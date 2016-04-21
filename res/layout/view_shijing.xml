@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/trans" >
+    
+      <android.support.v4.view.ViewPager  
+        android:id="@+id/vp_shijing_advertisement"  
+        android:layout_width="match_parent"  
+        android:layout_height="180dp" >  
+    </android.support.v4.view.ViewPager> 
+    
+    <LinearLayout 
+        android:id="@+id/ll_shijing_cityandtime"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        >
+        <TextView 
+            android:id="@+id/tv_shijing_city"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_content"
+            />
+        <TextView 
+            android:id="@+id/tv_shijing_time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/margin_content"
+            />
+    </LinearLayout>
+
+    <GridView 
+        android:id="@+id/gv_shijing_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        ></GridView>
+
+</RelativeLayout>

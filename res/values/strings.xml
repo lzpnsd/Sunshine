@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sunshine</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- 描述 -->
+    <string name="description_main_title_city">城市列表</string>
+    <string name="description_main_title_share">分享</string>
+    
+    <!-- tab标签 -->
+    <string name="tab_weather">天气</string>
+    <string name="tab_index">指数</string>
+    <string name="tab_mine">我的</string>
+
+    <!-- weather -->
+    
+    <!-- index -->
+    
+    <!-- mine -->
+    <string name="btn_mine_settings">设置</string>
+    
+</resources>

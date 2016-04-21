@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/item_width_chart_item"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
+    
+    <TextView 
+        android:id="@+id/tv_chart_item_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/item_text_size_title"
+        android:textColor="@color/white"
+        />
+
+    <TextView 
+        android:id="@+id/tv_chart_item_day_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/item_text_size_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        />
+    
+    <ImageView 
+        android:id="@+id/iv_chart_item_day_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        />
+    
+    <com.lzpnsd.sunshine.view.CustomChartView
+        android:id="@+id/ccv_chart_item_chart"
+        android:layout_width="@dimen/item_width_chart_item"
+        android:layout_height="@dimen/item_height_chart_item_custom"
+        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        />
+    
+    <ImageView 
+        android:id="@+id/iv_chart_item_night_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        />
+    
+    <TextView 
+        android:id="@+id/tv_chart_item_night_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/item_text_size_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        />
+    
+    <TextView 
+        android:id="@+id/tv_chart_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/item_text_size_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        />
+    
+    <TextView 
+        android:id="@+id/tv_chart_item_wind_direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/item_text_size_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/item_margin_view_vertical_large"
+        />
+    
+    <TextView 
+        android:id="@+id/tv_chart_item_wind_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/item_text_size_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        />
+        
+</LinearLayout>

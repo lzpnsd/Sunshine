@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/trans"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
+
+    <ScrollView
+        android:id="@+id/sv_weather_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button 
+                android:id="@+id/btn_weather_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="test"
+                />
+
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+            <TextView
+                android:id="@+id/tv_weather_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:text="mine"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title" />
+
+            <com.lzpnsd.sunshine.view.CustomHorizontalView
+                android:id="@+id/chv_mine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:id="@+id/ll_mine_custom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:scrollbars="none" >
+                </LinearLayout>
+            </com.lzpnsd.sunshine.view.CustomHorizontalView>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

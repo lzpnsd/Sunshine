@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/trans" >
+
+    <RelativeLayout
+        android:id="@+id/rl_mine_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/trans"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_title_horizontal"
+        android:paddingRight="@dimen/padding_title_horizontal" >
+
+        <ImageButton
+            android:id="@+id/ib_mine_title_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@color/trans"
+            android:contentDescription="@string/description_main_title_city"
+            android:src="@drawable/city_btn" />
+
+        <TextView
+            android:id="@+id/tv_mine_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:text="mine"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_title" />
+
+        <ImageButton
+            android:id="@+id/ib_mine_title_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/trans"
+            android:contentDescription="@string/description_main_title_share"
+            android:src="@drawable/common_title_share" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_mine_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_mine_settings" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_mine_title"
+        android:src="@drawable/ic_launcher" />
+
+    <com.lzpnsd.sunshine.view.CustomHorizontalView
+        android:id="@+id/chv_mine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <LinearLayout
+            android:id="@+id/ll_mine_custom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:scrollbars="none" >
+        </LinearLayout>
+    </com.lzpnsd.sunshine.view.CustomHorizontalView>
+
+</RelativeLayout>
