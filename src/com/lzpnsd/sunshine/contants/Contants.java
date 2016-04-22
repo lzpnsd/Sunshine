@@ -13,4 +13,5 @@ public class Contants {
 	public static final int WIDTH_CHART_ITEM = AdaptationUtil.dip2px(SunshineApplication.getContext(), 70);
 	
 	public static final int SPACE_CHART_TEMPERATURE = AdaptationUtil.dip2px(SunshineApplication.getContext(), 10);
+	
 }

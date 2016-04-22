@@ -81,9 +81,9 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawablePadding="-3dp"
-            android:drawableTop="@drawable/selector_rb_index"
+            android:drawableTop="@drawable/selector_rb_shijing"
             android:gravity="center"
-            android:text="@string/tab_index"
+            android:text="@string/tab_shijing"
             android:textColor="@drawable/selector_rb_text"
             android:textSize="11sp" />
 

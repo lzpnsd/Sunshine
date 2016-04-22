@@ -24,8 +24,8 @@
     
     <ImageView 
         android:id="@+id/iv_chart_item_day_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/item_size_image"
+        android:layout_height="@dimen/item_size_image"
         android:layout_marginTop="@dimen/item_margin_view_vertical"
         />
     
@@ -33,14 +33,14 @@
         android:id="@+id/ccv_chart_item_chart"
         android:layout_width="@dimen/item_width_chart_item"
         android:layout_height="@dimen/item_height_chart_item_custom"
-        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        android:layout_marginTop="@dimen/item_margin_view_vertical_large"
         />
     
     <ImageView 
         android:id="@+id/iv_chart_item_night_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/item_margin_view_vertical"
+        android:layout_width="@dimen/item_size_image"
+        android:layout_height="@dimen/item_size_image"
+        android:layout_marginTop="@dimen/item_margin_view_vertical_large"
         />
     
     <TextView 

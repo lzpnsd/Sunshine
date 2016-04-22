@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_na" >
+
+    <RelativeLayout
+        android:id="@+id/rl_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/trans"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/padding_title_horizontal"
+        android:paddingRight="@dimen/padding_title_horizontal" >
+
+        <ImageButton
+            android:id="@+id/ib_detail_title_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@color/trans"
+            android:contentDescription="@string/description_main_title_city"
+            android:src="@drawable/city_btn" />
+
+        <TextView
+            android:id="@+id/tv_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:text="mine"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_title" />
+
+        <ImageButton
+            android:id="@+id/ib_main_detail_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/trans"
+            android:contentDescription="@string/description_main_title_share"
+            android:src="@drawable/common_title_share" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_detail_title"
+        android:paddingTop="@dimen/padding_rl" >
+
+        <TextView 
+            android:id="@+id/tv_detail_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/text_size_day"
+            />
+        
+        <ImageView
+            android:id="@+id/iv_detail_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_content" />
+
+        <TextView
+            android:id="@+id/tv_detail_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_detail_weather"
+            android:layout_alignTop="@id/iv_detail_weather" />
+        
+	        
+    </RelativeLayout>
+
+</RelativeLayout>

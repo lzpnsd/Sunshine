@@ -11,7 +11,7 @@
     
     <!-- tab标签 -->
     <string name="tab_weather">天气</string>
-    <string name="tab_index">指数</string>
+    <string name="tab_shijing">实景</string>
     <string name="tab_mine">我的</string>
 
     <!-- weather -->

@@ -1,4 +1,16 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="MyThemeNormal" parent="@android:style/Theme.Holo.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_na</item>
+    </style>
+    
+    <style name="MyThemeNight" parent="@android:style/Theme.Holo.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/blur_bg_na</item>
+    </style>
 
+    <style name="NormalTextStyle">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
 </resources>

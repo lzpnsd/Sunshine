@@ -5,10 +5,16 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     
 	<!-- 边距 -->
-    <dimen name="padding_title_horizontal">10dp</dimen>
+    <dimen name="padding_title_horizontal">15dp</dimen>
+    <dimen name="padding_content">8dp</dimen>
+    <dimen name="padding_view_content">6dp</dimen>
+    <dimen name="padding_rl">30dp</dimen>
     <dimen name="margin_content">15dp</dimen>
+    <dimen name="margin_view_content">8dp</dimen>
     <!-- 字体大小 -->
     <dimen name="text_size_title">20sp</dimen>
+    <dimen name="text_size_day">22sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
     <!-- just ChartItem can use -->
     <dimen name="item_margin_view_vertical">2dp</dimen>
     <dimen name="item_margin_view_vertical_large">6dp</dimen>
@@ -18,5 +24,7 @@
     <dimen name="item_width_chart_item">60dp</dimen>
     <dimen name="item_height_chart_item_custom">130dp</dimen>
     <dimen name="item_height_chart_item">320dp</dimen>
+    <dimen name="item_size_image">25dp</dimen>
+    
     
 </resources>

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.bean.ChartPointBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.model.OnCustomItemClickListener;
@@ -34,6 +35,7 @@ public class CustomHorizontalView extends HorizontalScrollView {
 	private List<WeatherInfoBean> mWeatherInfoBeans = new ArrayList<WeatherInfoBean>();
 	private Map<CustomItemView,Integer> mViewPos = new HashMap<CustomItemView,Integer>();
 	private List<CustomItemView> mCustomItemViews = new ArrayList<CustomItemView>();
+	private Map<CustomItemView,WeatherInfoBean> mViewAndWeatherInfo = new HashMap<CustomItemView, WeatherInfoBean>();
 	
 	private float mHighTem;
 	private float mLowTem;
@@ -74,7 +76,7 @@ public class CustomHorizontalView extends HorizontalScrollView {
 		mHeighTemperaturePath = new Path();
 		mLowTemperaturePath = new Path();
 		mLinePaint = new Paint();
-		mLinePaint.setColor(Color.WHITE);
+		mLinePaint.setColor(getResources().getColor(R.color.white));
 		mLinePaint.setAntiAlias(true);
 		mLinePaint.setStrokeWidth(4);
 		mLinePaint.setStyle(Style.STROKE);
@@ -95,6 +97,7 @@ public class CustomHorizontalView extends HorizontalScrollView {
 	protected void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
 		int count = mCustomItemViews.size();
+		log.d("count = "+ count);
 		for(int i = 0;i < count;i++){
 			CustomItemView customItemView = mCustomItemViews.get(i);
 			ChartPointBean chartPointBean = customItemView.getChartPoint();
@@ -138,9 +141,16 @@ public class CustomHorizontalView extends HorizontalScrollView {
 	}
 	
 	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		log.d("onTouchEvent");
+		super.onTouchEvent(ev);
+		return true;
+	}
+	
+	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
+		log.d("dispatchTouchEvent");
 		super.dispatchTouchEvent(ev);
-//		log.d("handle touch event");
 		return true;
 	}
 	
@@ -149,6 +159,7 @@ public class CustomHorizontalView extends HorizontalScrollView {
 		mWeatherInfoBeans.clear();
 		mCustomItemViews.clear();
 		mViewPos.clear();
+		mViewAndWeatherInfo.clear();
 		mLinearLayout.removeAllViews();
 		mCurrentCount = 0;
 		for(WeatherInfoBean weatherInfoBean : weatherInfoBeans){
@@ -157,6 +168,7 @@ public class CustomHorizontalView extends HorizontalScrollView {
 			mWeatherInfoBeans.add(weatherInfoBean);
 			mCustomItemViews.add(customItemView);
 			mViewPos.put(customItemView, mCurrentCount);
+			mViewAndWeatherInfo.put(customItemView, weatherInfoBean);
 			mLinearLayout.addView(customItemView);
 			customItemView.setOnClickListener(mOnClickListener);
 			mCurrentCount++;
@@ -178,7 +190,9 @@ public class CustomHorizontalView extends HorizontalScrollView {
 		getLowAndHeigh();
 		log.d("notify data changed");
 		for (CustomItemView customItemView : mCustomItemViews) {
+			customItemView.initData(mViewAndWeatherInfo.get(customItemView));
 			customItemView.showPoint(mHighTem, mLowTem);
+		}
 //			强制刷新，调用onDraw()方法
 //			方法1：
 //			((View)view.getParnet()).invalidate();
@@ -186,10 +200,9 @@ public class CustomHorizontalView extends HorizontalScrollView {
 //			view.invalidate();
 //			view.forceLayout();
 //			view.requestLayout();
-			invalidate();
-			forceLayout();
-			requestLayout();
-		}
+		invalidate();
+		forceLayout();
+		requestLayout();
 	}
 	
 	public void setOnItemClickListener(OnCustomItemClickListener onCustomItemClickListener){

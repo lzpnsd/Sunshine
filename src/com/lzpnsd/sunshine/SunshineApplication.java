@@ -115,4 +115,5 @@ public class SunshineApplication extends Application {
 		return mScreenHeight;
 	}
 	
+	
 }

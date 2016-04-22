@@ -174,6 +174,16 @@ public class WeatherUtil {
 			XmlPullParser parser = instance.newPullParser();
 			parser.setInput(inputStream, "UTF-8");
 			int eventType = parser.getEventType();
+			mAlarmBeans.clear();;
+			mCityWeatherBeans.clear();
+			mEnvironmentBeans.clear();
+			mLifeIndexBeans.clear();
+			mWeatherInfoBeans.clear();
+			mAlarmBean = null;
+			mCityWeatherBean = null;
+			mEnvironmentBean = null;
+			mLifeIndexBean = null;
+			mWeatherInfoBean = null;
 			while (XmlPullParser.END_DOCUMENT != eventType) {
 				String nodeName = parser.getName();
 				switch (eventType) {
@@ -383,13 +393,13 @@ public class WeatherUtil {
 						}
 						break;
 					case XmlPullParser.END_TAG:
-						log.d("nodeName = "+nodeName);
+//						log.d("nodeName = "+nodeName);
 						if ("resp".equals(nodeName)) {
 							if(null != mCityWeatherBean){
 								mCityWeatherBeans.add(mCityWeatherBean);
 							}
-							if(null != mWeatherInfoBean){
-								log.d("end error,mWeatherInfoBean = "+mWeatherInfoBean);
+							if(null != mWeatherInfoBean && !TextUtils.isEmpty(mWeatherInfoBean.getError())){
+								log.d("end error,mWeatherInfoBean = "+mWeatherInfoBean.toString());
 								mWeatherInfoBeans.add(mWeatherInfoBean);
 							}
 						} else if ("environment".equals(nodeName)) {
@@ -425,7 +435,9 @@ public class WeatherUtil {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		} catch (Exception e) {
+			log.d(e.getMessage());
+		}
 		return mWeatherInfoBeans;
 
 	}
