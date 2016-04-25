@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/trans" >
     
-      <android.support.v4.view.ViewPager  
-        android:id="@+id/vp_shijing_advertisement"  
-        android:layout_width="match_parent"  
-        android:layout_height="180dp" >  
-    </android.support.v4.view.ViewPager> 
-    
     <LinearLayout 
         android:id="@+id/ll_shijing_cityandtime"
         android:layout_width="match_parent"
@@ -41,6 +35,7 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
+        android:layout_below="@id/ll_shijing_cityandtime"
         ></GridView>
 
 </RelativeLayout>

@@ -2,62 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_na"
+    android:background="@color/trans"
     tools:context="com.lzpnsd.sunshine.MainActivity" >
 
-    <RelativeLayout
-        android:id="@+id/rl_main_title"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/trans"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/padding_title_horizontal"
-        android:paddingRight="@dimen/padding_title_horizontal" >
-
-        <ImageButton
-            android:id="@+id/ib_main_title_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@color/trans"
-            android:contentDescription="@string/description_main_title_city"
-            android:src="@drawable/city_btn" />
-
-        <TextView
-            android:id="@+id/tv_main_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:text="mine"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_title" />
-
-        <ImageButton
-            android:id="@+id/ib_main_title_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@color/trans"
-            android:contentDescription="@string/description_main_title_share"
-            android:src="@drawable/common_title_share" />
-    </RelativeLayout>
-
+    
     <ViewFlipper
         android:id="@+id/vf_main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/rg_main_bottom_selector"
-        android:layout_below="@id/rl_main_title" >
+         >
     </ViewFlipper>
-
+    
     <RadioGroup
         android:id="@+id/rg_main_bottom_selector"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_main_title"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/common_title_bar_bkg"
+        android:background="@color/black_trans"
         android:orientation="horizontal" >
 
         <RadioButton
@@ -75,7 +36,7 @@
             android:textSize="11sp" />
 
         <RadioButton
-            android:id="@+id/rb_main_bottom_index"
+            android:id="@+id/rb_main_bottom_shijing"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

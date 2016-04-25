@@ -107,7 +107,7 @@ public class CustomItemView extends LinearLayout{
 		log.d("dispatchTouchEvent");
 		switch (ev.getAction()) {
 			case MotionEvent.ACTION_DOWN:
-				setBackgroundColor(getResources().getColor(R.color.trans_44));
+				setBackgroundColor(getResources().getColor(R.color.trans_22));
 				break;
 			case MotionEvent.ACTION_CANCEL:
 				setBackgroundColor(getResources().getColor(R.color.trans));
