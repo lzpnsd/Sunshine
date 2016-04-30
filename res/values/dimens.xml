@@ -6,7 +6,7 @@
     
     <!-- height -->
     <dimen name="height_main_title">50dp</dimen>
-    
+    <dimen name="height_list">60dp</dimen>
 	<!-- 边距 -->
     <dimen name="padding_title_horizontal">4dp</dimen>
     <dimen name="padding_content">8dp</dimen>
@@ -14,6 +14,7 @@
     <dimen name="padding_rl">30dp</dimen>
     <dimen name="margin_content">15dp</dimen>
     <dimen name="margin_view_content">8dp</dimen>
+    <dimen name="margin_small">5dp</dimen>
     <!-- 字体大小 -->
     <dimen name="text_size_title">20sp</dimen>
     <dimen name="text_size_day">22sp</dimen>
@@ -28,6 +29,7 @@
     <dimen name="item_height_chart_item_custom">130dp</dimen>
     <dimen name="item_height_chart_item">320dp</dimen>
     <dimen name="item_size_image">25dp</dimen>
-    
+    <!-- 城市列表页面城市天气 -->
+    <dimen name="city_list_image_size">35dp</dimen>
     
 </resources>

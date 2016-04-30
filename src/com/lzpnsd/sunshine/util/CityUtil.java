@@ -15,20 +15,19 @@ import com.lzpnsd.sunshine.bean.CityBean;
 import android.content.Context;
 import android.util.Log;
 
-public class CitylUtil {
+public class CityUtil {
 
-	public boolean parseExcel(Context context){
-		
+	public List<CityBean> parseExcel(Context context){
+		List<CityBean> cityBeans = null;
 		try {
 			InputStream inputStream = context.getAssets().open("areaid_v.xls");
-			List<CityBean> readXls = readXls(inputStream);
-			Log.i("ParseExcelUtil", readXls.toString());
+			cityBeans = readXls(inputStream);
+			Log.i("ParseExcelUtil", cityBeans.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return false;
+		return cityBeans;
 	}
     /**
      * 读取xls文件内容

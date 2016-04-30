@@ -3,7 +3,6 @@ package com.lzpnsd.sunshine.view;
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.bean.ChartPointBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
-import com.lzpnsd.sunshine.util.CommonUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherIconUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -104,7 +103,7 @@ public class CustomItemView extends LinearLayout{
 	
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		log.d("dispatchTouchEvent");
+		log.d("dispatchTouchEvent,event = "+ev.toString());
 		switch (ev.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				setBackgroundColor(getResources().getColor(R.color.trans_22));
@@ -128,8 +127,6 @@ public class CustomItemView extends LinearLayout{
 		log.d("weatherInfoBean.getNightType = "+weatherInfoBean.getNightType()+"image resource = "+WeatherIconUtil.getSmallImageResource(weatherInfoBean.getNightType()));
 		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getSmallImageResource(weatherInfoBean.getDayType()), mIvDayPic);
 		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getSmallImageResource(weatherInfoBean.getNightType()), mIvNightPic);
-//		mIvDayPic.setImageResource(WeatherIconUtil.getImageResource(weatherInfoBean.getDayType()));
-//		mIvNightPic.setImageResource(WeatherIconUtil.getImageResource(weatherInfoBean.getNightType()));
 		mTvNightWeather.setText(weatherInfoBean.getNightType());
 		mTvDate.setText(date.subSequence(0, date.length()-2));
 		mTvWindDirection.setText(weatherInfoBean.getDayWindDirection());
@@ -143,6 +140,9 @@ public class CustomItemView extends LinearLayout{
 			log.d("setData()");
 			mCustomChartView.setData(mHighTem, mLowTem, Integer.parseInt(mWeatherInfoBean.getHighTemperature()), Integer.parseInt(mWeatherInfoBean.getLowTemperature()));
 		}
+		invalidate();
+		forceLayout();
+		requestLayout();
 	}
 	
 	public CustomChartView getCustomChartView(){

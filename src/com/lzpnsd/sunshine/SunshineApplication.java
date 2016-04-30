@@ -1,6 +1,12 @@
 package com.lzpnsd.sunshine;
 
+import java.util.List;
+
+import com.lzpnsd.sunshine.bean.CityBean;
+import com.lzpnsd.sunshine.db.DatabaseManager;
 import com.lzpnsd.sunshine.manager.DataManager;
+import com.lzpnsd.sunshine.test.CityWeatherInfoTest;
+import com.lzpnsd.sunshine.util.CityUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -41,6 +47,14 @@ public class SunshineApplication extends Application {
 		getWindowScreenMetric();
 		initImageLoader();
 		getWeather();
+		DatabaseManager databaseManager = new DatabaseManager(mContext);
+//		CityUtil cityUtil = new CityUtil();
+//		List<CityBean> cityBeans = cityUtil.parseExcel(mContext);
+//		cityBeans.remove(cityBeans.size()-1);
+//		for(CityBean cityBean : cityBeans){
+//			databaseManager.insert(cityBean);
+//		}
+//		CityWeatherInfoTest.getInstance(mContext).test();
 	}
 	
 	private void getWeather() {
@@ -62,7 +76,6 @@ public class SunshineApplication extends Application {
 			    .writeDebugLogs() // Remove for release app  
 			    .build();//开始构建  
 		ImageLoader.getInstance().init(config);
-		
 		
 //		DisplayImageOptions options;  
 //		options = new DisplayImageOptions.Builder()  

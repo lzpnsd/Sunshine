@@ -63,7 +63,7 @@ public class WeatherUtil {
 		if (mHandler == null) {
 			mHandler = new MyHandler();
 		}
-		count = 3;
+		count = 1;
 		executor = Executors.newFixedThreadPool(count);
 	}
 
@@ -126,6 +126,7 @@ public class WeatherUtil {
 			public void run() {
 				HttpURLConnection conn = null;
 				try {
+					log.d("cityId = "+cityId);
 					URL url = new URL("http://wthrcdn.etouch.cn/WeatherApi?citykey="+cityId);
 					conn = (HttpURLConnection) url.openConnection();
 					conn.setInstanceFollowRedirects(false);
@@ -134,7 +135,8 @@ public class WeatherUtil {
 					conn.connect();
 					if (HttpURLConnection.HTTP_OK == conn.getResponseCode()) {
 						log.d("connect success");
-						List<WeatherInfoBean> weatherInfoBeans = parseWeather(conn.getInputStream());
+						List<WeatherInfoBean> weatherInfoBeans = new ArrayList<WeatherInfoBean>();
+						weatherInfoBeans.addAll(parseWeather(conn.getInputStream()));
 						log.d("weatherInfoBeans = "+weatherInfoBeans+",weatherInfoBeans.size = "+weatherInfoBeans.size());
 						if(callBack != null){
 							Message msg = Message.obtain();
@@ -234,9 +236,11 @@ public class WeatherUtil {
 						} else if ("pm25".equals(nodeName)) {
 							String pm25 = parser.nextText();
 							mEnvironmentBean.setPm25(Integer.parseInt(pm25));
-						} else if ("suggest".equals(nodeName)) {
-							String suggest = parser.nextText();
-							mEnvironmentBean.setSuggest(suggest);
+						} else if ("suggest".equals(nodeName)) {//environment的suggest
+							if(mEnvironmentBean!=null){
+								String suggest = parser.nextText();
+								mEnvironmentBean.setSuggest(suggest);
+							}
 						} else if ("quality".equals(nodeName)) {
 							String quality = parser.nextText();
 							mEnvironmentBean.setQuality(quality);
@@ -283,9 +287,11 @@ public class WeatherUtil {
 						} else if ("standard".equals(nodeName)) {
 							String standard = parser.nextText();
 							mAlarmBean.setStandard(standard);
-						} else if ("suggest".equals(nodeName)) {
-							String suggest = parser.nextText();
-							mAlarmBean.setSuggest(suggest);
+						} else if ("suggest".equals(nodeName)) {//alarm的suggest
+							if(mAlarmBean!=null){
+								String suggest = parser.nextText();
+								mAlarmBean.setSuggest(suggest);
+							}
 						} else if ("imgUrl".equals(nodeName)) {
 							String imgUrl = parser.nextText();
 							mAlarmBean.setImgUrl(imgUrl);
@@ -435,9 +441,10 @@ public class WeatherUtil {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
-			log.d(e.getMessage());
-		}
+		} 
+//		catch (Exception e) {
+//			log.d(e.toString());
+//		}
 		return mWeatherInfoBeans;
 
 	}

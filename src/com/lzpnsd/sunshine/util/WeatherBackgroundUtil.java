@@ -20,7 +20,7 @@ public class WeatherBackgroundUtil {
 			return R.drawable.notif_level5;
 		} else if (301 <= aqi && aqi <= 500) {
 			return R.drawable.notif_level6;
-		}else{
+		} else {
 			return R.drawable.notif_level7;
 		}
 	}
@@ -69,15 +69,18 @@ public class WeatherBackgroundUtil {
 			return R.drawable.blur_bg_fog_and_haze;
 		} else if (type.contains("雾") || type.contains("霾")) {
 			return R.drawable.blur_bg_fog_day;
-		}else if(type.contains("晴")){
-			if(!WeatherIconUtil.isDayOrNight()){
-				return R.drawable.blur_bg0_fine_day;
+		} else if (type.contains("晴")) {
+			if (!WeatherIconUtil.isDayOrNight()) {
+				return R.drawable.blur_bg0_fine_night;
 			}
-			return R.drawable.blur_bg0_fine_night;
-		}else if(type.equals("雾")){
-			return R.drawable.blur_bg18_fog_night;
-		}else{
-			if(!WeatherIconUtil.isDayOrNight()){
+			return R.drawable.blur_bg0_fine_day;
+		}  else if (type.contains("多云") || type.contains("阴")) {
+			if (!WeatherIconUtil.isDayOrNight()) {
+				return R.drawable.blur_bg0_fine_night;
+			}
+			return R.drawable.blur_bg0_fine_day;
+		} else {
+			if (!WeatherIconUtil.isDayOrNight()) {
 				return R.drawable.blur_bg_na;
 			}
 			return R.drawable.bg_na;

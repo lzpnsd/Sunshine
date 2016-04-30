@@ -35,7 +35,9 @@
         </activity>
         <activity android:name="com.lzpnsd.sunshine.activity.SettingsActivity">
         </activity>
-        <activity android:name="com.lzpnsd.sunshine.activity.CityChooseActivity">
+        <activity android:name="com.lzpnsd.sunshine.activity.CityListActivity">
+        </activity>
+        <activity android:name="com.lzpnsd.sunshine.activity.CityAddActivity">
         </activity>
     </application>
 

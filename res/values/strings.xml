@@ -8,10 +8,10 @@
     <!-- 描述 -->
     <string name="description_main_title_city">城市列表</string>
     <string name="description_main_title_share">分享</string>
-    <string name="description_city_choose_back">返回</string>
-    <string name="description_city_choose_add">添加</string>
-    <string name="description_city_choose_edit">编辑</string>
-    <string name="description_city_choose_ok">完成</string>
+    <string name="description_city_list_back">返回</string>
+    <string name="description_city_list_add">添加</string>
+    <string name="description_city_list_edit">编辑</string>
+    <string name="description_city_list_ok">完成</string>
     
     <!-- tab标签 -->
     <string name="tab_weather">天气</string>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sunshine="http://schemas.android.com/apk/res/com.lzpnsd.sunshine"
+    android:layout_width="match_parent"
+    android:minHeight="@dimen/height_list"
+    android:background="@color/white_dd"
+	android:paddingLeft="@dimen/padding_title_horizontal" >
+    
+    <com.lzpnsd.sunshine.view.CircleImageView
+        android:id="@+id/civ_city_list_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/selector_city_delete"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        />
+    
+    <com.lzpnsd.sunshine.view.CircleImageView
+        android:id="@+id/civ_city_list_weather"
+        android:layout_width="@dimen/city_list_image_size"
+        android:layout_height="@dimen/city_list_image_size"
+        android:padding="@dimen/padding_content"
+        android:src="@drawable/ww0"
+        android:background="@drawable/city_mgr_weather_icon_bg"
+        android:layout_marginLeft="@dimen/margin_view_content"
+        android:layout_marginStart="@dimen/margin_view_content"
+        android:layout_marginRight="@dimen/margin_view_content"
+        android:layout_marginEnd="@dimen/margin_view_content"
+        android:layout_toRightOf="@id/civ_city_list_delete"
+        android:layout_toEndOf="@id/civ_city_list_delete"
+        sunshine:civ_border_width="8dp"
+        sunshine:civ_border_color="@color/trans"
+        android:layout_centerVertical="true"
+        />
+    
+    <TextView 
+        android:id="@+id/tv_city_list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/civ_city_list_weather"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:layout_centerVertical="true"
+        />
+
+    <TextView 
+        android:id="@+id/tv_city_list_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_content"
+        />
+    
+</RelativeLayout>

@@ -7,6 +7,7 @@ import com.lzpnsd.sunshine.view.ShijingView;
 import com.lzpnsd.sunshine.view.WeatherView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -246,6 +247,11 @@ public class MainActivity extends Activity {
 			default:
 				break;
 		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package com.lzpnsd.sunshine.view;
 import java.util.List;
 
 import com.lzpnsd.sunshine.R;
-import com.lzpnsd.sunshine.activity.CityChooseActivity;
+import com.lzpnsd.sunshine.activity.CityListActivity;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.model.OnCustomItemClickListener;
@@ -11,6 +11,7 @@ import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherBackgroundUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ public class WeatherView {
 
 	private LogUtil log = LogUtil.getLog(getClass());
 
+	public static final int CODE_WEATHERVIEW_REQUEST = 1;
+	
 	private Context mContext;
 
 	private RelativeLayout mView;
@@ -52,7 +55,6 @@ public class WeatherView {
 		mView = (RelativeLayout) inflater.inflate(R.layout.view_weather, null);
 		setViews();
 		setListener();
-		initData();
 		return mView;
 	}
 
@@ -113,15 +115,14 @@ public class WeatherView {
 		public void onClick(View v) {
 			switch (v.getId()) {
 				case R.id.ib_weather_title_city:
-					Intent intent = new Intent(mContext,CityChooseActivity.class);
-					mContext.startActivity(intent);
+					Intent intent = new Intent(mContext,CityListActivity.class);
+					((Activity)mContext).startActivityForResult(intent,CODE_WEATHERVIEW_REQUEST);
 					break;
 
 				default:
 					break;
 			}
 		}
-		
 	};
 	
 }

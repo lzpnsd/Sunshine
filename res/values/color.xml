@@ -3,7 +3,10 @@
     <color name="black_trans">#BB000000</color>
     <color name="red">#FFFF0000</color>
     <color name="white">#FFEEEEEE</color>
+    <color name="white_dd">#FFDDDDDD</color>
     <color name="trans">#00000000</color>
     <color name="trans_22">#22FFFFFF</color>
     <color name="skyblue">#87CEFF</color>
+    <color name="gray">#FF888888</color>
+    
 </resources>
