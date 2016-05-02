@@ -1,8 +1,6 @@
 package com.lzpnsd.sunshine.test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -54,7 +52,7 @@ public class CityWeatherInfoTest {
 	public void test(){
 		CityListDatabaseHelper databaseHelper = new CityListDatabaseHelper(context);
 		SQLiteDatabase database = databaseHelper.getReadableDatabase();
-		Cursor cursor = database.query(CityListDatabaseHelper.TABLE_NAME, new String[]{"area_id"}, null, null, null, null, null);
+		Cursor cursor = database.query(CityListDatabaseHelper.TABLE_NAME_CITY, new String[]{"area_id"}, null, null, null, null, null);
 		while (cursor.moveToNext()) {
 			mSuccessFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"sunshine"+File.separator+"success.txt");
 			mFailureFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"sunshine"+File.separator+"failure.txt");

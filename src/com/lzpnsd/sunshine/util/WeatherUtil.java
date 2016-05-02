@@ -47,8 +47,6 @@ public class WeatherUtil {
 
 	private ExecutorService executor;
 	
-	private int count;
-	
 	private static final int TIME_CONNECT_TIMEOUT = 5000;
 	private static final int WHAT_GETASYNC_SUCCESS = 10000;
 	private static final int WHAT_GETASYNC_FAILED = 10001;
@@ -63,8 +61,7 @@ public class WeatherUtil {
 		if (mHandler == null) {
 			mHandler = new MyHandler();
 		}
-		count = 1;
-		executor = Executors.newFixedThreadPool(count);
+		executor = Executors.newSingleThreadExecutor();
 	}
 
 	private static class MyHandler extends Handler {
@@ -469,45 +466,45 @@ public class WeatherUtil {
 		void onFailure(String result);
 	}
 
-	public List<AlarmBean> getmAlarmBeans() {
-		return mAlarmBeans;
-	}
-
-	public void setmAlarmBeans(List<AlarmBean> mAlarmBeans) {
-		this.mAlarmBeans = mAlarmBeans;
-	}
-
-	public List<CityWeatherBean> getmCityWeatherBeans() {
-		return mCityWeatherBeans;
-	}
-
-	public void setmCityWeatherBeans(List<CityWeatherBean> mCityWeatherBeans) {
-		this.mCityWeatherBeans = mCityWeatherBeans;
-	}
-
-	public List<EnvironmentBean> getmEnvironmentBeans() {
-		return mEnvironmentBeans;
-	}
-
-	public void setmEnvironmentBeans(List<EnvironmentBean> mEnvironmentBeans) {
-		this.mEnvironmentBeans = mEnvironmentBeans;
-	}
-
-	public List<LifeIndexBean> getmLifeIndexBeans() {
-		return mLifeIndexBeans;
-	}
-
-	public void setmLifeIndexBeans(List<LifeIndexBean> mLifeIndexBeans) {
-		this.mLifeIndexBeans = mLifeIndexBeans;
-	}
-
-	public List<WeatherInfoBean> getmWeatherInfoBeans() {
-		Log.i("WeatherUtil", "getmWeatherInfoBeans");
-		return mWeatherInfoBeans;
-	}
-
-	public void setmWeatherInfoBeans(List<WeatherInfoBean> mWeatherInfoBeans) {
-		this.mWeatherInfoBeans = mWeatherInfoBeans;
-	}
+//	public List<AlarmBean> getmAlarmBeans() {
+//		return mAlarmBeans;
+//	}
+//
+//	public void setmAlarmBeans(List<AlarmBean> mAlarmBeans) {
+//		this.mAlarmBeans = mAlarmBeans;
+//	}
+//
+//	public List<CityWeatherBean> getmCityWeatherBeans() {
+//		return mCityWeatherBeans;
+//	}
+//
+//	public void setmCityWeatherBeans(List<CityWeatherBean> mCityWeatherBeans) {
+//		this.mCityWeatherBeans = mCityWeatherBeans;
+//	}
+//
+//	public List<EnvironmentBean> getmEnvironmentBeans() {
+//		return mEnvironmentBeans;
+//	}
+//
+//	public void setmEnvironmentBeans(List<EnvironmentBean> mEnvironmentBeans) {
+//		this.mEnvironmentBeans = mEnvironmentBeans;
+//	}
+//
+//	public List<LifeIndexBean> getmLifeIndexBeans() {
+//		return mLifeIndexBeans;
+//	}
+//
+//	public void setmLifeIndexBeans(List<LifeIndexBean> mLifeIndexBeans) {
+//		this.mLifeIndexBeans = mLifeIndexBeans;
+//	}
+//
+//	public List<WeatherInfoBean> getmWeatherInfoBeans() {
+//		Log.i("WeatherUtil", "getmWeatherInfoBeans");
+//		return mWeatherInfoBeans;
+//	}
+//
+//	public void setmWeatherInfoBeans(List<WeatherInfoBean> mWeatherInfoBeans) {
+//		this.mWeatherInfoBeans = mWeatherInfoBeans;
+//	}
 
 }

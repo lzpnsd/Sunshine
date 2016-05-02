@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
+import com.lzpnsd.sunshine.manager.DataManager;
 
 public class WeatherBackgroundUtil {
 
@@ -33,7 +34,7 @@ public class WeatherBackgroundUtil {
 	}
 
 	public static int getWeatherMainBackground() {
-		List<WeatherInfoBean> weatherInfoBeans = WeatherUtil.getInstance().getmWeatherInfoBeans();
+		List<WeatherInfoBean> weatherInfoBeans = DataManager.getInstance().getCurrentWeatherInfoBeans();
 		String type = weatherInfoBeans.get(1).getDayType();
 		if ("雾霾".equals(type)) {
 			if (!WeatherIconUtil.isDayOrNight()) {

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.bean.CityWeatherBean;
+import com.lzpnsd.sunshine.manager.DataManager;
 
 /**
  * 
@@ -25,7 +26,7 @@ public class WeatherIconUtil {
 	 *         false：晚上
 	 */
 	public static boolean isDayOrNight() {
-		List<CityWeatherBean> cityWeatherBeans = WeatherUtil.getInstance().getmCityWeatherBeans();
+		List<CityWeatherBean> cityWeatherBeans = DataManager.getInstance().getCurrentCityWeatherBeans();
 		if (cityWeatherBeans != null && cityWeatherBeans.size() > 0) {
 			String sunRise = cityWeatherBeans.get(0).getSunRise();
 			String sunSet = cityWeatherBeans.get(0).getSunSet();
@@ -108,9 +109,9 @@ public class WeatherIconUtil {
 			return R.drawable.ww2;
 		}else if("阵雨".equals(type)){
 			return R.drawable.ww3;
-		}else if("雷电".equals(type) || type.contains("雷电")){
+		}else if("雷阵雨".equals(type) || type.contains("雷电")){
 			return R.drawable.ww4;
-		}else if("雷阵雨".equals(type)){
+		}else if("雷阵雪".equals(type)){
 			return R.drawable.ww5;
 		}else if("雾".equals(type)){
 			if(!isDayOrNight()){
@@ -225,9 +226,9 @@ public class WeatherIconUtil {
 			return R.drawable.org3_ww2;
 		}else if("阵雨".equals(type)){
 			return R.drawable.org3_ww3;
-		}else if("雷电".equals(type) || type.contains("雷电")){
+		}else if("雷阵雨".equals(type) || type.contains("雷电")){
 			return R.drawable.org3_ww4;
-		}else if("雷阵雨".equals(type)){
+		}else if("雷阵雪".equals(type)){
 			return R.drawable.org3_ww5;
 		}else if("雾".equals(type)){
 			if(!isDayOrNight()){

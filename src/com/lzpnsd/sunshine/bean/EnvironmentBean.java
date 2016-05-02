@@ -2,7 +2,7 @@ package com.lzpnsd.sunshine.bean;
 
 /**
  * 环境信息
- * 只有当有天气预警时才有
+ * 有的可能没有
  *
  * @author lize
  *

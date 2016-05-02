@@ -2,8 +2,10 @@ package com.lzpnsd.sunshine.view;
 
 import java.util.List;
 
+import com.baidu.location.LocationClient;
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.activity.CityListActivity;
+import com.lzpnsd.sunshine.bean.EnvironmentBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.model.OnCustomItemClickListener;
@@ -55,7 +57,14 @@ public class WeatherView {
 		mView = (RelativeLayout) inflater.inflate(R.layout.view_weather, null);
 		setViews();
 		setListener();
+		location();
 		return mView;
+	}
+
+	private void location() {
+		if(DataManager.getInstance().getSaveCitySize() >0){
+			LocationClient client = new LocationClient(mContext);
+		}
 	}
 
 	private void setViews() {
@@ -72,7 +81,7 @@ public class WeatherView {
 	}
 	
 	private void setListener(){
-		WeatherUtil.getInstance().getWeather(DataManager.getInstance().getCityId(), new WeatherUtil.CallBack() {
+		WeatherUtil.getInstance().getWeather(DataManager.getInstance().getCurrentCityId(), new WeatherUtil.CallBack() {
 
 			@Override
 			public void onSuccess(List<WeatherInfoBean> weatherInfoBeans) {
@@ -102,11 +111,27 @@ public class WeatherView {
 	 */
 	private void initData() {
 		mRlMain.setBackgroundResource(WeatherBackgroundUtil.getWeatherMainBackground());
+		setAqiData();
+		mTvWeatherUpdateTime.setText("更新于"+DataManager.getInstance().getCurrentCityWeatherBeans().get(0).getUpdateTime());
+	}
+
+	/**
+	 * 显示AQI数据
+	 */
+	private void setAqiData() {
 		mLlAqi.setBackgroundResource(WeatherBackgroundUtil.getAQIBackgroundImage());
-		mIvAqi.setImageResource(WeatherBackgroundUtil.getAQIImage(WeatherUtil.getInstance().getmEnvironmentBeans().get(0).getAqi()));
-		mTvAqi.setText(WeatherUtil.getInstance().getmEnvironmentBeans().get(0).getAqi() +"  "+WeatherUtil.getInstance().getmEnvironmentBeans().get(0).getQuality());
-//		mAQIView.setData(WeatherAQIUtil.getAQIImage(WeatherUtil.getInstance().getmEnvironmentBeans().get(0).getAqi()), WeatherUtil.getInstance().getmEnvironmentBeans().get(0).getAqi() +"  "+WeatherUtil.getInstance().getmEnvironmentBeans().get(0).getQuality());
-		mTvWeatherUpdateTime.setText("更新于"+WeatherUtil.getInstance().getmCityWeatherBeans().get(0).getUpdateTime());
+		List<EnvironmentBean> environmentBeans = DataManager.getInstance().getCurrentEnvironmentBeans();
+		int aqi = 0;
+		StringBuilder sbQuality = new StringBuilder();
+		if(null == environmentBeans || environmentBeans.size()<=0){
+			aqi =600;
+			sbQuality.append("暂无数据");
+		}else{
+			aqi = environmentBeans.get(0).getAqi();
+			sbQuality.append(aqi).append("  ").append(environmentBeans.get(0).getQuality());
+		}
+		mIvAqi.setImageResource(aqi);
+		mTvAqi.setText(sbQuality);
 	}
 	
 	private OnClickListener mOnClickListener = new OnClickListener(){
