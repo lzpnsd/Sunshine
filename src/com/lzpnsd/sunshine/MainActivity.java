@@ -1,5 +1,7 @@
 package com.lzpnsd.sunshine;
 
+import com.lzpnsd.sunshine.activity.CityAddActivity;
+import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.util.AdaptationUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.view.MineView;
@@ -15,11 +17,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 
 public class MainActivity extends Activity {
@@ -251,7 +251,19 @@ public class MainActivity extends Activity {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
+		switch (resultCode) {
+			case CityAddActivity.CODE_CITY_ADD_RESULT:
+				if(data != null){
+					int area_id = data.getIntExtra(Contants.NAME_AREA_ID, 0);
+					if(area_id!=0){
+						mWeather.refreshData();
+					}
+				}
+				break;
+
+			default:
+				break;
+		}
 	}
 
 	@Override

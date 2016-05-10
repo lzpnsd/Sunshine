@@ -66,14 +66,158 @@ public class WeatherIconUtil {
 		return true;
 	}
 
-	public static int getSmallImageResource(String type) {
+	private static int getSmallImageResource(String type) {
 		return matchSmallType(type);
 	}
 	
-	public static int getBigImageResource(String type){
+	private static int getBigImageResource(String type){
 		return matchBigType(type);
 	}
 
+	public static int getDaySmallImageResource(String type){
+		log.d("type = "+type);
+		String[] rains = new String[] {};
+		String[] snows = new String[] {};
+		if (type.contains("雨")) {
+				return matchSmallType(0, type, rains);
+		} else if (type.contains("雪")) {
+				return matchSmallType(1, type, snows);
+		}else if("晴".equals(type)){
+			return R.drawable.ww0;
+		}else if("多云".equals(type)){
+			return R.drawable.ww1;
+		}else if(type.contains("晴") && type.equals("多云")){
+			return R.drawable.ww1;
+		}else if("阴".equals(type)){
+			return R.drawable.ww2;
+		}else if("阵雨".equals(type)){
+			return R.drawable.ww3;
+		}else if("雷阵雨".equals(type) || type.contains("雷电")){
+			return R.drawable.ww4;
+		}else if("雷阵雪".equals(type)){
+			return R.drawable.ww5;
+		}else if("雾".equals(type)){
+			return R.drawable.ww18;
+		}else if("冰雹".equals(type) || type.equals("雹")){
+			return R.drawable.ww20;
+		}else if("霾".equals(type) || type.contains("霾")){
+			return R.drawable.ww45;
+		}else if("阵冰雹".equals(type)){
+			return R.drawable.ww29;
+		}else if("".equals(type)){
+			return R.drawable.ww0;
+		}
+		return 0;
+	}
+	
+	public static int getNightSmallImageResource(String type){
+		log.d("type = "+type);
+		String[] rains = new String[] {};
+		String[] snows = new String[] {};
+		if (type.contains("雨")) {
+				return R.drawable.ww33;
+		} else if (type.contains("雪")) {
+				return R.drawable.ww34;
+		}else if("晴".equals(type)){
+				return R.drawable.ww30;
+		}else if("多云".equals(type)){
+				return R.drawable.ww31;
+		}else if(type.contains("晴") && type.equals("多云")){
+				return R.drawable.ww31;
+		}else if("阴".equals(type)){
+			return R.drawable.ww2;
+		}else if("阵雨".equals(type)){
+			return R.drawable.ww3;
+		}else if("雷阵雨".equals(type) || type.contains("雷电")){
+			return R.drawable.ww4;
+		}else if("雷阵雪".equals(type)){
+			return R.drawable.ww5;
+		}else if("雾".equals(type)){
+				return R.drawable.ww32;
+		}else if("冰雹".equals(type) || type.equals("雹")){
+				return R.drawable.ww36;
+		}else if("霾".equals(type) || type.contains("霾")){
+			return R.drawable.ww45;
+		}else if("阵冰雹".equals(type)){
+				return R.drawable.ww35;
+		}else if("".equals(type)){
+			return R.drawable.ww0;
+		}
+		return 0;
+	}
+	
+	public static int getDayBigImageResource(String type){
+		log.d("type = "+type);
+		String[] rains = new String[] {};
+		String[] snows = new String[] {};
+		if (type.contains("雨")) {
+				return matchBigType(0, type, rains);
+		} else if (type.contains("雪")) {
+				return matchBigType(1, type, snows);
+		}else if("晴".equals(type)){
+			return R.drawable.org3_ww0;
+		}else if("多云".equals(type)){
+			return R.drawable.org3_ww1;
+		}else if(type.contains("晴") && type.equals("多云")){
+			return R.drawable.org3_ww1;
+		}else if("阴".equals(type)){
+			return R.drawable.org3_ww2;
+		}else if("阵雨".equals(type)){
+			return R.drawable.org3_ww3;
+		}else if("雷阵雨".equals(type) || type.contains("雷电")){
+			return R.drawable.org3_ww4;
+		}else if("雷阵雪".equals(type)){
+			return R.drawable.org3_ww5;
+		}else if("雾".equals(type)){
+			return R.drawable.org3_ww18;
+		}else if("冰雹".equals(type) || type.equals("雹")){
+			return R.drawable.org3_ww20;
+		}else if("霾".equals(type) || type.contains("霾")){
+			return R.drawable.org3_ww45;
+		}else if("阵冰雹".equals(type)){
+			return R.drawable.org3_ww29;
+		}else if("".equals(type)){
+			return R.drawable.org3_ww0;
+		}
+		return 0;
+	}
+	
+	public static int getNightBigImageResource(String type){
+		log.d("type = "+type);
+		String[] rains = new String[] {};
+		String[] snows = new String[] {};
+		if (type.contains("雨")) {
+				return R.drawable.org3_ww33;
+		} else if (type.contains("雪")) {
+				return R.drawable.org3_ww34;
+		}else if("晴".equals(type)){
+				return R.drawable.org3_ww30;
+		}else if("多云".equals(type)){
+				return R.drawable.org3_ww31;
+		}else if(type.contains("晴") && type.equals("多云")){
+				return R.drawable.org3_ww31;
+		}else if("阴".equals(type)){
+			return R.drawable.org3_ww2;
+		}else if("阵雨".equals(type)){
+			return R.drawable.org3_ww3;
+		}else if("雷阵雨".equals(type) || type.contains("雷电")){
+			return R.drawable.org3_ww4;
+		}else if("雷阵雪".equals(type)){
+			return R.drawable.org3_ww5;
+		}else if("雾".equals(type)){
+				return R.drawable.org3_ww32;
+		}else if("冰雹".equals(type) || type.equals("雹")){
+				return R.drawable.org3_ww36;
+		}else if("霾".equals(type) || type.contains("霾")){
+			return R.drawable.org3_ww45;
+		}else if("阵冰雹".equals(type)){
+				return R.drawable.org3_ww35;
+		}else if("".equals(type)){
+			return R.drawable.org3_ww0;
+		}
+		return 0;
+	}
+	
 	private static int matchSmallType(String type) {
 		log.d("type = "+type);
 		String[] rains = new String[] {};

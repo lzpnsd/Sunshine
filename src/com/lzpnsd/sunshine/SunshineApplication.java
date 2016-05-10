@@ -5,7 +5,7 @@ import java.util.List;
 import com.lzpnsd.sunshine.bean.CityBean;
 import com.lzpnsd.sunshine.db.CityDBManager;
 import com.lzpnsd.sunshine.manager.DataManager;
-import com.lzpnsd.sunshine.test.CityWeatherInfoTest;
+import com.lzpnsd.sunshine.service.LocationService;
 import com.lzpnsd.sunshine.util.CityUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -26,10 +26,13 @@ public class SunshineApplication extends Application {
 	
 	private static Context mContext;
 	
-	private static SunshineApplication sInstance = new SunshineApplication();
+	private static final SunshineApplication sInstance = new SunshineApplication();
 	
 	private int mScreenWidth;
 	private int mScreenHeight;
+	
+	public static LocationService locationService;
+	public static boolean isFirst;
 	
 	public static SunshineApplication getInstance(){
 		return sInstance;
@@ -43,22 +46,32 @@ public class SunshineApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		mContext = getApplicationContext();
+		locationService = new LocationService(getApplicationContext());
 		getWindowScreenMetric();
 		initImageLoader();
 		insertData();
-		CityWeatherInfoTest.getInstance(mContext).test();
+//		CityWeatherInfoTest.getInstance(mContext).test();
 	}
 
 	private void insertData() {
-		if(DataManager.getInstance().isFirst()){
-			CityDBManager cityDBManager = new CityDBManager(mContext);
-			CityUtil cityUtil = new CityUtil();
-			List<CityBean> cityBeans = cityUtil.parseExcel(mContext);
-			for(CityBean cityBean : cityBeans){
-				cityDBManager.insertIntoCity(cityBean);
-			}
-			cityDBManager.insertIntoHotCity();
-			DataManager.getInstance().setIsFirst(false);
+		isFirst = DataManager.getInstance().isFirst();
+		log.d("isFirst = "+isFirst);
+		if(isFirst){
+			new Thread(){
+				@Override
+				public void run() {
+					log.d("insertData");
+					CityDBManager cityDBManager = CityDBManager.getInstance();
+					CityUtil cityUtil = new CityUtil();
+					List<CityBean> cityBeans = cityUtil.parseExcel(mContext);
+					if(cityBeans != null){
+						cityDBManager.insertIntoCity(cityBeans);
+					}
+					cityDBManager.insertIntoHotCity();
+//					DataManager.getInstance().setIsFirst(false);
+					log.d("isFirst = "+isFirst);
+				}
+			}.start();
 		}
 	}
 	

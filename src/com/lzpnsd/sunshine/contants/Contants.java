@@ -14,4 +14,8 @@ public class Contants {
 	
 	public static final int SPACE_CHART_TEMPERATURE = AdaptationUtil.dip2px(SunshineApplication.getContext(), 10);
 	
+	public static final String NAME_AREA_ID = "area_id";
+	
+	public static final int DATABASE_VERSION = 1;
+	
 }

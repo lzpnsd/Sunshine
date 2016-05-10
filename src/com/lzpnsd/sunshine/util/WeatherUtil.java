@@ -20,12 +20,12 @@ import com.lzpnsd.sunshine.bean.CityWeatherBean;
 import com.lzpnsd.sunshine.bean.EnvironmentBean;
 import com.lzpnsd.sunshine.bean.LifeIndexBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
+import com.lzpnsd.sunshine.manager.DataManager;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class WeatherUtil {
 
@@ -135,6 +135,9 @@ public class WeatherUtil {
 						List<WeatherInfoBean> weatherInfoBeans = new ArrayList<WeatherInfoBean>();
 						weatherInfoBeans.addAll(parseWeather(conn.getInputStream()));
 						log.d("weatherInfoBeans = "+weatherInfoBeans+",weatherInfoBeans.size = "+weatherInfoBeans.size());
+						if(DataManager.getInstance().getCurrentCityId() == cityId){//如果当前城市id和查询的城市id一样，保存这次查询的信息
+							saveCurrentWeatherInfo();
+						}
 						if(callBack != null){
 							Message msg = Message.obtain();
 							msg.obj = new MsgObj(callBack,weatherInfoBeans);
@@ -164,6 +167,14 @@ public class WeatherUtil {
 				}
 			}
 		});
+	}
+	
+	private void saveCurrentWeatherInfo(){
+		DataManager.getInstance().setCurrentAlarmBeans(mAlarmBeans);
+		DataManager.getInstance().setCurrentCityWeatherBeans(mCityWeatherBeans);
+		DataManager.getInstance().setCurrentEnvironmentBeans(mEnvironmentBeans);
+		DataManager.getInstance().setCurrentLifeIndexBeans(mLifeIndexBeans);
+		DataManager.getInstance().setCurrentWeatherInfoBeans(mWeatherInfoBeans);
 	}
 
 	private List<WeatherInfoBean> parseWeather(InputStream inputStream) {

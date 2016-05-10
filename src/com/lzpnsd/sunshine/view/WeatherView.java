@@ -2,14 +2,24 @@ package com.lzpnsd.sunshine.view;
 
 import java.util.List;
 
-import com.baidu.location.LocationClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.lzpnsd.sunshine.R;
+import com.lzpnsd.sunshine.SunshineApplication;
+import com.lzpnsd.sunshine.activity.CityAddActivity;
 import com.lzpnsd.sunshine.activity.CityListActivity;
+import com.lzpnsd.sunshine.bean.CityBean;
+import com.lzpnsd.sunshine.bean.CityWeatherBean;
 import com.lzpnsd.sunshine.bean.EnvironmentBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
+import com.lzpnsd.sunshine.db.CityDBManager;
 import com.lzpnsd.sunshine.manager.DataManager;
+import com.lzpnsd.sunshine.model.ILocationListener;
 import com.lzpnsd.sunshine.model.OnCustomItemClickListener;
+import com.lzpnsd.sunshine.util.LocationUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
+import com.lzpnsd.sunshine.util.ToastUtil;
 import com.lzpnsd.sunshine.util.WeatherBackgroundUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
 
@@ -25,13 +35,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+/**
+ * code:100
+ *
+ * @author lize
+ *
+ * 2016年5月9日
+ */
 public class WeatherView {
 
 	private LogUtil log = LogUtil.getLog(getClass());
 
-	public static final int CODE_WEATHERVIEW_REQUEST = 1;
+	public static final int CODE_WEATHERVIEW_REQUEST = 1001;
 	
 	private Context mContext;
 
@@ -56,17 +72,59 @@ public class WeatherView {
 		LayoutInflater inflater = LayoutInflater.from(mContext);
 		mView = (RelativeLayout) inflater.inflate(R.layout.view_weather, null);
 		setViews();
-		setListener();
-		location();
+		showLastInfo();
+		startLocation();
+		if(!SunshineApplication.isFirst){
+			refreshData();
+		}
 		return mView;
 	}
 
-	private void location() {
-		if(DataManager.getInstance().getSaveCitySize() >0){
-			LocationClient client = new LocationClient(mContext);
-		}
+	private void showLastInfo() {
+		
 	}
 
+	private void startLocation() {
+		log.d("start location, isFirst = "+SunshineApplication.isFirst);
+		if(SunshineApplication.isFirst){
+			ToastUtil.showToast(mContext.getString(R.string.location_start), ToastUtil.LENGTH_LONG);
+			LocationUtil.getInstance().startLocation(new ILocationListener() {
+				
+				@Override
+				public void onReceiveLocation(String location) {
+					try {
+						log.d("onReceive location,location = "+location);
+						JSONObject jsonObject = new JSONObject(location);
+						String cityName = (String) jsonObject.get(LocationUtil.NAME_CITY_NAME);
+						CityBean cityBean = CityDBManager.getInstance().queryCityByName(cityName);
+						if(cityBean != null){
+							DataManager.getInstance().setCurrentCityBean(cityBean);
+							ToastUtil.showToast(mContext.getString(R.string.location_success), ToastUtil.LENGTH_LONG);
+							refreshData();
+						}else{
+							handleLocationFailed(mContext.getString(R.string.location_failed));
+						}
+					} catch (JSONException e) {
+						handleLocationFailed(mContext.getString(R.string.location_failed));
+					} catch (Exception e) {
+						handleLocationFailed(mContext.getString(R.string.location_failed));
+					}
+				}
+				
+				@Override
+				public void onFailed(String result) {
+					handleLocationFailed(result);
+				}
+			});
+		}
+	}
+	
+	private void handleLocationFailed(String message) {
+		ToastUtil.showToast(message, ToastUtil.LENGTH_LONG);
+		Intent cityAddIntent = new Intent(mContext,CityAddActivity.class);
+		((Activity) mContext).startActivityForResult(cityAddIntent, CODE_WEATHERVIEW_REQUEST);
+	}
+	
 	private void setViews() {
 		mRlMain = (RelativeLayout) mView.findViewById(R.id.rl_weather_main);
 		mSvContains = (ScrollView) mView.findViewById(R.id.sv_weather_content);
@@ -78,9 +136,16 @@ public class WeatherView {
 		mIbCityList = (ImageButton) mView.findViewById(R.id.ib_weather_title_city);
 		mIbShare = (ImageButton) mView.findViewById(R.id.ib_weather_title_share);
 		mTvCityName = (TextView) mView.findViewById(R.id.tv_weather_city_name);
+		mIbCityList.setOnClickListener(mOnClickListener);
+		mHorizontalChartView.setOnItemClickListener(new OnCustomItemClickListener() {
+
+			@Override
+			public void onClick(View v, int position) {
+			}
+		});
 	}
 	
-	private void setListener(){
+	public void refreshData(){
 		WeatherUtil.getInstance().getWeather(DataManager.getInstance().getCurrentCityId(), new WeatherUtil.CallBack() {
 
 			@Override
@@ -92,18 +157,9 @@ public class WeatherView {
 			
 			@Override
 			public void onFailure(String result) {
-				Toast.makeText(mContext, result, Toast.LENGTH_LONG).show();
+				ToastUtil.showToast(result, ToastUtil.LENGTH_LONG);
 			}
 		});
-		
-		mHorizontalChartView.setOnItemClickListener(new OnCustomItemClickListener() {
-
-			@Override
-			public void onClick(View v, int position) {
-//				Toast.makeText(mContext, "v = " + v + ",position = " + position, Toast.LENGTH_LONG).show();
-			}
-		});
-		mIbCityList.setOnClickListener(mOnClickListener);
 	}
 	
 	/**
@@ -111,8 +167,14 @@ public class WeatherView {
 	 */
 	private void initData() {
 		mRlMain.setBackgroundResource(WeatherBackgroundUtil.getWeatherMainBackground());
+		mTvCityName.setText(DataManager.getInstance().getCurrentCityWeatherBeans().get(0).getCity());
 		setAqiData();
-		mTvWeatherUpdateTime.setText("更新于"+DataManager.getInstance().getCurrentCityWeatherBeans().get(0).getUpdateTime());
+		List<CityWeatherBean> cityWeatherBeans = DataManager.getInstance().getCurrentCityWeatherBeans();
+		if(cityWeatherBeans == null || cityWeatherBeans.size() <=0){
+			mTvWeatherUpdateTime.setText("");
+		}else{
+			mTvWeatherUpdateTime.setText("更新于"+DataManager.getInstance().getCurrentCityWeatherBeans().get(0).getUpdateTime());
+		}
 	}
 
 	/**
@@ -130,7 +192,7 @@ public class WeatherView {
 			aqi = environmentBeans.get(0).getAqi();
 			sbQuality.append(aqi).append("  ").append(environmentBeans.get(0).getQuality());
 		}
-		mIvAqi.setImageResource(aqi);
+		mIvAqi.setImageResource(WeatherBackgroundUtil.getAQIImage(aqi));
 		mTvAqi.setText(sbQuality);
 	}
 	
@@ -143,7 +205,9 @@ public class WeatherView {
 					Intent intent = new Intent(mContext,CityListActivity.class);
 					((Activity)mContext).startActivityForResult(intent,CODE_WEATHERVIEW_REQUEST);
 					break;
-
+				case R.id.ib_weather_title_share:
+					// TODO 分享
+					break;
 				default:
 					break;
 			}

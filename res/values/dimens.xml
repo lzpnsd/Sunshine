@@ -8,6 +8,7 @@
     <dimen name="height_main_title">50dp</dimen>
     <dimen name="height_list">60dp</dimen>
 	<!-- 边距 -->
+	<dimen name="padding_small">2dp</dimen>
     <dimen name="padding_title_horizontal">4dp</dimen>
     <dimen name="padding_content">8dp</dimen>
     <dimen name="padding_view_content">6dp</dimen>
@@ -32,4 +33,10 @@
     <!-- 城市列表页面城市天气 -->
     <dimen name="city_list_image_size">35dp</dimen>
     
+    <!-- 城市搜索 -->
+    <dimen name="add_city_search_width">275dp</dimen>
+    <dimen name="add_city_search_height">36dp</dimen>
+    <dimen name="add_city_search_padding">16dp</dimen>
+    <dimen name="add_city_search_padding_edit">42dp</dimen>
+    <dimen name="height_list_item">45dp</dimen>
 </resources>

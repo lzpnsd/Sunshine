@@ -15,6 +15,13 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+/**
+ * code:101
+ *
+ * @author lize
+ *
+ * 2016年5月9日
+ */
 public class CityListActivity extends Activity {
 
 	private ImageButton mIbBack;
@@ -25,8 +32,9 @@ public class CityListActivity extends Activity {
 	
 	private List<CityListItemBean> mCityListItemBeans = new ArrayList<CityListItemBean>();
 	
-	public static final int CODE_GOBACK_RESULT = 1;
-	public static final int CODE_SELECT_CITY_RESULT = 2;
+	public static final int CODE_GOBACK_RESULT = 1011;
+	public static final int CODE_SELECT_CITY_RESULT = 1012;
+	public static final int CODE_ADD_CITY_REQUEST = 1013;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +76,7 @@ public class CityListActivity extends Activity {
 			switch (v.getId()) {
 				case R.id.ib_city_list_title_bar_back:
 					setResult(CODE_GOBACK_RESULT);
+					finish();
 					break;
 				case R.id.ib_city_list_title_bar_edit:
 					
@@ -77,11 +86,23 @@ public class CityListActivity extends Activity {
 					break;
 				case R.id.ib_city_list_title_bar_add:
 					Intent cityAddIntent = new Intent(CityListActivity.this,CityAddActivity.class);
-					startActivity(cityAddIntent);
+					startActivityForResult(cityAddIntent, CODE_ADD_CITY_REQUEST);
 					break;
 			}
 		}
 		
+	};
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (resultCode) {
+			case CityAddActivity.CODE_CITY_ADD_RESULT:
+				setResult(CityAddActivity.CODE_CITY_ADD_RESULT,data);
+				finish();
+				break;
+			default:
+				break;
+		}
 	};
 	
 }

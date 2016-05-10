@@ -19,10 +19,15 @@
     <string name="tab_mine">我的</string>
 
     <!-- weather -->
-    
+    <string name="location_start">正在定位...</string>
+    <string name="location_failed">定位失败，请手动选择城市</string>
+    <string name="location_success">定位成功</string>
     <!-- index -->
     
     <!-- mine -->
     <string name="btn_mine_settings">设置</string>
+    
+    <!-- add_city -->
+    <string name="hint_add_city_search_city">搜索中国城市</string>
     
 </resources>

@@ -123,10 +123,10 @@ public class CustomItemView extends LinearLayout{
 		String date = weatherInfoBean.getDate();
 		mTvWeek.setText(date.substring(date.length()-2, date.length()));
 		mTvDayWeather.setText(weatherInfoBean.getDayType());
-		log.d("weatherInfoBean.getDayType = "+weatherInfoBean.getDayType()+"image resource = "+WeatherIconUtil.getSmallImageResource(weatherInfoBean.getDayType()));
-		log.d("weatherInfoBean.getNightType = "+weatherInfoBean.getNightType()+"image resource = "+WeatherIconUtil.getSmallImageResource(weatherInfoBean.getNightType()));
-		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getSmallImageResource(weatherInfoBean.getDayType()), mIvDayPic);
-		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getSmallImageResource(weatherInfoBean.getNightType()), mIvNightPic);
+		log.d("weatherInfoBean.getDayType = "+weatherInfoBean.getDayType()+"image resource = "+WeatherIconUtil.getDaySmallImageResource(weatherInfoBean.getDayType()));
+		log.d("weatherInfoBean.getNightType = "+weatherInfoBean.getNightType()+"image resource = "+WeatherIconUtil.getNightSmallImageResource(weatherInfoBean.getNightType()));
+		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getDaySmallImageResource(weatherInfoBean.getDayType()), mIvDayPic);
+		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getNightSmallImageResource(weatherInfoBean.getNightType()), mIvNightPic);
 		mTvNightWeather.setText(weatherInfoBean.getNightType());
 		mTvDate.setText(date.subSequence(0, date.length()-2));
 		mTvWindDirection.setText(weatherInfoBean.getDayWindDirection());

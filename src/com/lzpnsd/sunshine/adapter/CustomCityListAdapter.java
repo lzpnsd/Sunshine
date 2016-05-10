@@ -59,7 +59,7 @@ public class CustomCityListAdapter extends BaseAdapter {
 		CityListItemBean cityListItemBean = mCityListItemBeans.get(position);
 		viewHolder.mCivCityDelete.setVisibility(cityListItemBean.isShowDelete()?View.VISIBLE:View.GONE);
 		viewHolder.mCivCityDelete.setOnClickListener(clickListener);
-		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getSmallImageResource(cityListItemBean.getType()), viewHolder.mCivCityWeatherIcon);
+		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getDaySmallImageResource(cityListItemBean.getType()), viewHolder.mCivCityWeatherIcon);
 		viewHolder.mTvCityName.setText(cityListItemBean.getCityName());
 		viewHolder.mTvCityWeather.setText(cityListItemBean.getLowTemperature()+"/"+cityListItemBean.getHighTemperature()+"℃");
 		return convertView;

@@ -1,5 +1,6 @@
 package com.lzpnsd.sunshine.db;
 
+import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.util.LogUtil;
 
 import android.content.Context;
@@ -13,14 +14,13 @@ public class CityListDatabaseHelper extends SQLiteOpenHelper {
 	public static final String DATABASE_NAME = "sunshine.db";
 	public static final String TABLE_NAME_CITY = "city";
 	public static final String TABLE_NAME_HOT_CITY = "hot_city";
-	private static final int VERSION = 1;
 
 //	private final int BUFFER_SIZE = 4*1024;
 //	private final String DATABASE_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + File.separator
 //			+ SunshineApplication.getContext().getPackageName() + File.separator + "databases";
 
 	public CityListDatabaseHelper(Context context) {
-		super(context, DATABASE_NAME, null, VERSION);
+		super(context, DATABASE_NAME, null, Contants.DATABASE_VERSION);
 	}
 
 	@Override
@@ -57,6 +57,7 @@ public class CityListDatabaseHelper extends SQLiteOpenHelper {
 		String hotCitySql = "create table if not exists "+ TABLE_NAME_HOT_CITY + " (" 
 				+ "_id integer primary key autoincrement,"
 				+ "area_id text,"
+				+ "name_cn text"
 				+")";
 		db.execSQL(CitySql);
 		db.execSQL(hotCitySql);
