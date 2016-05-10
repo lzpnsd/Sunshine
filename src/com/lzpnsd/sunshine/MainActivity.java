@@ -26,8 +26,6 @@ public class MainActivity extends Activity {
 
 	private final LogUtil log = LogUtil.getLog(getClass());
 	
-	private final String test = "";
-	
 	private ViewFlipper mViewFlipper;
 	private View mWeatherView;
 	private View mIndexView;
