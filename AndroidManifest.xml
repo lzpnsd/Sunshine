@@ -72,22 +72,6 @@
             android:enabled="true"
             android:process=":remote" >
         </service>
-        
-        <receiver android:name="com.lzpnsd.sunshine.widget.provider.WidgetProvider" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/appwidget_info" />
-        </receiver>
-
-        <service android:name="com.lzpnsd.sunshine.widget.provider.WidgetService" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.WIDGET_SERVICE" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

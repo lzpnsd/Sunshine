@@ -84,7 +84,7 @@ public class WeatherView {
 		
 	}
 
-	private void startLocation() {
+	public void startLocation() {
 		log.d("start location, isFirst = "+SunshineApplication.isFirst);
 		if(SunshineApplication.isFirst){
 			ToastUtil.showToast(mContext.getString(R.string.location_start), ToastUtil.LENGTH_LONG);

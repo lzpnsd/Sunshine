@@ -5,12 +5,15 @@ import java.util.List;
 
 import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.bean.CityBean;
+import com.lzpnsd.sunshine.util.LogUtil;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class CityDBManager {
 
+	private LogUtil log = LogUtil.getLog(getClass());
+	
 	private CityListDatabaseHelper mDatabaseHelper;
 
 	private static CityDBManager sInstance = new CityDBManager();
@@ -19,7 +22,7 @@ public class CityDBManager {
 		mDatabaseHelper = new CityListDatabaseHelper(SunshineApplication.getContext());
 	}
 
-	public static CityDBManager getInstance() {
+	public static synchronized CityDBManager getInstance() {
 		return sInstance;
 	}
 
@@ -42,8 +45,14 @@ public class CityDBManager {
 	}
 
 	public void insertIntoCity(List<CityBean> cityBeans){
+		log.d("start insert into city");
 		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
 		database.beginTransaction();
+		long startTime = System.currentTimeMillis();
+		Cursor cursor = database.query(CityListDatabaseHelper.TABLE_NAME_CITY, null, null, null, null, null, null);
+		if(null != cursor && cursor.getCount()>0){
+			return;
+		}
 		String sql = "insert into " + CityListDatabaseHelper.TABLE_NAME_CITY + " ("
 				+ "area_id,name_en,name_cn,district_en,district_cn,prov_en,prov_cn,nation_en,nation_cn) "
 				+ "values (?,?,?,?,?,?,?,?,?)";
@@ -55,6 +64,9 @@ public class CityDBManager {
 		database.setTransactionSuccessful();
 		database.endTransaction();
 		database.close();
+		long endTime = System.currentTimeMillis();
+		log.d("end insert into city");
+		log.d("insert into database used time is "+ (endTime - startTime));
 	}
 	
 	public void insertIntoHotCity() {
@@ -94,6 +106,13 @@ public class CityDBManager {
 				"南京"};
 		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
 		database.beginTransaction();
+		Cursor cursor = database.query(CityListDatabaseHelper.TABLE_NAME_HOT_CITY, null, null, null, null, null, null);
+		if(null != cursor && cursor.getCount()>0){
+			database.setTransactionSuccessful();
+			database.endTransaction();
+			database.close();
+			return;
+		}
 		for (int i = 0; i < 14; i++) {
 			String sql = "insert into " + CityListDatabaseHelper.TABLE_NAME_HOT_CITY + " (area_id,name_cn)" + "values ('" + hotCities[i] + "','" + hotCityNames[i] + "')";
 			database.execSQL(sql);
@@ -147,20 +166,38 @@ public class CityDBManager {
 	}
 	
 	/**
-	 * 返回的CityBean中只有area_id和name_cn
+	 * 
 	 * @return
 	 */
 	public List<CityBean> queryHotCity(){
 		List<CityBean> cityBeans = new ArrayList<CityBean>();
-		String sql = "select * from " + CityListDatabaseHelper.TABLE_NAME_HOT_CITY+"";
+		String sql = "select "+CityListDatabaseHelper.TABLE_NAME_HOT_CITY+".area_id as area_id,name_en," 
+				+CityListDatabaseHelper.TABLE_NAME_HOT_CITY+".name_cn as name_cn,district_en,district_cn,prov_en,prov_cn,nation_en,nation_cn from " 
+				+ CityListDatabaseHelper.TABLE_NAME_HOT_CITY+","+CityListDatabaseHelper.TABLE_NAME_CITY+" where " 
+				+ CityListDatabaseHelper.TABLE_NAME_HOT_CITY+".area_id="+CityListDatabaseHelper.TABLE_NAME_CITY+".area_id";
+//		String sql = "select * from "+CityListDatabaseHelper.TABLE_NAME_HOT_CITY;
 		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery(sql, null);
 		while(cursor.moveToNext()){
 			String area_id = cursor.getString(cursor.getColumnIndex("area_id"));
 			String name_cn = cursor.getString(cursor.getColumnIndex("name_cn"));
+			String name_en = cursor.getString(cursor.getColumnIndex("name_en"));
+			String district_en = cursor.getString(cursor.getColumnIndex("district_en"));
+			String district_cn = cursor.getString(cursor.getColumnIndex("district_cn"));
+			String prov_en = cursor.getString(cursor.getColumnIndex("prov_en"));
+			String prov_cn = cursor.getString(cursor.getColumnIndex("prov_cn"));
+			String nation_en = cursor.getString(cursor.getColumnIndex("nation_en"));
+			String nation_cn = cursor.getString(cursor.getColumnIndex("nation_cn"));
 			CityBean cityBean = new CityBean();
 			cityBean.setAreaId(area_id);
 			cityBean.setNameCn(name_cn);
+			cityBean.setNameEn(name_en);
+			cityBean.setDistrictCn(district_cn);
+			cityBean.setDistrictEn(district_en);
+			cityBean.setNationCn(nation_cn);
+			cityBean.setNationEn(nation_en);
+			cityBean.setProvCn(prov_cn);
+			cityBean.setProvEn(prov_en);
 			cityBeans.add(cityBean);
 		}
 		database.close();

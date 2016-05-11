@@ -164,19 +164,17 @@ public class DataManager {
 	
 	public boolean isFirst(){
 		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_COMMON_SHAREDPREFERENCES, MODE_SHAREDPREFERENCES);
-		boolean isFirst = preferences.getBoolean(NAME_ISFIRST, true);
-		if(!isFirst){
-			try {
-				PackageInfo packageInfo = SunshineApplication.getContext().getPackageManager().getPackageInfo(SunshineApplication.getContext().getPackageName(), 0);
-				int currentVersion = packageInfo.versionCode;
-				if(currentVersion > preferences.getInt(NAME_VERSION_CODE, 0)){
-					isFirst = true;
-				}
-			} catch (NameNotFoundException e) {
-				e.printStackTrace();
+		boolean isFirst = false;
+		try {
+			PackageInfo packageInfo = SunshineApplication.getContext().getPackageManager().getPackageInfo(SunshineApplication.getContext().getPackageName(), 0);
+			int currentVersion = packageInfo.versionCode;
+			if (currentVersion > preferences.getInt(NAME_VERSION_CODE, 0)) {
+				isFirst = true;
 			}
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
 		}
-		return true;
+		return isFirst;
 	}
 	
 	public int getSaveCitySize(){

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:descendantFocusability="blocksDescendants"
+    android:clickable="false" >
+
+    <Button 
+        android:id="@+id/btn_location_city"
+        android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+	    android:background="@drawable/selector_city_search_grid"
+	    android:gravity="center"
+	    android:textColor="@drawable/selector_city_grid_text"
+	    android:src="@drawable/city_search_location"
+	    android:paddingLeft="@dimen/margin_content"
+	    android:text="@string/city_location"
+	    android:drawablePadding="-25dp"
+	    android:drawableLeft="@drawable/city_search_location"
+	    android:visibility="gone"
+	    android:clickable="false"
+        />
+    
+	<Button 
+	    android:id="@+id/btn_hot_city"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/selector_city_search_grid"
+	    android:gravity="center"
+	    android:textColor="@drawable/selector_city_grid_text"
+	    android:visibility="visible"
+	    android:clickable="false" />
+	    
+</LinearLayout>

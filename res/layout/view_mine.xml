@@ -1,163 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/trans"
-    android:orientation="vertical" >
+    android:background="@color/trans" >
 
-    <RelativeLayout
-        android:id="@+id/rl_settings_content"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/settings_face_back" >
+    <Button
+        android:id="@+id/btn_mine_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_mine_settings" />
 
-        <ImageButton
-            android:id="@+id/ib_settings_face"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/sns_face_default" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher" />
 
-        <TextView
+    <com.lzpnsd.sunshine.view.CustomHorizontalView
+        android:id="@+id/chv_mine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <LinearLayout
+            android:id="@+id/ll_mine_custom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ib_settings_face"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="@string/tv_mine_face_login"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
-
-        <ImageButton
-            android:id="@+id/ib_settings_letter"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="40dp"
-            android:layout_toRightOf="@id/ib_settings_face"
-            android:background="@drawable/setting_face_letter" />
-    </RelativeLayout>
-
-    <LinearLayout style="@style/setting_item_linearlayout_style" >
-
-        <LinearLayout
-            android:id="@+id/li_settings_skin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                style="@style/setting_item_imagebutton_style"
-                android:background="@drawable/ic_launcher" />
-
-            <TextView
-                style="@style/setting_item_textview_style"
-                android:text="@string/tv_mine_face_skin" />
+            android:orientation="horizontal"
+            android:scrollbars="none" >
         </LinearLayout>
+    </com.lzpnsd.sunshine.view.CustomHorizontalView>
 
-        <LinearLayout
-            android:id="@+id/li_settings_dress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                style="@style/setting_item_imagebutton_style"
-                android:background="@drawable/ic_launcher" />
-
-            <TextView
-                style="@style/setting_item_textview_style"
-                android:text="@string/tv_mine_face_dress" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/li_settings_find"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                style="@style/setting_item_imagebutton_style"
-                android:background="@drawable/ic_launcher" />
-
-            <TextView
-                style="@style/setting_item_textview_style"
-                android:text="@string/tv_mine_face_find" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout style="@style/setting_item_linearlayout_style" >
-
-        <LinearLayout
-            android:id="@+id/li_settings_moji"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                style="@style/setting_item_imagebutton_style"
-                android:background="@drawable/ic_launcher" />
-
-            <TextView
-                style="@style/setting_item_textview_style"
-                android:text="@string/tv_mine_face_moji" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/li_settings_mine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                style="@style/setting_item_imagebutton_style"
-                android:background="@drawable/ic_launcher" />
-
-            <TextView
-                style="@style/setting_item_textview_style"
-                android:text="@string/tv_mine_face_mine" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout style="@style/setting_item_linearlayout_style" >
-
-        <LinearLayout
-            android:id="@+id/li_settings_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                style="@style/setting_item_imagebutton_style"
-                android:background="@drawable/ic_launcher" />
-
-            <TextView
-                style="@style/setting_item_textview_style"
-                android:text="@string/tv_mine_face_account" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/li_settings_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                style="@style/setting_item_imagebutton_style"
-                android:background="@drawable/ic_launcher" />
-
-            <TextView
-                style="@style/setting_item_textview_style"
-                android:text="@string/btn_mine_settings" />
-        </LinearLayout>
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

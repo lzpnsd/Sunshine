@@ -3,16 +3,20 @@ package com.lzpnsd.sunshine.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.adapter.AddCityAdapter;
+import com.lzpnsd.sunshine.adapter.HotCityAdapter;
 import com.lzpnsd.sunshine.bean.CityBean;
-import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.db.CityDBManager;
 import com.lzpnsd.sunshine.manager.DataManager;
+import com.lzpnsd.sunshine.model.ILocationListener;
+import com.lzpnsd.sunshine.util.LocationUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.ToastUtil;
-import com.lzpnsd.sunshine.util.WeatherUtil;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -46,11 +50,13 @@ public class CityAddActivity extends Activity{
 	private EditText mEtSearchCity;
 	private ImageButton mIbSearch;
 	private ListView mLvSearchResult;
-	private GridView mGvhotCity;
+	private GridView mGvHotCity;
 	
 	private List<CityBean> mCityBeans;
+	private List<CityBean> mHotCityBeans;
 	
 	private AddCityAdapter mAddCityAdapter;
+	private HotCityAdapter mHotCityAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +72,15 @@ public class CityAddActivity extends Activity{
 	private void initData() {
 		mCityBeans = new ArrayList<CityBean>();
 		mAddCityAdapter = new AddCityAdapter(mCityBeans);
+		mHotCityBeans = CityDBManager.getInstance().queryHotCity();
+		mHotCityAdapter = new HotCityAdapter(mHotCityBeans);
 	}
 
 	private void initViews(){
 		mEtSearchCity = (EditText) findViewById(R.id.et_add_city_search);
 		mIbSearch = (ImageButton) findViewById(R.id.ib_add_city_search);
 		mLvSearchResult = (ListView) findViewById(R.id.lv_add_city_search_result);
-		mGvhotCity = (GridView) findViewById(R.id.gv_add_city_hot_city);
+		mGvHotCity = (GridView) findViewById(R.id.gv_add_city_hot_city);
 	}
 	
 	private void setListener(){
@@ -81,6 +89,9 @@ public class CityAddActivity extends Activity{
 		mIbSearch.setOnClickListener(mOnClickListener);
 		mLvSearchResult.setAdapter(mAddCityAdapter);
 		mLvSearchResult.setOnItemClickListener(mOnItemClickListener);
+		mLvSearchResult.setVisibility(View.GONE);
+		mGvHotCity.setAdapter(mHotCityAdapter);
+		mGvHotCity.setOnItemClickListener(mOnItemClickListener);
 	}
 	
 	private class TextChangeListener implements TextWatcher{
@@ -97,6 +108,7 @@ public class CityAddActivity extends Activity{
 
 		@Override
 		public void afterTextChanged(Editable s) {
+			mLvSearchResult.setVisibility(View.VISIBLE);
 			searchCity();
 		}
 	}
@@ -119,10 +131,14 @@ public class CityAddActivity extends Activity{
 		public void onFocusChange(View v, boolean hasFocus) {
 			switch (v.getId()) {
 				case R.id.et_add_city_search:
-					if (hasFocus)
+					if (hasFocus){
 						mIbSearch.setVisibility(View.GONE);
-					else
+						mGvHotCity.setVisibility(View.GONE);
+					}
+					else{
 						mIbSearch.setVisibility(View.VISIBLE);
+						mGvHotCity.setVisibility(View.VISIBLE);
+					}
 					break;
 			}
 		}
@@ -132,14 +148,67 @@ public class CityAddActivity extends Activity{
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			final CityBean cityBean = mCityBeans.get(position);
-			DataManager.getInstance().setCurrentCityBean(cityBean);
-			Intent intent = new Intent();
-			intent.putExtra(Contants.NAME_AREA_ID, Integer.parseInt(cityBean.getAreaId()));
-			CityAddActivity.this.setResult(CODE_CITY_ADD_RESULT,intent);
-			CityAddActivity.this.finish();
+			log.d("parent view is "+parent.toString()+",view is "+view+",position = "+position+",id = "+id);
+			switch (parent.getId()) {
+				case R.id.lv_add_city_search_result:
+					final CityBean cityBean = mCityBeans.get(position);
+					turnToWeatherView(cityBean);
+					break;
+				case R.id.gv_add_city_hot_city:
+					if(0 == position){
+						ToastUtil.showToast(getString(R.string.location_start), ToastUtil.LENGTH_LONG);
+						LocationUtil.getInstance().startLocation(new ILocationListener() {
+							
+							@Override
+							public void onReceiveLocation(String location) {
+								try {
+									log.d("onReceive location,location = "+location);
+									JSONObject jsonObject = new JSONObject(location);
+									String cityName = (String) jsonObject.get(LocationUtil.NAME_CITY_NAME);
+									CityBean cityBean = CityDBManager.getInstance().queryCityByName(cityName);
+									if(cityBean != null){
+										DataManager.getInstance().setCurrentCityBean(cityBean);
+										ToastUtil.showToast(getString(R.string.location_success), ToastUtil.LENGTH_LONG);
+										turnToWeatherView(cityBean);
+									}else{
+										handleLocationFailed(getString(R.string.location_failed));
+									}
+								} catch (JSONException e) {
+									handleLocationFailed(getString(R.string.location_failed));
+								} catch (Exception e) {
+									handleLocationFailed(getString(R.string.location_failed));
+								}
+							}
+							
+							@Override
+							public void onFailed(String result) {
+								handleLocationFailed(result);
+							}
+						});
+					}else{
+						CityBean city = mHotCityBeans.get(position-1);
+						if(DataManager.getInstance().getCurrentCityId() == Integer.parseInt(city.getAreaId()))
+							ToastUtil.showToast(getString(R.string.city_cant_add_repeat_city),ToastUtil.LENGTH_LONG);
+						else
+							turnToWeatherView(mHotCityBeans.get(position-1));
+					}
+					break;
+			}
 		}
+
 	};
+	
+	private void turnToWeatherView(CityBean cityBean) {
+		DataManager.getInstance().setCurrentCityBean(cityBean);
+		Intent intent = new Intent();
+		intent.putExtra(Contants.NAME_AREA_ID, Integer.parseInt(cityBean.getAreaId()));
+		CityAddActivity.this.setResult(CODE_CITY_ADD_RESULT,intent);
+		CityAddActivity.this.finish();
+	}
+	
+	private void handleLocationFailed(String message) {
+		ToastUtil.showToast(message, ToastUtil.LENGTH_LONG);
+	}
 	
 	private void searchCity() {
 		String cityName = mEtSearchCity.getText().toString();

@@ -13,16 +13,17 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import com.lzpnsd.sunshine.bean.CityBean;
 
 import android.content.Context;
-import android.util.Log;
 
 public class CityUtil {
 
+	private final LogUtil log = LogUtil.getLog(getClass());
+	
 	public List<CityBean> parseExcel(Context context){
 		List<CityBean> cityBeans = null;
 		try {
 			InputStream inputStream = context.getAssets().open("areaid_v.xls");
 			cityBeans = readXls(inputStream);
-			Log.i("ParseExcelUtil", cityBeans.toString());
+			log.d(cityBeans.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

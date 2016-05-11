@@ -22,19 +22,15 @@
     <string name="location_start">正在定位...</string>
     <string name="location_failed">定位失败，请手动选择城市</string>
     <string name="location_success">定位成功</string>
+    
+    <!-- city -->
+    <string name="city_location">定位</string>
+    <string name="hint_add_city_search_city">搜索中国城市</string>
+    <string name="city_cant_add_repeat_city">抱歉，不能重复添加城市</string>
+    
     <!-- index -->
     
     <!-- mine -->
     <string name="btn_mine_settings">设置</string>
-    <string name="tv_mine_face_login">登录</string>
-    <string name="tv_mine_face_skin">皮肤小铺</string>
-    <string name="tv_mine_face_dress">穿衣助手</string>
-    <string name="tv_mine_face_find">发现APP</string>
-    <string name="tv_mine_face_moji">墨迹商城</string>
-    <string name="tv_mine_face_mine">我的空气果</string>
-    <string name="tv_mine_face_account">分享账号</string>
-    
-    <!-- add_city -->
-    <string name="hint_add_city_search_city">搜索中国城市</string>
     
 </resources>

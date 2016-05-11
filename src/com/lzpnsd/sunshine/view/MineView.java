@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class MineView {
@@ -20,7 +19,7 @@ public class MineView {
 	private Context mContext;
 
 	private RelativeLayout mView;
-	private LinearLayout mLiSettings;
+	private Button mBtnSettings;
 	
 	public MineView(Context mContext) {
 		super();
@@ -39,8 +38,8 @@ public class MineView {
 	}
 
 	private void setView() {
-		mLiSettings = (LinearLayout) mView.findViewById(R.id.li_settings_setting);
-		mLiSettings.setOnClickListener(mClickListener);
+		mBtnSettings = (Button) mView.findViewById(R.id.btn_mine_settings);
+		mBtnSettings.setOnClickListener(mClickListener);
 	};
 	
 	private OnClickListener mClickListener = new OnClickListener() {
@@ -48,7 +47,7 @@ public class MineView {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-				case R.id.li_settings_setting:
+				case R.id.btn_mine_settings:
 					mContext.startActivity(new Intent(mContext,SettingsActivity.class));
 					break;
 			}

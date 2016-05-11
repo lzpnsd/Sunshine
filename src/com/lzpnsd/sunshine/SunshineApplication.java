@@ -15,6 +15,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Application;
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -42,15 +44,27 @@ public class SunshineApplication extends Application {
 		super();
 	}
 	
+	/**
+	 * 由于使用了多进程(如：在配置文件中service的process设置为:remote),会导致多次执行onCreate方法，所以需要在执行
+	 * 方法是加判断
+	 */
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mContext = getApplicationContext();
-		locationService = new LocationService(getApplicationContext());
-		getWindowScreenMetric();
-		initImageLoader();
-		insertData();
-//		CityWeatherInfoTest.getInstance(mContext).test();
+		log.d("onCreate");
+		String processName = getProcessName(this, android.os.Process.myPid());
+        if (processName != null) {
+            boolean defaultProcess = processName.equals(getPackageName());
+            log.d("default process = "+getPackageName()+",processName = "+processName);
+            if (defaultProcess) {
+				mContext = getApplicationContext();
+				locationService = new LocationService(getApplicationContext());
+				getWindowScreenMetric();
+				initImageLoader();
+				insertData();
+//				CityWeatherInfoTest.getInstance(mContext).test();
+			}
+        }
 	}
 
 	private void insertData() {
@@ -68,7 +82,7 @@ public class SunshineApplication extends Application {
 						cityDBManager.insertIntoCity(cityBeans);
 					}
 					cityDBManager.insertIntoHotCity();
-//					DataManager.getInstance().setIsFirst(false);
+					DataManager.getInstance().setIsFirst(false);
 					log.d("isFirst = "+isFirst);
 				}
 			}.start();
@@ -142,5 +156,24 @@ public class SunshineApplication extends Application {
 		return mScreenHeight;
 	}
 	
+	/**
+	 * 获得进程的名字
+	 * @param cxt Context
+	 * @param pid pid,can use android.os.Process.myPid()
+	 * @return if the process of param's pid not run,return null,else,return process's name
+	 */
+	private String getProcessName(Context cxt, int pid) {
+        ActivityManager am = (ActivityManager) cxt.getSystemService(Context.ACTIVITY_SERVICE);
+        List<RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+        if (runningApps == null) {
+            return null;
+        }
+        for (RunningAppProcessInfo procInfo : runningApps) {
+            if (procInfo.pid == pid) {
+                return procInfo.processName;
+            }
+        }
+        return null;
+    }
 	
 }

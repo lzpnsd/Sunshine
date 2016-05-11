@@ -7,6 +7,8 @@
     <!-- height -->
     <dimen name="height_main_title">50dp</dimen>
     <dimen name="height_list">60dp</dimen>
+    <!-- width -->
+    <dimen name="width_gridview_item">100dp</dimen>
 	<!-- 边距 -->
 	<dimen name="padding_small">2dp</dimen>
     <dimen name="padding_title_horizontal">4dp</dimen>
