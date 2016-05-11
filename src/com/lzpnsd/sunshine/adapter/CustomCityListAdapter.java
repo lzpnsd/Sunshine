@@ -3,6 +3,7 @@ package com.lzpnsd.sunshine.adapter;
 import java.util.List;
 
 import com.lzpnsd.sunshine.R;
+import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.bean.CityListItemBean;
 import com.lzpnsd.sunshine.util.WeatherIconUtil;
 import com.lzpnsd.sunshine.view.CircleImageView;
@@ -21,9 +22,9 @@ public class CustomCityListAdapter extends BaseAdapter {
 	private List<CityListItemBean> mCityListItemBeans;
 	private LayoutInflater mLayoutInflater;
 	
-	public CustomCityListAdapter(Context context, List<CityListItemBean> cityListItemBeans) {
+	public CustomCityListAdapter(List<CityListItemBean> cityListItemBeans) {
 		this.mCityListItemBeans = cityListItemBeans;
-		mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mLayoutInflater = (LayoutInflater) SunshineApplication.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -59,7 +60,7 @@ public class CustomCityListAdapter extends BaseAdapter {
 		CityListItemBean cityListItemBean = mCityListItemBeans.get(position);
 		viewHolder.mCivCityDelete.setVisibility(cityListItemBean.isShowDelete()?View.VISIBLE:View.GONE);
 		viewHolder.mCivCityDelete.setOnClickListener(clickListener);
-		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getDaySmallImageResource(cityListItemBean.getType()), viewHolder.mCivCityWeatherIcon);
+		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getDaySmallImageResource(cityListItemBean.getWeatherType()), viewHolder.mCivCityWeatherIcon);
 		viewHolder.mTvCityName.setText(cityListItemBean.getCityName());
 		viewHolder.mTvCityWeather.setText(cityListItemBean.getLowTemperature()+"/"+cityListItemBean.getHighTemperature()+"℃");
 		return convertView;

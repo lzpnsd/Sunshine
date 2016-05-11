@@ -95,7 +95,6 @@ public class MainActivity extends Activity {
 		mGestureDetector = new GestureDetector(getBaseContext(), mGestureListener);
 		mRgBottomSelector.setOnCheckedChangeListener(mCheckedChangeListener);
 		mRgBottomSelector.setOnTouchListener(mOnTouchListener);
-		
 	}
 
 	@Override
@@ -114,7 +113,6 @@ public class MainActivity extends Activity {
 		public boolean onTouch(View v, MotionEvent event) {
 			switch (v.getId()) {
 				case R.id.rg_main_bottom_selector:
-					log.d("rg selector touch");
 					return true;
 			}
 			return false;
@@ -271,7 +269,7 @@ public class MainActivity extends Activity {
 		float eventY = ev.getY();
 		log.d("touch y = "+eventY);
 		log.d("rg Y = "+mRgButtomSelectorTopY);
-		if(eventY >= mRgButtomSelectorTopY){
+		if(eventY >= mRgButtomSelectorTopY || eventY <= AdaptationUtil.dip2px(getApplicationContext(), 50)){
 			return super.dispatchTouchEvent(ev);
 		}
 //		if(eventY >= mRlMain.getBottom() && eventY <= mRgBottomSelector.getY()){
@@ -284,10 +282,10 @@ public class MainActivity extends Activity {
 	public boolean onTouchEvent(MotionEvent event) {
 		// 将该activity上的触碰事件交给GestureDetector处理
 		float eventY = event.getY();
-		if(eventY >= mRgButtomSelectorTopY){
+		if(eventY >= mRgButtomSelectorTopY || eventY <= AdaptationUtil.dip2px(getApplicationContext(), 50)){
 			return super.onTouchEvent(event);
 		}
 		return mGestureDetector.onTouchEvent(event);
 	};
-
+	
 }

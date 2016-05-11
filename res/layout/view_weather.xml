@@ -50,7 +50,8 @@
         android:layout_marginTop="@dimen/height_main_title"
         android:scrollbars="none"
         android:paddingLeft="@dimen/padding_content"
-        android:paddingRight="@dimen/padding_content" >
+        android:paddingRight="@dimen/padding_content"
+        android:layout_marginBottom="@dimen/height_main_title" >
 
         <RelativeLayout
             android:layout_width="match_parent"

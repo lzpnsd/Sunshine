@@ -9,30 +9,32 @@ package com.lzpnsd.sunshine.bean;
  */
 public class CityListItemBean {
 
-	private String type;
+	private int area_id;
 	private String cityName;
+	private String weatherType;
 	private int highTemperature;
 	private int lowTemperature;
 	private boolean isShowDelete;
-	
+
 	public CityListItemBean() {
 	}
 
-	public CityListItemBean(String type, String cityName, int highTemperature, int lowTemperature, boolean isShowDelete) {
+	public CityListItemBean(int area_id, String cityName, String weatherType, int highTemperature, int lowTemperature, boolean isShowDelete) {
 		super();
-		this.type = type;
+		this.area_id = area_id;
 		this.cityName = cityName;
+		this.weatherType = weatherType;
 		this.highTemperature = highTemperature;
 		this.lowTemperature = lowTemperature;
 		this.isShowDelete = isShowDelete;
 	}
 
-	public String getType() {
-		return type;
+	public int getArea_id() {
+		return area_id;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setArea_id(int area_id) {
+		this.area_id = area_id;
 	}
 
 	public String getCityName() {
@@ -41,6 +43,14 @@ public class CityListItemBean {
 
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
+	}
+
+	public String getWeatherType() {
+		return weatherType;
+	}
+
+	public void setWeatherType(String weatherType) {
+		this.weatherType = weatherType;
 	}
 
 	public int getHighTemperature() {
@@ -69,7 +79,7 @@ public class CityListItemBean {
 
 	@Override
 	public String toString() {
-		return "CityListItemBean [type=" + type + ", cityName=" + cityName + ", highTemperature=" + highTemperature + ", lowTemperature=" + lowTemperature + ", isShowDelete=" + isShowDelete + "]";
+		return "CityListItemBean [area_id=" + area_id + ", cityName=" + cityName + ", weatherType=" + weatherType + ", highTemperature=" + highTemperature + ", lowTemperature=" + lowTemperature + ", isShowDelete=" + isShowDelete + "]";
 	}
 
 }

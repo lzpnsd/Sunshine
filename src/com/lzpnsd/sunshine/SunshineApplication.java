@@ -1,5 +1,7 @@
 package com.lzpnsd.sunshine;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import com.lzpnsd.sunshine.bean.CityBean;
@@ -8,6 +10,7 @@ import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.service.LocationService;
 import com.lzpnsd.sunshine.util.CityUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
+import com.lzpnsd.sunshine.util.WeatherUtil;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -61,6 +64,14 @@ public class SunshineApplication extends Application {
 				locationService = new LocationService(getApplicationContext());
 				getWindowScreenMetric();
 				initImageLoader();
+				int currentCityId = DataManager.getInstance().getCurrentCityId();
+				try {
+					WeatherUtil.getInstance().getCurrentCityWeatherInfo();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				insertData();
 //				CityWeatherInfoTest.getInstance(mContext).test();
 			}
@@ -101,7 +112,7 @@ public class SunshineApplication extends Application {
 			    .tasksProcessingOrder(QueueProcessingType.LIFO)  
 			    .defaultDisplayImageOptions(DisplayImageOptions.createSimple())  
 			    .imageDownloader(new BaseImageDownloader(mContext, 5 * 1000, 30 * 1000)) // connectTimeout (5 s), readTimeout (30 s)超时时间  
-			    .writeDebugLogs() // Remove for release app  
+//			    .writeDebugLogs() // Remove for release app  
 			    .build();//开始构建  
 		ImageLoader.getInstance().init(config);
 		

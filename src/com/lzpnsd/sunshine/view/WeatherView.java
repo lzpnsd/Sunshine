@@ -73,15 +73,21 @@ public class WeatherView {
 		mView = (RelativeLayout) inflater.inflate(R.layout.view_weather, null);
 		setViews();
 		showLastInfo();
-		startLocation();
 		if(!SunshineApplication.isFirst){
 			refreshData();
+		}else{
+			startLocation();
 		}
 		return mView;
 	}
 
 	private void showLastInfo() {
-		
+		List<WeatherInfoBean> currentWeatherInfoBeans = DataManager.getInstance().getCurrentWeatherInfoBeans();
+		if(null != currentWeatherInfoBeans && currentWeatherInfoBeans.size()>0){
+			initData();
+			mHorizontalChartView.addChildView(currentWeatherInfoBeans);
+			mHorizontalChartView.notifyDataChanged();
+		}
 	}
 
 	public void startLocation() {
@@ -99,6 +105,7 @@ public class WeatherView {
 						CityBean cityBean = CityDBManager.getInstance().queryCityByName(cityName);
 						if(cityBean != null){
 							DataManager.getInstance().setCurrentCityBean(cityBean);
+							CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
 							ToastUtil.showToast(mContext.getString(R.string.location_success), ToastUtil.LENGTH_LONG);
 							refreshData();
 						}else{
@@ -141,6 +148,7 @@ public class WeatherView {
 
 			@Override
 			public void onClick(View v, int position) {
+				
 			}
 		});
 	}

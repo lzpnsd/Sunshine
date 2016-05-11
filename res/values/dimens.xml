@@ -28,7 +28,7 @@
     <dimen name="item_margin_view_horizontal">20dp</dimen>
     <dimen name="item_text_size_title">14sp</dimen>
     <dimen name="item_text_size_content">11sp</dimen>
-    <dimen name="item_width_chart_item">60dp</dimen>
+    <dimen name="item_width_chart_item">55dp</dimen>
     <dimen name="item_height_chart_item_custom">130dp</dimen>
     <dimen name="item_height_chart_item">320dp</dimen>
     <dimen name="item_size_image">25dp</dimen>

@@ -34,7 +34,7 @@ public class WeatherIconUtil {
 			String nowTime = simpleDateFormat.format(new Date());
 			// String nowTime = DateFormat.format("hh:mm",
 			// System.currentTimeMillis()).toString();
-			log.d("current time is " + nowTime);
+//			log.d("current time is " + nowTime);
 			return isSunRise(sunRise, sunSet, nowTime);
 		}
 		return true;
@@ -64,14 +64,6 @@ public class WeatherIconUtil {
 			}
 		}
 		return true;
-	}
-
-	private static int getSmallImageResource(String type) {
-		return matchSmallType(type);
-	}
-	
-	private static int getBigImageResource(String type){
-		return matchBigType(type);
 	}
 
 	public static int getDaySmallImageResource(String type){
@@ -114,34 +106,34 @@ public class WeatherIconUtil {
 		log.d("type = "+type);
 		String[] rains = new String[] {};
 		String[] snows = new String[] {};
-		if (type.contains("雨")) {
-				return R.drawable.ww33;
-		} else if (type.contains("雪")) {
-				return R.drawable.ww34;
-		}else if("晴".equals(type)){
-				return R.drawable.ww30;
-		}else if("多云".equals(type)){
-				return R.drawable.ww31;
-		}else if(type.contains("晴") && type.equals("多云")){
-				return R.drawable.ww31;
-		}else if("阴".equals(type)){
+		if ("晴".equals(type)) {
+			return R.drawable.ww30;
+		} else if ("多云".equals(type)) {
+			return R.drawable.ww31;
+		} else if (type.contains("晴") && type.equals("多云")) {
+			return R.drawable.ww31;
+		} else if ("阴".equals(type)) {
 			return R.drawable.ww2;
-		}else if("阵雨".equals(type)){
+		} else if ("阵雨".equals(type)) {
 			return R.drawable.ww3;
-		}else if("雷阵雨".equals(type) || type.contains("雷电")){
+		} else if ("雷阵雨".equals(type) || type.contains("雷电")) {
 			return R.drawable.ww4;
-		}else if("雷阵雪".equals(type)){
+		} else if ("雷阵雪".equals(type)) {
 			return R.drawable.ww5;
-		}else if("雾".equals(type)){
-				return R.drawable.ww32;
-		}else if("冰雹".equals(type) || type.equals("雹")){
-				return R.drawable.ww36;
-		}else if("霾".equals(type) || type.contains("霾")){
+		} else if ("雾".equals(type)) {
+			return R.drawable.ww32;
+		} else if ("冰雹".equals(type) || type.equals("雹")) {
+			return R.drawable.ww36;
+		} else if ("霾".equals(type) || type.contains("霾")) {
 			return R.drawable.ww45;
-		}else if("阵冰雹".equals(type)){
-				return R.drawable.ww35;
-		}else if("".equals(type)){
+		} else if ("阵冰雹".equals(type)) {
+			return R.drawable.ww35;
+		} else if ("".equals(type)) {
 			return R.drawable.ww0;
+		} else if (type.contains("雨")) {
+			return R.drawable.ww33;
+		} else if (type.contains("雪")) {
+			return R.drawable.ww34;
 		}
 		return 0;
 	}
@@ -186,100 +178,38 @@ public class WeatherIconUtil {
 		log.d("type = "+type);
 		String[] rains = new String[] {};
 		String[] snows = new String[] {};
-		if (type.contains("雨")) {
-				return R.drawable.org3_ww33;
-		} else if (type.contains("雪")) {
-				return R.drawable.org3_ww34;
-		}else if("晴".equals(type)){
-				return R.drawable.org3_ww30;
-		}else if("多云".equals(type)){
-				return R.drawable.org3_ww31;
-		}else if(type.contains("晴") && type.equals("多云")){
-				return R.drawable.org3_ww31;
-		}else if("阴".equals(type)){
+		if ("晴".equals(type)) {
+			return R.drawable.org3_ww30;
+		} else if ("多云".equals(type)) {
+			return R.drawable.org3_ww31;
+		} else if (type.contains("晴") && type.equals("多云")) {
+			return R.drawable.org3_ww31;
+		} else if ("阴".equals(type)) {
 			return R.drawable.org3_ww2;
-		}else if("阵雨".equals(type)){
+		} else if ("阵雨".equals(type)) {
 			return R.drawable.org3_ww3;
-		}else if("雷阵雨".equals(type) || type.contains("雷电")){
+		} else if ("雷阵雨".equals(type) || type.contains("雷电")) {
 			return R.drawable.org3_ww4;
-		}else if("雷阵雪".equals(type)){
+		} else if ("雷阵雪".equals(type)) {
 			return R.drawable.org3_ww5;
-		}else if("雾".equals(type)){
-				return R.drawable.org3_ww32;
-		}else if("冰雹".equals(type) || type.equals("雹")){
-				return R.drawable.org3_ww36;
-		}else if("霾".equals(type) || type.contains("霾")){
+		} else if ("雾".equals(type)) {
+			return R.drawable.org3_ww32;
+		} else if ("冰雹".equals(type) || type.equals("雹")) {
+			return R.drawable.org3_ww36;
+		} else if ("霾".equals(type) || type.contains("霾")) {
 			return R.drawable.org3_ww45;
-		}else if("阵冰雹".equals(type)){
-				return R.drawable.org3_ww35;
-		}else if("".equals(type)){
+		} else if ("阵冰雹".equals(type)) {
+			return R.drawable.org3_ww35;
+		} else if ("".equals(type)) {
 			return R.drawable.org3_ww0;
+		} else if (type.contains("雨")) {
+			return R.drawable.org3_ww33;
+		} else if (type.contains("雪")) {
+			return R.drawable.org3_ww34;
 		}
 		return 0;
 	}
 	
-	private static int matchSmallType(String type) {
-		log.d("type = "+type);
-		String[] rains = new String[] {};
-		String[] snows = new String[] {};
-		if (type.contains("雨")) {
-			if (!isDayOrNight()) {
-				return R.drawable.ww33;
-			}else{
-				return matchSmallType(0, type, rains);
-			}
-		} else if (type.contains("雪")) {
-			if (!isDayOrNight()) {
-				return R.drawable.ww34;
-			}else{
-				return matchSmallType(1, type, snows);
-			}
-		}else if("晴".equals(type)){
-			if(!isDayOrNight()){
-				return R.drawable.ww30;
-			}
-			return R.drawable.ww0;
-		}else if("多云".equals(type)){
-			if(!isDayOrNight()){
-				return R.drawable.ww31;
-			}
-			return R.drawable.ww1;
-		}else if(type.contains("晴") && type.equals("多云")){
-			if(!isDayOrNight()){
-				return R.drawable.ww31;
-			}
-			return R.drawable.ww1;
-		}else if("阴".equals(type)){
-			return R.drawable.ww2;
-		}else if("阵雨".equals(type)){
-			return R.drawable.ww3;
-		}else if("雷阵雨".equals(type) || type.contains("雷电")){
-			return R.drawable.ww4;
-		}else if("雷阵雪".equals(type)){
-			return R.drawable.ww5;
-		}else if("雾".equals(type)){
-			if(!isDayOrNight()){
-				return R.drawable.ww32;
-			}
-			return R.drawable.ww18;
-		}else if("冰雹".equals(type) || type.equals("雹")){
-			if(!isDayOrNight()){
-				return R.drawable.ww36;
-			}
-			return R.drawable.ww20;
-		}else if("霾".equals(type) || type.contains("霾")){
-			return R.drawable.ww45;
-		}else if("阵冰雹".equals(type)){
-			if(!isDayOrNight()){
-				return R.drawable.ww35;
-			}
-			return R.drawable.ww29;
-		}else if("".equals(type)){
-			return R.drawable.ww0;
-		}
-		return 0;
-	}
-
 	/**
 	 * 
 	 * @param t 用来表示是雨还是雪，0表示雨，1表示雪
@@ -305,6 +235,8 @@ public class WeatherIconUtil {
 				return R.drawable.ww10;
 			}else if("持续降雨".equals(type)){
 				return R.drawable.ww19;
+			}else if("雷阵雨".equals(type)){
+				return R.drawable.ww4;
 			}else{
 				return R.drawable.ww19;
 //				int l = type.length();
@@ -328,71 +260,11 @@ public class WeatherIconUtil {
 				return R.drawable.ww16;
 			}else if("暴雪".equals(type)){
 				return R.drawable.ww17;
+			}else if("雷阵雪".equals(type)){
+				return R.drawable.ww5;
 			}else{
 				return R.drawable.ww15;
 			}
-		}
-		return 0;
-	}
-	
-	private static int matchBigType(String type) {
-		log.d("type = "+type);
-		String[] rains = new String[] {};
-		String[] snows = new String[] {};
-		if (type.contains("雨")) {
-			if (!isDayOrNight()) {
-				return R.drawable.org3_ww33;
-			}else{
-				return matchBigType(0, type, rains);
-			}
-		} else if (type.contains("雪")) {
-			if (!isDayOrNight()) {
-				return R.drawable.org3_ww34;
-			}else{
-				return matchBigType(1, type, snows);
-			}
-		}else if("晴".equals(type)){
-			if(!isDayOrNight()){
-				return R.drawable.org3_ww30;
-			}
-			return R.drawable.org3_ww0;
-		}else if("多云".equals(type)){
-			if(!isDayOrNight()){
-				return R.drawable.org3_ww31;
-			}
-			return R.drawable.org3_ww1;
-		}else if(type.contains("晴") && type.equals("多云")){
-			if(!isDayOrNight()){
-				return R.drawable.org3_ww31;
-			}
-			return R.drawable.org3_ww1;
-		}else if("阴".equals(type)){
-			return R.drawable.org3_ww2;
-		}else if("阵雨".equals(type)){
-			return R.drawable.org3_ww3;
-		}else if("雷阵雨".equals(type) || type.contains("雷电")){
-			return R.drawable.org3_ww4;
-		}else if("雷阵雪".equals(type)){
-			return R.drawable.org3_ww5;
-		}else if("雾".equals(type)){
-			if(!isDayOrNight()){
-				return R.drawable.org3_ww32;
-			}
-			return R.drawable.org3_ww18;
-		}else if("冰雹".equals(type) || type.equals("雹")){
-			if(!isDayOrNight()){
-				return R.drawable.org3_ww36;
-			}
-			return R.drawable.org3_ww20;
-		}else if("霾".equals(type) || type.contains("霾")){
-			return R.drawable.org3_ww45;
-		}else if("阵冰雹".equals(type)){
-			if(!isDayOrNight()){
-				return R.drawable.org3_ww35;
-			}
-			return R.drawable.org3_ww29;
-		}else if("".equals(type)){
-			return R.drawable.org3_ww0;
 		}
 		return 0;
 	}
@@ -422,6 +294,8 @@ public class WeatherIconUtil {
 				return R.drawable.org3_ww10;
 			}else if("持续降雨".equals(type)){
 				return R.drawable.org3_ww19;
+			}else if("雷阵雨".equals(type)){
+				return R.drawable.org3_ww4;
 			}else{
 				return R.drawable.org3_ww19;
 //				int l = type.length();
@@ -445,6 +319,8 @@ public class WeatherIconUtil {
 				return R.drawable.org3_ww16;
 			}else if("暴雪".equals(type)){
 				return R.drawable.org3_ww17;
+			}else if("雷阵雪".equals(type)){
+				return R.drawable.org3_ww5;
 			}else{
 				return R.drawable.org3_ww15;
 			}

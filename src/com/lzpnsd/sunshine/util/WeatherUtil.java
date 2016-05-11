@@ -1,12 +1,22 @@
 package com.lzpnsd.sunshine.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,11 +25,18 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.lzpnsd.sunshine.bean.AlarmBean;
 import com.lzpnsd.sunshine.bean.CityWeatherBean;
 import com.lzpnsd.sunshine.bean.EnvironmentBean;
 import com.lzpnsd.sunshine.bean.LifeIndexBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
+import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.manager.DataManager;
 
 import android.os.Handler;
@@ -133,8 +150,9 @@ public class WeatherUtil {
 					if (HttpURLConnection.HTTP_OK == conn.getResponseCode()) {
 						log.d("connect success");
 						List<WeatherInfoBean> weatherInfoBeans = new ArrayList<WeatherInfoBean>();
-						weatherInfoBeans.addAll(parseWeather(conn.getInputStream()));
-						log.d("weatherInfoBeans = "+weatherInfoBeans+",weatherInfoBeans.size = "+weatherInfoBeans.size());
+						InputStream inputStream = conn.getInputStream();
+						weatherInfoBeans.addAll(parseWeather(inputStream));
+						saveWeatherInfo(cityId);
 						if(DataManager.getInstance().getCurrentCityId() == cityId){//如果当前城市id和查询的城市id一样，保存这次查询的信息
 							saveCurrentWeatherInfo();
 						}
@@ -176,7 +194,108 @@ public class WeatherUtil {
 		DataManager.getInstance().setCurrentLifeIndexBeans(mLifeIndexBeans);
 		DataManager.getInstance().setCurrentWeatherInfoBeans(mWeatherInfoBeans);
 	}
+	
+	private void saveWeatherInfo(int cityId) {
+		File file = new File(Contants.PATH_CACHE_WEATHER_FILE+File.separator+cityId+".xml");
+		log.d("file path = "+file.getAbsolutePath());
+		if(!file.getParentFile().exists())
+			file.getParentFile().mkdirs();
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			FileWriter fileWriter = new FileWriter(file,false);
+			Gson gson = new Gson();
+			fileWriter.write(gson.toJson(mAlarmBeans) +"\n"
+					+gson.toJson(mCityWeatherBeans) +"\n"
+					+gson.toJson(mEnvironmentBeans) + "\n"
+					+gson.toJson(mLifeIndexBeans) + "\n"
+					+gson.toJson(mWeatherInfoBeans) + "\n");
+			fileWriter.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
+	/**
+	 * 如果该城市没有保存最后的天气情况，则返回null
+	 * @param cityId
+	 * @param T
+	 * @return
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 */
+	public <T> List<T> getWeatherInfo(int cityId, Class T) throws IOException, FileNotFoundException {
+		File file = new File(Contants.PATH_CACHE_WEATHER_FILE + File.separator + cityId + ".xml");
+		if(!file.exists()){
+			return null;
+		}
+		FileReader fileReader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		String name = T.getName();
+		List<T> list = null;
+		if (AlarmBean.class.getName().equals(name)) {
+			list = (List<T>) new ArrayList<AlarmBean>();
+		} else if (CityWeatherBean.class.getName().equals(name)) {
+			bufferedReader.readLine();
+			list = (List<T>) new ArrayList<CityWeatherBean>();
+		} else if (EnvironmentBean.class.getName().equals(name)) {
+			bufferedReader.readLine();
+			bufferedReader.readLine();
+			list = (List<T>) new ArrayList<EnvironmentBean>();
+		} else if (LifeIndexBean.class.getName().equals(name)) {
+			bufferedReader.readLine();
+			bufferedReader.readLine();
+			bufferedReader.readLine();
+			list = (List<T>) new ArrayList<LifeIndexBean>();
+		} else if (WeatherInfoBean.class.getName().equals(name)) {
+			bufferedReader.readLine();
+			bufferedReader.readLine();
+			bufferedReader.readLine();
+			bufferedReader.readLine();
+			list = (List<T>) new ArrayList<WeatherInfoBean>();
+		}
+		String string = bufferedReader.readLine();
+		Gson gson = new Gson();
+		JsonArray array = new JsonParser().parse(string).getAsJsonArray();
+//		JsonArray fromJson = gson.fromJson(string,new TypeToken<List<T>>(){}.getType());
+		for(final JsonElement elem : array){
+			list.add((T) new Gson().fromJson(elem, T));
+		}
+		return list;
+	}
+	
+	public void getCurrentCityWeatherInfo() throws FileNotFoundException,IOException{
+		File file = new File(Contants.PATH_CACHE_WEATHER_FILE + File.separator + DataManager.getInstance().getCurrentCityId() + ".xml");
+		if(!file.exists()){
+			return;
+		}
+		FileReader fileReader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		Gson gson = new Gson();
+		String alarmLine = bufferedReader.readLine();
+		List<AlarmBean> alarmList = gson.fromJson(alarmLine,new TypeToken<List<AlarmBean>>() {}.getType());
+		DataManager.getInstance().setCurrentAlarmBeans(alarmList);
+		String cityWeatherLine = bufferedReader.readLine();
+		List<CityWeatherBean> cityWeatherList = gson.fromJson(cityWeatherLine,new TypeToken<List<CityWeatherBean>>() {}.getType());
+		DataManager.getInstance().setCurrentCityWeatherBeans(cityWeatherList);
+		String environmentLine = bufferedReader.readLine();
+		List<EnvironmentBean> environmentList = gson.fromJson(environmentLine,new TypeToken<List<EnvironmentBean>>() {}.getType());
+		DataManager.getInstance().setCurrentEnvironmentBeans(environmentList);
+		String lifeIndexLine = bufferedReader.readLine();
+		List<LifeIndexBean> lifeIndexList = gson.fromJson(lifeIndexLine,new TypeToken<List<LifeIndexBean>>() {}.getType());
+		DataManager.getInstance().setCurrentLifeIndexBeans(lifeIndexList);
+		String weatherInfoLine = bufferedReader.readLine();
+		List<WeatherInfoBean> weatherInfoList = gson.fromJson(weatherInfoLine,new TypeToken<List<WeatherInfoBean>>() {}.getType());
+		DataManager.getInstance().setCurrentWeatherInfoBeans(weatherInfoList);
+	}
+	
 	private List<WeatherInfoBean> parseWeather(InputStream inputStream) {
 
 		try {
@@ -453,8 +572,8 @@ public class WeatherUtil {
 //		catch (Exception e) {
 //			log.d(e.toString());
 //		}
+		
 		return mWeatherInfoBeans;
-
 	}
 
 	/**

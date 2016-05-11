@@ -14,7 +14,6 @@ import com.lzpnsd.sunshine.util.LogUtil;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
@@ -90,18 +89,18 @@ public class CustomHorizontalView extends HorizontalScrollView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		log.d("onDraw(");
+//		log.d("onDraw(");
 	}
 	
 	@Override
 	protected void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
 		int count = mCustomItemViews.size();
-		log.d("count = "+ count);
+//		log.d("count = "+ count);
 		for(int i = 0;i < count;i++){
 			CustomItemView customItemView = mCustomItemViews.get(i);
 			ChartPointBean chartPointBean = customItemView.getChartPoint();
-			log.d("chartPointBean = "+chartPointBean.toString());
+//			log.d("chartPointBean = "+chartPointBean.toString());
 			float xPos = chartPointBean.getxPosition()+chartPointBean.getxChartView()+customItemView.getLeft()+mHorizontalPadding;
 			float yHighPos = chartPointBean.getyHighPosition()+chartPointBean.getyChartView()+customItemView.getTop()+mVerticalPadding;
 			float yLowPos = chartPointBean.getyLowPosition()+chartPointBean.getyChartView()+customItemView.getTop()+mVerticalPadding;

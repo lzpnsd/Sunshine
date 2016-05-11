@@ -8,14 +8,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SavedCityDatabaseHelper extends SQLiteOpenHelper {
 
-	private static final String NAME_SAVES_CITY = "saved_city"; 
+	public static final String NAME_SAVES_CITY = "saved_city"; 
 	
 	public SavedCityDatabaseHelper(Context context) {
-		super(context, NAME_SAVES_CITY, null, Contants.DATABASE_VERSION);
+		super(context, "saved_city.db", null, Contants.DATABASE_VERSION);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		String sql = "create table if not exists "+NAME_SAVES_CITY +" ("
+				+ "_id integer primary key autoincrement,"
+				+ "area_id text,"
+				+ "name_cn text"
+				+")";
+		db.execSQL(sql);
 	}
 
 	@Override

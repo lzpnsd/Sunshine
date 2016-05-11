@@ -1,5 +1,9 @@
 package com.lzpnsd.sunshine.manager;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import com.lzpnsd.sunshine.SunshineApplication;
@@ -9,6 +13,7 @@ import com.lzpnsd.sunshine.bean.CityWeatherBean;
 import com.lzpnsd.sunshine.bean.EnvironmentBean;
 import com.lzpnsd.sunshine.bean.LifeIndexBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
+import com.lzpnsd.sunshine.contants.Contants;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -179,6 +184,36 @@ public class DataManager {
 	
 	public int getSaveCitySize(){
 		return 1;
+	}
+	
+	public void saveWeatherIntoFile(int cityId,List<AlarmBean> alarmBeans,List<CityWeatherBean> cityWeatherBeans,
+			List<EnvironmentBean> environmentBeans,List<LifeIndexBean> lifeIndexBeans,List<WeatherInfoBean> weatherInfoBeans){
+		File file = new File(Contants.PATH_CACHE_WEATHER_FILE+File.separator+cityId+".xml");
+		if(!file.getParentFile().exists())
+			file.getParentFile().mkdirs();
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		FileOutputStream fos;
+//		try {
+//			fos = new FileOutputStream(file);
+//			byte[] buffer = new byte[3*1024];
+//			int length;
+//			while((length = inputStream.read(buffer)) != -1){
+//				log.d("length = "+length);
+//				fos.write(buffer, 0, length);
+//			}
+//			log.d("length = "+length);
+//			log.d("save weather info to file success");
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 }

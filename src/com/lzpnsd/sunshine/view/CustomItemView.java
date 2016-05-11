@@ -71,8 +71,8 @@ public class CustomItemView extends LinearLayout{
 		getLocationOnScreen(location);
 		mXPosition = location[0];
 		mYPosition = location[1];
-		log.d("mXPosition = "+mXPosition);
-		log.d("mYPosition = "+mYPosition);
+//		log.d("mXPosition = "+mXPosition);
+//		log.d("mYPosition = "+mYPosition);
 	}
 	
 	private void initView(){
@@ -92,18 +92,18 @@ public class CustomItemView extends LinearLayout{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		log.d("onDraw");
+//		log.d("onDraw");
 	}
 	
 	@Override
 	protected void dispatchDraw(Canvas canvas) {
 		super.dispatchDraw(canvas);
-		log.d("dispatchDraw");
+//		log.d("dispatchDraw");
 	}
 	
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
-		log.d("dispatchTouchEvent,event = "+ev.toString());
+//		log.d("dispatchTouchEvent,event = "+ev.toString());
 		switch (ev.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				setBackgroundColor(getResources().getColor(R.color.trans_22));
@@ -123,8 +123,8 @@ public class CustomItemView extends LinearLayout{
 		String date = weatherInfoBean.getDate();
 		mTvWeek.setText(date.substring(date.length()-2, date.length()));
 		mTvDayWeather.setText(weatherInfoBean.getDayType());
-		log.d("weatherInfoBean.getDayType = "+weatherInfoBean.getDayType()+"image resource = "+WeatherIconUtil.getDaySmallImageResource(weatherInfoBean.getDayType()));
-		log.d("weatherInfoBean.getNightType = "+weatherInfoBean.getNightType()+"image resource = "+WeatherIconUtil.getNightSmallImageResource(weatherInfoBean.getNightType()));
+//		log.d("weatherInfoBean.getDayType = "+weatherInfoBean.getDayType()+"image resource = "+WeatherIconUtil.getDaySmallImageResource(weatherInfoBean.getDayType()));
+//		log.d("weatherInfoBean.getNightType = "+weatherInfoBean.getNightType()+"image resource = "+WeatherIconUtil.getNightSmallImageResource(weatherInfoBean.getNightType()));
 		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getDaySmallImageResource(weatherInfoBean.getDayType()), mIvDayPic);
 		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getNightSmallImageResource(weatherInfoBean.getNightType()), mIvNightPic);
 		mTvNightWeather.setText(weatherInfoBean.getNightType());
@@ -137,7 +137,7 @@ public class CustomItemView extends LinearLayout{
 		this.mHighTem = highTem;
 		this.mLowTem = lowTem;
 		if(mCallCount >=3){
-			log.d("setData()");
+//			log.d("setData()");
 			mCustomChartView.setData(mHighTem, mLowTem, Integer.parseInt(mWeatherInfoBean.getHighTemperature()), Integer.parseInt(mWeatherInfoBean.getLowTemperature()));
 		}
 		invalidate();

@@ -18,4 +18,6 @@ public class Contants {
 	
 	public static final int DATABASE_VERSION = 1;
 	
+	public static final String PATH_CACHE_WEATHER_FILE = SunshineApplication.getContext().getFilesDir().getAbsolutePath();
+	
 }

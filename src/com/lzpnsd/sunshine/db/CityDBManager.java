@@ -200,8 +200,46 @@ public class CityDBManager {
 			cityBean.setProvEn(prov_en);
 			cityBeans.add(cityBean);
 		}
-		database.close();
 		cursor.close();
+		database.close();
+		return cityBeans;
+	}
+	
+	public void insertIntoSaved(int cityId,String cityName){
+		log.d("city_id="+cityId+",cityName="+cityName);
+		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(SunshineApplication.getContext());
+		SQLiteDatabase database = savedCityDatabaseHelper.getReadableDatabase();
+		Cursor cursor = database.query(SavedCityDatabaseHelper.NAME_SAVES_CITY, null, null, null, null, null, null);
+		while (cursor.moveToNext()) {
+			String area_id = cursor.getString(cursor.getColumnIndex("area_id"));
+			if(Integer.parseInt(area_id) == cityId){
+				log.d("area_id="+area_id);
+				cursor.close();
+				database.close();
+				return;
+			}
+		}
+		String sql = "insert into " + SavedCityDatabaseHelper.NAME_SAVES_CITY+ " (area_id,name_cn)" + "values ('" + cityId + "','" + cityName + "')";
+		database.execSQL(sql);
+		database.close();
+	}
+	
+	public List<CityBean> querySavedCity(){
+		List<CityBean> cityBeans = new ArrayList<CityBean>();
+		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(SunshineApplication.getContext());
+		SQLiteDatabase database = savedCityDatabaseHelper.getReadableDatabase();
+		String sql = "select * from " + SavedCityDatabaseHelper.NAME_SAVES_CITY;
+		Cursor cursor = database.rawQuery(sql, null);
+		while(cursor.moveToNext()){
+			String area_id = cursor.getString(cursor.getColumnIndex("area_id"));
+			String name_cn = cursor.getString(cursor.getColumnIndex("name_cn"));
+			CityBean cityBean = new CityBean();
+			cityBean.setAreaId(area_id);
+			cityBean.setNameCn(name_cn);
+			cityBeans.add(cityBean);
+		}
+		cursor.close();
+		database.close();
 		return cityBeans;
 	}
 	

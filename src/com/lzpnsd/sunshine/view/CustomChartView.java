@@ -78,7 +78,7 @@ public class CustomChartView extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		if (mCanDraw) {
-			log.d("xposition = " + mXPosition);
+//			log.d("xposition = " + mXPosition);
 			canvas.drawCircle(mXPosition, mYHeightPosition, AdaptationUtil.dip2px(mContext, 3), mPointPaint);
 			canvas.drawCircle(mXPosition, mYLowPosition, AdaptationUtil.dip2px(mContext, 3), mPointPaint);
 			float measureHeightText = mTextPaint.measureText(mHeightTemperature);
@@ -106,7 +106,7 @@ public class CustomChartView extends View {
 		chartPointBean.setxPosition(mXPosition);
 		chartPointBean.setyHighPosition(mYHeightPosition);
 		chartPointBean.setyLowPosition(mYLowPosition);
-		log.d(chartPointBean.toString());
+//		log.d(chartPointBean.toString());
 		return chartPointBean;
 	}
 

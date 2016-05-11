@@ -152,6 +152,7 @@ public class CityAddActivity extends Activity{
 			switch (parent.getId()) {
 				case R.id.lv_add_city_search_result:
 					final CityBean cityBean = mCityBeans.get(position);
+					CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
 					turnToWeatherView(cityBean);
 					break;
 				case R.id.gv_add_city_hot_city:
@@ -168,6 +169,7 @@ public class CityAddActivity extends Activity{
 									CityBean cityBean = CityDBManager.getInstance().queryCityByName(cityName);
 									if(cityBean != null){
 										DataManager.getInstance().setCurrentCityBean(cityBean);
+										CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
 										ToastUtil.showToast(getString(R.string.location_success), ToastUtil.LENGTH_LONG);
 										turnToWeatherView(cityBean);
 									}else{
@@ -189,8 +191,10 @@ public class CityAddActivity extends Activity{
 						CityBean city = mHotCityBeans.get(position-1);
 						if(DataManager.getInstance().getCurrentCityId() == Integer.parseInt(city.getAreaId()))
 							ToastUtil.showToast(getString(R.string.city_cant_add_repeat_city),ToastUtil.LENGTH_LONG);
-						else
+						else{
+							CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(city.getAreaId()), city.getNameCn());
 							turnToWeatherView(mHotCityBeans.get(position-1));
+						}
 					}
 					break;
 			}
