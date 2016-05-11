@@ -26,6 +26,13 @@
     
     <!-- mine -->
     <string name="btn_mine_settings">设置</string>
+    <string name="tv_mine_face_login">登录</string>
+    <string name="tv_mine_face_skin">皮肤小铺</string>
+    <string name="tv_mine_face_dress">穿衣助手</string>
+    <string name="tv_mine_face_find">发现APP</string>
+    <string name="tv_mine_face_moji">墨迹商城</string>
+    <string name="tv_mine_face_mine">我的空气果</string>
+    <string name="tv_mine_face_account">分享账号</string>
     
     <!-- add_city -->
     <string name="hint_add_city_search_city">搜索中国城市</string>

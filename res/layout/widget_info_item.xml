@@ -1,15 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:id="@+id/Li_widget_layout"
+    style="@style/widget_item_linearlayout_style"
+    android:background="@drawable/corner_widget_background"
+    android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/tv_widget_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:text="@string/hello_world"
-        android:textSize="20sp" 
-        android:layout_gravity="center_horizontal|center"/>
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_vertical|center"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_widget_time"
+            style="@style/widget_item_linearlayout_style"
+            android:text="10:20"
+            android:textColor="@color/white"
+            android:textSize="35sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/tv_widget_area"
+                style="@style/widget_item_linearlayout_style"
+                android:text="北京"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_widget_data"
+                style="@style/widget_item_linearlayout_style"
+                android:layout_marginLeft="5dp"
+                android:text="04/25"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_widget_month"
+                style="@style/widget_item_linearlayout_style"
+                android:layout_marginLeft="5dp"
+                android:text="三月二十"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_widget_weather"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical|center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/org3_ww1" />
+
+    <LinearLayout
+        style="@style/widget_item_linearlayout_style"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_widget_temperature"
+            style="@style/widget_item_linearlayout_style"
+            android:text="25℃"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_widget_weather"
+            style="@style/widget_item_linearlayout_style"
+            android:layout_marginTop="5dp"
+            android:text="晴"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+    </LinearLayout>
 
 </LinearLayout>
