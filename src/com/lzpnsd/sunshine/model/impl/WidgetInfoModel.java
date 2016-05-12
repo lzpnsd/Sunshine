@@ -37,29 +37,29 @@ public class WidgetInfoModel implements IWidgetInfoModel {
 	@Override
 	public WidgetInfoBean getWidgetInfo() {
 		mWidgetInfoBean = new WidgetInfoBean();
-		timeHandler = new Handler() {
+		// 时间格式   10:20
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+		String nowTime = simpleDateFormat.format(new Date());
+		mWidgetInfoBean.setmWidgetTime(nowTime);
+		Log.d(TAG, "newtime=" + nowTime);
+		// 日期格式   04/25
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd");
+		String dateString = formatter.format(currentTime);
+		mWidgetInfoBean.setmWidgetData(dateString);
+		Log.d(TAG, "dateString=" + dateString);
+		//月份格式  三月初一
+		Calendar today = Calendar.getInstance();
+		LunarDataUtil mouth = new LunarDataUtil(today);
+		String widgetmouth = mouth.toString();
+		mWidgetInfoBean.setmWidgetMouth(widgetmouth);
+		Log.d(TAG, "mouth=" + mouth);
+		/*timeHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 					case TIME_START:
 						removeMessages(TIME_START);
-						// 时间格式   10:20
-						SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
-						String nowTime = simpleDateFormat.format(new Date());
-						mWidgetInfoBean.setmWidgetTime(nowTime);
-						Log.d(TAG, "newtime=" + nowTime);
-						// 日期格式   04/25
-						Date currentTime = new Date();
-						SimpleDateFormat formatter = new SimpleDateFormat("MM/dd");
-						String dateString = formatter.format(currentTime);
-						mWidgetInfoBean.setmWidgetData(dateString);
-						Log.d(TAG, "dateString=" + dateString);
-						//月份格式  三月初一
-						Calendar today = Calendar.getInstance();
-						LunarDataUtil mouth = new LunarDataUtil(today);
-						String widgetmouth = mouth.toString();
-						mWidgetInfoBean.setmWidgetMouth(widgetmouth);
-						Log.d(TAG, "mouth=" + mouth);
 						
 						sendEmptyMessageDelayed(TIME_START, 5000);
 						break;
@@ -71,10 +71,8 @@ public class WidgetInfoModel implements IWidgetInfoModel {
 		};
 		Message timemsg = new Message();
 		timemsg.what = TIME_START;
-		timeHandler.handleMessage(timemsg);	
+		timeHandler.handleMessage(timemsg);	*/
 		
-//		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getSmallImageResource(WeatherInfoBean.getNightType()), mIvNightPic);
-
 		return mWidgetInfoBean;
 	}
 }
