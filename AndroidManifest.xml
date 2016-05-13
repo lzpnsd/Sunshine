@@ -76,6 +76,7 @@
         <receiver android:name="com.lzpnsd.sunshine.widget.provider.WidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.lzpnsd.sunshine.widget.UPDATE_ALL"/>
             </intent-filter>
 
             <meta-data
@@ -83,7 +84,7 @@
                 android:resource="@xml/appwidget_info" />
         </receiver>
 
-        <service android:name="com.lzpnsd.sunshine.widget.provider.WidgetService" >
+        <service android:name="com.lzpnsd.sunshine.widget.provider.WidgetUpdateService" >
             <intent-filter>
                 <action android:name="android.appwidget.action.WIDGET_SERVICE" />
             </intent-filter>
