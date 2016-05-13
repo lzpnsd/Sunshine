@@ -35,7 +35,7 @@ public class WeatherBackgroundUtil {
 
 	public static int getWeatherMainBackground() {
 		List<WeatherInfoBean> weatherInfoBeans = DataManager.getInstance().getCurrentWeatherInfoBeans();
-		if(weatherInfoBeans == null || weatherInfoBeans.size() <= 0){
+		if(weatherInfoBeans == null || weatherInfoBeans.size() <= 1){
 			return R.drawable.bg_na;
 		}
 		String type = weatherInfoBeans.get(1).getDayType();

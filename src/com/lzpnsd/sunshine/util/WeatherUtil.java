@@ -152,10 +152,6 @@ public class WeatherUtil {
 						List<WeatherInfoBean> weatherInfoBeans = new ArrayList<WeatherInfoBean>();
 						InputStream inputStream = conn.getInputStream();
 						weatherInfoBeans.addAll(parseWeather(inputStream));
-						saveWeatherInfo(cityId);
-						if(DataManager.getInstance().getCurrentCityId() == cityId){//如果当前城市id和查询的城市id一样，保存这次查询的信息
-							saveCurrentWeatherInfo();
-						}
 						if(callBack != null){
 							Message msg = Message.obtain();
 							msg.obj = new MsgObj(callBack,weatherInfoBeans);
@@ -163,6 +159,10 @@ public class WeatherUtil {
 							if(!TextUtils.isEmpty(error)){
 								msg.what = WHAT_GETASYNC_FAILED;
 							}else{
+								if(DataManager.getInstance().getCurrentCityId() == cityId){//如果当前城市id和查询的城市id一样，保存这次查询的信息
+									saveCurrentWeatherInfo();
+								}
+								saveWeatherInfo(cityId);
 								msg.what = WHAT_GETASYNC_SUCCESS;
 							}
 							mHandler.sendMessage(msg);
@@ -198,7 +198,10 @@ public class WeatherUtil {
 	public void deleteWeatherInfo(List<Integer> deleteCityIds){
 		for(Integer cityId : deleteCityIds){
 			File file = new File(Contants.PATH_CACHE_WEATHER_FILE+File.separator+cityId+".xml");
-			file.deleteOnExit();
+			if(file.exists()){
+				boolean deleteResult = file.delete();
+				log.d("file path = "+file.getAbsolutePath()+",deleteResult = "+deleteResult);
+			}
 		}
 	}
 	

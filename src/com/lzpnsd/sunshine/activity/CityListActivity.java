@@ -1,6 +1,5 @@
 package com.lzpnsd.sunshine.activity;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import com.lzpnsd.sunshine.bean.CityListItemBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.db.CityDBManager;
-import com.lzpnsd.sunshine.db.CityListDatabaseHelper;
 import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
@@ -62,6 +60,18 @@ public class CityListActivity extends Activity {
 		setAdapter();
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity();
+		if(null != savedCity && savedCity.size() > 0){
+			getSavedCityInfo(savedCity);
+			mCustomCityListAdapter.notifyDataSetChanged();
+		}
+		mIbEdit.setVisibility(View.VISIBLE);
+		mIbOk.setVisibility(View.GONE);
+	}
+	
 	private void initViews(){
 		mIbBack = (ImageButton) findViewById(R.id.ib_city_list_title_bar_back);
 		mIbAdd = (ImageButton) findViewById(R.id.ib_city_list_title_bar_add);
@@ -81,35 +91,40 @@ public class CityListActivity extends Activity {
 	private void setAdapter(){
 		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity();
 		if(null != savedCity && savedCity.size() > 0){
-			for(CityBean cityBean : savedCity){
-				int areaId = Integer.parseInt(cityBean.getAreaId());
-				List<WeatherInfoBean> weatherInfos = null;
-				try {
-					weatherInfos = WeatherUtil.getInstance().getWeatherInfo(areaId, WeatherInfoBean.class);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				if(null != weatherInfos && weatherInfos.size() >1){
-					WeatherInfoBean weatherInfoBean = weatherInfos.get(1);
-					CityListItemBean cityListItemBean  = new CityListItemBean(
-							areaId,
-							cityBean.getNameCn(),
-							weatherInfoBean.getDayType(),
-							Integer.parseInt(weatherInfoBean.getHighTemperature()),
-							Integer.parseInt(weatherInfoBean.getLowTemperature()),
-							false
-							);
-					mCityListItemBeans.add(cityListItemBean);
-				}else{
-					mCityListItemBeans.add(new CityListItemBean(areaId, cityBean.getNameCn(), "", 0, 0, false));
-				}
-			}
+			getSavedCityInfo(savedCity);
 			mCustomCityListAdapter = new CustomCityListAdapter(mCityListItemBeans);
 			mLvCityList.setAdapter(mCustomCityListAdapter);
 		}else{
 			turnToAddCity();
+		}
+	}
+
+	private void getSavedCityInfo(List<CityBean> savedCity) {
+		mCityListItemBeans.clear();
+		for(CityBean cityBean : savedCity){
+			int areaId = Integer.parseInt(cityBean.getAreaId());
+			List<WeatherInfoBean> weatherInfos = null;
+			try {
+				weatherInfos = WeatherUtil.getInstance().getWeatherInfo(areaId, WeatherInfoBean.class);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if(null != weatherInfos && weatherInfos.size() >1){
+				WeatherInfoBean weatherInfoBean = weatherInfos.get(1);
+				CityListItemBean cityListItemBean  = new CityListItemBean(
+						areaId,
+						cityBean.getNameCn(),
+						weatherInfoBean.getDayType(),
+						Integer.parseInt(weatherInfoBean.getHighTemperature()),
+						Integer.parseInt(weatherInfoBean.getLowTemperature()),
+						false
+						);
+				mCityListItemBeans.add(cityListItemBean);
+			}else{
+				mCityListItemBeans.add(new CityListItemBean(areaId, cityBean.getNameCn(), "", 0, 0, false));
+			}
 		}
 	}
 	

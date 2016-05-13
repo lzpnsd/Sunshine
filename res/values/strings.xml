@@ -29,6 +29,7 @@
     <string name="city_location">定位</string>
     <string name="hint_add_city_search_city">搜索中国城市</string>
     <string name="city_cant_add_repeat_city">抱歉，不能重复添加城市</string>
+    <string name="no_saved_city">没有选择城市</string>
     
     <!-- index -->
     

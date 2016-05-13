@@ -33,7 +33,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentProviderResult;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
@@ -121,7 +120,8 @@ public class WeatherView {
 			return;
 		}
 		List<WeatherInfoBean> currentWeatherInfoBeans = DataManager.getInstance().getCurrentWeatherInfoBeans();
-		if(null != currentWeatherInfoBeans && currentWeatherInfoBeans.size()>0){
+		if(null != currentWeatherInfoBeans && currentWeatherInfoBeans.size()>1){
+			log.d("currentWeatherInfoBeans = "+currentWeatherInfoBeans.toString());
 			initData();
 			mHorizontalChartView.addChildView(currentWeatherInfoBeans);
 			mHorizontalChartView.notifyDataChanged();
@@ -216,20 +216,27 @@ public class WeatherView {
 	
 	public void refreshData(){
 		showLastInfo();
-		WeatherUtil.getInstance().getWeather(DataManager.getInstance().getCurrentCityId(), new WeatherUtil.CallBack() {
-
-			@Override
-			public void onSuccess(List<WeatherInfoBean> weatherInfoBeans) {
-				initData();
-				mHorizontalChartView.addChildView(weatherInfoBeans);
-				mHorizontalChartView.notifyDataChanged();
-			}
-			
-			@Override
-			public void onFailure(String result) {
-				ToastUtil.showToast(result, ToastUtil.LENGTH_LONG);
-			}
-		});
+		int currentCityId = DataManager.getInstance().getCurrentCityId();
+		if(0 == currentCityId){
+			ToastUtil.showToast(mContext.getString(R.string.no_saved_city), ToastUtil.LENGTH_LONG);
+			Intent intent = new Intent(mContext,CityAddActivity.class);
+			((Activity) mContext).startActivityForResult(intent, CODE_WEATHERVIEW_REQUEST);
+		}else{
+			WeatherUtil.getInstance().getWeather(DataManager.getInstance().getCurrentCityId(), new WeatherUtil.CallBack() {
+	
+				@Override
+				public void onSuccess(List<WeatherInfoBean> weatherInfoBeans) {
+					initData();
+					mHorizontalChartView.addChildView(weatherInfoBeans);
+					mHorizontalChartView.notifyDataChanged();
+				}
+				
+				@Override
+				public void onFailure(String result) {
+					ToastUtil.showToast(result, ToastUtil.LENGTH_LONG);
+				}
+			});
+		}
 	}
 	
 	/**

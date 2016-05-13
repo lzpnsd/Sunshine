@@ -227,6 +227,10 @@ public class CityDBManager {
 		database.close();
 	}
 	
+	/**
+	 * 
+	 * @return 没有返回的List大小为0
+	 */
 	public List<CityBean> querySavedCity(){
 		List<CityBean> cityBeans = new ArrayList<CityBean>();
 		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(SunshineApplication.getContext());

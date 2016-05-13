@@ -230,4 +230,14 @@ public class CityAddActivity extends Activity{
 		}
 	}
 	
+	@Override
+	public void onBackPressed() {
+		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity();
+		if(null == savedCity || savedCity.size()<=0){
+			ToastUtil.showToast(getString(R.string.no_saved_city), ToastUtil.LENGTH_LONG);
+			return;
+		}
+		super.onBackPressed();
+	}
+	
 }
