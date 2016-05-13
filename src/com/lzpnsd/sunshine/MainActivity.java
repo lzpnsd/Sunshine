@@ -1,6 +1,7 @@
 package com.lzpnsd.sunshine;
 
 import com.lzpnsd.sunshine.activity.CityAddActivity;
+import com.lzpnsd.sunshine.activity.CityListActivity;
 import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.util.AdaptationUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
@@ -251,14 +252,16 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (resultCode) {
 			case CityAddActivity.CODE_CITY_ADD_RESULT:
+			case CityListActivity.CODE_SELECT_CITY_RESULT:
+				log.d("requestCode = "+requestCode+",resultCode = "+resultCode+",data="+data.getIntExtra(Contants.NAME_AREA_ID, 0));
 				if(data != null){
 					int area_id = data.getIntExtra(Contants.NAME_AREA_ID, 0);
+					log.d("area_id = "+area_id);
 					if(area_id!=0){
 						mWeather.refreshData();
 					}
 				}
 				break;
-
 			default:
 				break;
 		}
@@ -267,8 +270,8 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		float eventY = ev.getY();
-		log.d("touch y = "+eventY);
-		log.d("rg Y = "+mRgButtomSelectorTopY);
+//		log.d("touch y = "+eventY);
+//		log.d("rg Y = "+mRgButtomSelectorTopY);
 		if(eventY >= mRgButtomSelectorTopY || eventY <= AdaptationUtil.dip2px(getApplicationContext(), 50)){
 			return super.dispatchTouchEvent(ev);
 		}

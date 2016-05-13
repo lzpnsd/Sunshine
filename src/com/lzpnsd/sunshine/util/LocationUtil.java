@@ -65,7 +65,8 @@ public class LocationUtil {
 				}
 				if(TextUtils.isEmpty(district)){
 					log.d("location success,but district is null");
-					mLocationListener.onFailed(SunshineApplication.getContext().getString(R.string.location_failed));
+//					mLocationListener.onFailed(SunshineApplication.getContext().getString(R.string.location_failed));
+					mLocationListener.onFailed("location success,but district is null");
 					locationService.stop();
 				}else{
 					log.d("onReceiveLocation");
@@ -77,7 +78,8 @@ public class LocationUtil {
 				}
 			}else{
 				log.d("failure");
-				mLocationListener.onFailed(SunshineApplication.getContext().getString(R.string.location_failed));
+//				mLocationListener.onFailed(SunshineApplication.getContext().getString(R.string.location_failed));
+				mLocationListener.onFailed("failure");
 				locationService.stop();
 			}
 			

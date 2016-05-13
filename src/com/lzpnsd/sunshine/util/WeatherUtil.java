@@ -195,6 +195,13 @@ public class WeatherUtil {
 		DataManager.getInstance().setCurrentWeatherInfoBeans(mWeatherInfoBeans);
 	}
 	
+	public void deleteWeatherInfo(List<Integer> deleteCityIds){
+		for(Integer cityId : deleteCityIds){
+			File file = new File(Contants.PATH_CACHE_WEATHER_FILE+File.separator+cityId+".xml");
+			file.deleteOnExit();
+		}
+	}
+	
 	private void saveWeatherInfo(int cityId) {
 		File file = new File(Contants.PATH_CACHE_WEATHER_FILE+File.separator+cityId+".xml");
 		log.d("file path = "+file.getAbsolutePath());
@@ -274,7 +281,7 @@ public class WeatherUtil {
 	public void getCurrentCityWeatherInfo() throws FileNotFoundException,IOException{
 		File file = new File(Contants.PATH_CACHE_WEATHER_FILE + File.separator + DataManager.getInstance().getCurrentCityId() + ".xml");
 		if(!file.exists()){
-			return;
+			throw new FileNotFoundException();
 		}
 		FileReader fileReader = new FileReader(file);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);

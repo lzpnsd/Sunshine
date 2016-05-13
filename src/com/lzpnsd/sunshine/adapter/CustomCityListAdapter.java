@@ -1,10 +1,12 @@
 package com.lzpnsd.sunshine.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.bean.CityListItemBean;
+import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherIconUtil;
 import com.lzpnsd.sunshine.view.CircleImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,6 +20,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class CustomCityListAdapter extends BaseAdapter {
+	
+	private LogUtil log = LogUtil.getLog(getClass());
 
 	private List<CityListItemBean> mCityListItemBeans;
 	private LayoutInflater mLayoutInflater;
@@ -73,13 +77,23 @@ public class CustomCityListAdapter extends BaseAdapter {
 		TextView mTvCityWeather;
 	}
 	
+	private List<Integer> mDelectCityId = new ArrayList<Integer>();
+	
 	private OnClickListener clickListener = new OnClickListener(){
 
 		@Override
 		public void onClick(View v) {
-			mCityListItemBeans.remove(v.getTag());
+			log.d("v = "+v.toString()+",v.getTag = "+v.getTag());
+			Integer position = (Integer)v.getTag();
+			CityListItemBean cityListItemBean = mCityListItemBeans.get(position);
+			mDelectCityId.add(cityListItemBean.getArea_id());
+			mCityListItemBeans.remove(cityListItemBean);
 			notifyDataSetChanged();
 		}
 	};
+	
+	public List<Integer> getDelectCity(){
+		return mDelectCityId;
+	}
 	
 }

@@ -1,25 +1,19 @@
 package com.lzpnsd.sunshine.activity;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.poi.ss.formula.functions.LogicalFunction;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lzpnsd.sunshine.R;
-import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.adapter.CustomCityListAdapter;
 import com.lzpnsd.sunshine.bean.CityBean;
 import com.lzpnsd.sunshine.bean.CityListItemBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.db.CityDBManager;
+import com.lzpnsd.sunshine.db.CityListDatabaseHelper;
 import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
@@ -27,10 +21,10 @@ import com.lzpnsd.sunshine.util.WeatherUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -45,6 +39,10 @@ public class CityListActivity extends Activity {
 
 	private final LogUtil log = LogUtil.getLog(getClass());
 	
+	public static final int CODE_GOBACK_RESULT = 1011;
+	public static final int CODE_SELECT_CITY_RESULT = 1012;
+	public static final int CODE_ADD_CITY_REQUEST = 1013;
+	
 	private ImageButton mIbBack;
 	private ImageButton mIbEdit;
 	private ImageButton mIbOk;
@@ -53,9 +51,7 @@ public class CityListActivity extends Activity {
 	
 	private List<CityListItemBean> mCityListItemBeans = new ArrayList<CityListItemBean>();
 	
-	public static final int CODE_GOBACK_RESULT = 1011;
-	public static final int CODE_SELECT_CITY_RESULT = 1012;
-	public static final int CODE_ADD_CITY_REQUEST = 1013;
+	private CustomCityListAdapter mCustomCityListAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +75,7 @@ public class CityListActivity extends Activity {
 		mIbAdd.setOnClickListener(clickListener);
 		mIbEdit.setOnClickListener(clickListener);
 		mIbOk.setOnClickListener(clickListener);
+		mLvCityList.setOnItemClickListener(mOnItemClickListener);
 	}
 	
 	private void setAdapter(){
@@ -105,14 +102,33 @@ public class CityListActivity extends Activity {
 							false
 							);
 					mCityListItemBeans.add(cityListItemBean);
+				}else{
+					mCityListItemBeans.add(new CityListItemBean(areaId, cityBean.getNameCn(), "", 0, 0, false));
 				}
 			}
-			CustomCityListAdapter adapter = new CustomCityListAdapter(mCityListItemBeans);
-			mLvCityList.setAdapter(adapter);
+			mCustomCityListAdapter = new CustomCityListAdapter(mCityListItemBeans);
+			mLvCityList.setAdapter(mCustomCityListAdapter);
 		}else{
 			turnToAddCity();
 		}
 	}
+	
+	private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			CityListItemBean cityListItemBean = mCityListItemBeans.get(position);
+			log.d("cityListItemBean = "+cityListItemBean);
+			int area_id = cityListItemBean.getArea_id();
+			CityBean cityBean = new CityBean(area_id+"", cityListItemBean.getCityName(), null, null, null, null, null, null, null);
+			DataManager.getInstance().setCurrentCityBean(cityBean);
+			log.d("cityBean = "+cityBean);
+			Intent intent = new Intent();
+			intent.putExtra(Contants.NAME_AREA_ID, area_id);
+			setResult(CODE_SELECT_CITY_RESULT, intent);
+			finish();
+		}
+	};
 	
 	private OnClickListener clickListener = new OnClickListener(){
 
@@ -124,17 +140,33 @@ public class CityListActivity extends Activity {
 					finish();
 					break;
 				case R.id.ib_city_list_title_bar_edit:
-					
+					for(CityListItemBean cityListItemBean : mCityListItemBeans){
+						cityListItemBean.setShowDelete(true);
+					}
+					mCustomCityListAdapter.notifyDataSetChanged();
+					mIbEdit.setVisibility(View.GONE);
+					mIbOk.setVisibility(View.VISIBLE);
 					break;
 				case R.id.ib_city_list_title_bar_ok:
-					
+					List<Integer> delectCitied = mCustomCityListAdapter.getDelectCity();
+					WeatherUtil.getInstance().deleteWeatherInfo(delectCitied);
+					DataManager.getInstance().setCurrentCityId(0);
+					CityDBManager.getInstance().deleteSavedCity(delectCitied);
+					for(CityListItemBean cityListItemBean : mCityListItemBeans){
+						cityListItemBean.setShowDelete(false);
+					}
+					mCustomCityListAdapter.notifyDataSetChanged();
+					mIbEdit.setVisibility(View.VISIBLE);
+					mIbOk.setVisibility(View.GONE);
+					if(null == mCityListItemBeans || mCityListItemBeans.size() <=0){
+						turnToAddCity();
+					}
 					break;
 				case R.id.ib_city_list_title_bar_add:
 					turnToAddCity();
 					break;
 			}
 		}
-		
 	};
 	
 	private void turnToAddCity() {

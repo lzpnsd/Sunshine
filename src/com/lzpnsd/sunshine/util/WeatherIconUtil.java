@@ -47,7 +47,7 @@ public class WeatherIconUtil {
 		int sunRiseHour = Integer.parseInt(sunRises[0]);
 		int sunSetHour = Integer.parseInt(sunSets[0]);
 		int nowTimeHour = Integer.parseInt(nowTimes[0]);
-		log.d("sunRiseHour" + sunRiseHour + "sunSetHour" + sunSetHour + "nowTimeHour" + nowTimeHour);
+//		log.d("sunRiseHour" + sunRiseHour + "sunSetHour" + sunSetHour + "nowTimeHour" + nowTimeHour);
 		if (nowTimeHour < sunRiseHour || nowTimeHour > sunSetHour) {
 			return false;
 		} else if (nowTimeHour == sunRiseHour) {
@@ -67,7 +67,7 @@ public class WeatherIconUtil {
 	}
 
 	public static int getDaySmallImageResource(String type){
-		log.d("type = "+type);
+//		log.d("type = "+type);
 		String[] rains = new String[] {};
 		String[] snows = new String[] {};
 		if (type.contains("雨")) {
@@ -98,12 +98,14 @@ public class WeatherIconUtil {
 			return R.drawable.ww29;
 		}else if("".equals(type)){
 			return R.drawable.ww0;
+		}else if("浮尘".equals(type)){
+			return R.drawable.ww36;
 		}
 		return 0;
 	}
 	
 	public static int getNightSmallImageResource(String type){
-		log.d("type = "+type);
+//		log.d("type = "+type);
 		String[] rains = new String[] {};
 		String[] snows = new String[] {};
 		if ("晴".equals(type)) {
@@ -134,12 +136,14 @@ public class WeatherIconUtil {
 			return R.drawable.ww33;
 		} else if (type.contains("雪")) {
 			return R.drawable.ww34;
+		}else if("浮尘".equals(type)){
+			return R.drawable.ww36;
 		}
 		return 0;
 	}
 	
 	public static int getDayBigImageResource(String type){
-		log.d("type = "+type);
+//		log.d("type = "+type);
 		String[] rains = new String[] {};
 		String[] snows = new String[] {};
 		if (type.contains("雨")) {
@@ -170,12 +174,14 @@ public class WeatherIconUtil {
 			return R.drawable.org3_ww29;
 		}else if("".equals(type)){
 			return R.drawable.org3_ww0;
+		}else if("浮尘".equals(type)){
+			return R.drawable.ww36;
 		}
 		return 0;
 	}
 	
 	public static int getNightBigImageResource(String type){
-		log.d("type = "+type);
+//		log.d("type = "+type);
 		String[] rains = new String[] {};
 		String[] snows = new String[] {};
 		if ("晴".equals(type)) {
@@ -206,6 +212,8 @@ public class WeatherIconUtil {
 			return R.drawable.org3_ww33;
 		} else if (type.contains("雪")) {
 			return R.drawable.org3_ww34;
+		}else if("浮尘".equals(type)){
+			return R.drawable.ww36;
 		}
 		return 0;
 	}

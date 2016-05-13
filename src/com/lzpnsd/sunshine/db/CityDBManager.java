@@ -129,6 +129,9 @@ public class CityDBManager {
 		String sql = "select * from city where name_cn='" + cityName + "'";
 		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery(sql, null);
+		if(null == cursor || cursor.getCount() <=0){
+			return null;
+		}
 		cursor.moveToFirst();
 		CityBean cityBean = new CityBean(cursor.getString(1), cursor.getString(2), cursor.getString(3), 
 				cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), 
@@ -241,6 +244,19 @@ public class CityDBManager {
 		cursor.close();
 		database.close();
 		return cityBeans;
+	}
+	
+	public void deleteSavedCity(List<Integer> delectCities){
+		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(SunshineApplication.getContext());
+		SQLiteDatabase database = savedCityDatabaseHelper.getReadableDatabase();
+		database.beginTransaction();
+		String sql = "delete from "+SavedCityDatabaseHelper.NAME_SAVES_CITY +" where area_id=";
+		for(Integer cityId : delectCities){
+			database.execSQL(sql+cityId);
+		}
+		database.setTransactionSuccessful();
+		database.endTransaction();
+		database.close();
 	}
 	
 }

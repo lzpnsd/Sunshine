@@ -1,5 +1,8 @@
 package com.lzpnsd.sunshine.view;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -9,26 +12,39 @@ import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.activity.CityAddActivity;
 import com.lzpnsd.sunshine.activity.CityListActivity;
+import com.lzpnsd.sunshine.adapter.LifeIndexAdapter;
 import com.lzpnsd.sunshine.bean.CityBean;
 import com.lzpnsd.sunshine.bean.CityWeatherBean;
 import com.lzpnsd.sunshine.bean.EnvironmentBean;
+import com.lzpnsd.sunshine.bean.LifeIndexBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.db.CityDBManager;
 import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.model.ILocationListener;
 import com.lzpnsd.sunshine.model.OnCustomItemClickListener;
+import com.lzpnsd.sunshine.util.AdaptationUtil;
 import com.lzpnsd.sunshine.util.LocationUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.ToastUtil;
 import com.lzpnsd.sunshine.util.WeatherBackgroundUtil;
+import com.lzpnsd.sunshine.util.WeatherIconUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentProviderResult;
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,6 +67,10 @@ public class WeatherView {
 	
 	private Context mContext;
 
+	private LifeIndexAdapter mLifeIndexAdapter;
+	
+	private List<LifeIndexBean> mLifeIndexBeans;
+	
 	private RelativeLayout mView;
 	private CustomHorizontalView mHorizontalChartView;
 	private ScrollView mSvContains;
@@ -63,6 +83,16 @@ public class WeatherView {
 	private ImageButton mIbCityList;
 	private ImageButton mIbShare;
 	private TextView mTvCityName;
+	private ImageView mIvWeather;
+	private TextView mTvWeatherType;
+	private TextView mTvWeatherTem;
+	private TextView mTvDayType;
+	private TextView mTvDayTem;
+	private TextView mTvWeatherDampness;
+	private TextView mTvWeatherWind;
+	private TextView mTvTodaySunRise;
+	private TextView mTvTodaySunSet;
+	private GridView mGvIndex;
 	
 	public WeatherView(Context mContext) {
 		this.mContext = mContext;
@@ -71,8 +101,9 @@ public class WeatherView {
 	public RelativeLayout initView() {
 		LayoutInflater inflater = LayoutInflater.from(mContext);
 		mView = (RelativeLayout) inflater.inflate(R.layout.view_weather, null);
+		mLifeIndexBeans = new ArrayList<LifeIndexBean>();
+		mLifeIndexAdapter = new LifeIndexAdapter(mLifeIndexBeans);
 		setViews();
-		showLastInfo();
 		if(!SunshineApplication.isFirst){
 			refreshData();
 		}else{
@@ -82,11 +113,24 @@ public class WeatherView {
 	}
 
 	private void showLastInfo() {
+		try {
+			WeatherUtil.getInstance().getCurrentCityWeatherInfo();
+		} catch (FileNotFoundException e) {
+			return;
+		} catch (IOException e) {
+			return;
+		}
 		List<WeatherInfoBean> currentWeatherInfoBeans = DataManager.getInstance().getCurrentWeatherInfoBeans();
 		if(null != currentWeatherInfoBeans && currentWeatherInfoBeans.size()>0){
 			initData();
 			mHorizontalChartView.addChildView(currentWeatherInfoBeans);
 			mHorizontalChartView.notifyDataChanged();
+		}
+		List<LifeIndexBean> currentLifeIndexBeans = DataManager.getInstance().getCurrentLifeIndexBeans();
+		if(null != currentLifeIndexBeans && currentLifeIndexBeans.size()>0){
+			mLifeIndexBeans.clear();
+			mLifeIndexBeans.addAll(currentLifeIndexBeans);
+			mLifeIndexAdapter.notifyDataSetChanged();
 		}
 	}
 
@@ -109,12 +153,16 @@ public class WeatherView {
 							ToastUtil.showToast(mContext.getString(R.string.location_success), ToastUtil.LENGTH_LONG);
 							refreshData();
 						}else{
-							handleLocationFailed(mContext.getString(R.string.location_failed));
+//							handleLocationFailed(mContext.getString(R.string.location_failed));
+							handleLocationFailed("cityBean = null");
 						}
 					} catch (JSONException e) {
-						handleLocationFailed(mContext.getString(R.string.location_failed));
+						handleLocationFailed("jsonException");
+//						handleLocationFailed(mContext.getString(R.string.location_failed));
 					} catch (Exception e) {
-						handleLocationFailed(mContext.getString(R.string.location_failed));
+						e.printStackTrace();
+						handleLocationFailed("exception");
+//						handleLocationFailed(mContext.getString(R.string.location_failed));
 					}
 				}
 				
@@ -135,6 +183,7 @@ public class WeatherView {
 	private void setViews() {
 		mRlMain = (RelativeLayout) mView.findViewById(R.id.rl_weather_main);
 		mSvContains = (ScrollView) mView.findViewById(R.id.sv_weather_content);
+		mSvContains.scrollTo(0, 0);
 		mHorizontalChartView = (CustomHorizontalView) mView.findViewById(R.id.chv_mine);
 		mLlAqi = (LinearLayout) mView.findViewById(R.id.ll_weather_aqi);
 		mIvAqi = (ImageView) mView.findViewById(R.id.iv_weather_aqi);
@@ -143,6 +192,17 @@ public class WeatherView {
 		mIbCityList = (ImageButton) mView.findViewById(R.id.ib_weather_title_city);
 		mIbShare = (ImageButton) mView.findViewById(R.id.ib_weather_title_share);
 		mTvCityName = (TextView) mView.findViewById(R.id.tv_weather_city_name);
+		mIvWeather = (ImageView) mView.findViewById(R.id.iv_weather_weather);
+		mTvWeatherType = (TextView) mView.findViewById(R.id.tv_weather_daytype);
+		mTvWeatherTem = (TextView) mView.findViewById(R.id.tv_weather_temperature);
+		mTvDayType = (TextView) mView.findViewById(R.id.tv_weather_today_type);
+		mTvDayTem = (TextView) mView.findViewById(R.id.tv_weather_today_temperature);
+		mTvWeatherDampness = (TextView) mView.findViewById(R.id.tv_weather_dampness);
+		mTvWeatherWind = (TextView) mView.findViewById(R.id.tv_weather_wind);
+		mTvTodaySunRise = (TextView) mView.findViewById(R.id.tv_weather_today_sunrise);
+		mTvTodaySunSet = (TextView) mView.findViewById(R.id.tv_weather_today_sunset);
+		mGvIndex = (GridView) mView.findViewById(R.id.gv_weather_lifeindex);
+		mGvIndex.setAdapter(mLifeIndexAdapter);
 		mIbCityList.setOnClickListener(mOnClickListener);
 		mHorizontalChartView.setOnItemClickListener(new OnCustomItemClickListener() {
 
@@ -151,9 +211,11 @@ public class WeatherView {
 				
 			}
 		});
+		mGvIndex.setOnItemClickListener(mOnItemClickListener);
 	}
 	
 	public void refreshData(){
+		showLastInfo();
 		WeatherUtil.getInstance().getWeather(DataManager.getInstance().getCurrentCityId(), new WeatherUtil.CallBack() {
 
 			@Override
@@ -174,14 +236,42 @@ public class WeatherView {
 	 * 初始化数据
 	 */
 	private void initData() {
+		log.d("initData");
+		mSvContains.scrollTo(0, 0);
 		mRlMain.setBackgroundResource(WeatherBackgroundUtil.getWeatherMainBackground());
-		mTvCityName.setText(DataManager.getInstance().getCurrentCityWeatherBeans().get(0).getCity());
+		WeatherInfoBean weatherInfoBean = DataManager.getInstance().getCurrentWeatherInfoBeans().get(1);
+		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getDayBigImageResource(weatherInfoBean.getDayType()), mIvWeather);
 		setAqiData();
 		List<CityWeatherBean> cityWeatherBeans = DataManager.getInstance().getCurrentCityWeatherBeans();
 		if(cityWeatherBeans == null || cityWeatherBeans.size() <=0){
+			mTvCityName.setText("");
+			mTvWeatherType.setText("");
+			mTvWeatherTem.setText("");
+			mTvDayType.setText("");
+			mTvDayTem.setText("");
+			mTvWeatherDampness.setText("");
+			mTvWeatherWind.setText("");
+			mTvTodaySunRise.setText("");
+			mTvTodaySunSet.setText("");
 			mTvWeatherUpdateTime.setText("");
 		}else{
-			mTvWeatherUpdateTime.setText("更新于"+DataManager.getInstance().getCurrentCityWeatherBeans().get(0).getUpdateTime());
+			CityWeatherBean cityWeatherBean = cityWeatherBeans.get(0);
+			mTvCityName.setText(cityWeatherBean.getCity());
+			mTvWeatherType.setText(weatherInfoBean.getDayType());
+			mTvWeatherTem.setText(cityWeatherBean.getTemperature()+"℃");
+			mTvDayType.setText(weatherInfoBean.getDayType()+"转"+weatherInfoBean.getNightType());
+			mTvDayTem.setText(weatherInfoBean.getLowTemperature()+"~"+weatherInfoBean.getHighTemperature()+"℃");
+			mTvWeatherDampness.setText("湿度  "+cityWeatherBean.getDampness());
+			mTvWeatherWind.setText(cityWeatherBean.getWindDirection() +"  "+cityWeatherBean.getWindPower());
+			mTvTodaySunRise.setText("日出  "+cityWeatherBean.getSunRise());
+			mTvTodaySunSet.setText("日落  "+cityWeatherBean.getSunSet());
+			mTvWeatherUpdateTime.setText("更新于"+cityWeatherBean.getUpdateTime());
+		}
+		List<LifeIndexBean> currentLifeIndexBeans = DataManager.getInstance().getCurrentLifeIndexBeans();
+		if(null != currentLifeIndexBeans && currentLifeIndexBeans.size()>0){
+			mLifeIndexBeans.clear();
+			mLifeIndexBeans.addAll(currentLifeIndexBeans);
+			mLifeIndexAdapter.notifyDataSetChanged();
 		}
 	}
 
@@ -221,5 +311,48 @@ public class WeatherView {
 			}
 		}
 	};
+	
+	private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			switch (parent.getId()) {
+				case R.id.gv_weather_lifeindex:
+					showIndexDialog(position);
+					break;
+
+				default:
+					break;
+			}
+		}
+	};
+	
+	private void showIndexDialog(int position) {
+		final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
+		RelativeLayout content = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.dialog_lifeindex, null);
+		TextView tvName = (TextView) content.findViewById(R.id.tv_index_name);
+		TextView tvValue = (TextView) content.findViewById(R.id.tv_index_value);
+		TextView tvDetail = (TextView) content.findViewById(R.id.tv_index_detail);
+		LifeIndexBean lifeIndexBean = mLifeIndexBeans.get(position);
+		tvName.setText(lifeIndexBean.getName());
+		tvValue.setText(lifeIndexBean.getValue());
+		tvDetail.setText(lifeIndexBean.getDetail());
+		dialog.show();
+		Window window = dialog.getWindow();
+		window.setContentView(content);
+		LayoutParams layoutParams = window.getAttributes();
+		layoutParams.width = AdaptationUtil.dip2px(mContext, 250);
+		layoutParams.height = AdaptationUtil.dip2px(mContext, 150);
+//		window.addContentView(content, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		window.setAttributes(layoutParams);
+		window.setGravity(Gravity.CENTER);
+		content.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+	}
 	
 }

@@ -64,7 +64,6 @@ public class SunshineApplication extends Application {
 				locationService = new LocationService(getApplicationContext());
 				getWindowScreenMetric();
 				initImageLoader();
-				int currentCityId = DataManager.getInstance().getCurrentCityId();
 				try {
 					WeatherUtil.getInstance().getCurrentCityWeatherInfo();
 				} catch (FileNotFoundException e) {
@@ -72,32 +71,33 @@ public class SunshineApplication extends Application {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				insertData();
+				isFirst = DataManager.getInstance().isFirst();
+				log.d("isFirst = "+isFirst);
+				if(isFirst){
+					insertData();
+					DataManager.getInstance().setIsFirst(false);
+					log.d("isFirst = " + isFirst);
+				}
 //				CityWeatherInfoTest.getInstance(mContext).test();
 			}
         }
 	}
 
 	private void insertData() {
-		isFirst = DataManager.getInstance().isFirst();
-		log.d("isFirst = "+isFirst);
-		if(isFirst){
-			new Thread(){
-				@Override
-				public void run() {
-					log.d("insertData");
-					CityDBManager cityDBManager = CityDBManager.getInstance();
-					CityUtil cityUtil = new CityUtil();
-					List<CityBean> cityBeans = cityUtil.parseExcel(mContext);
-					if(cityBeans != null){
-						cityDBManager.insertIntoCity(cityBeans);
-					}
-					cityDBManager.insertIntoHotCity();
-					DataManager.getInstance().setIsFirst(false);
-					log.d("isFirst = "+isFirst);
+
+		new Thread() {
+			@Override
+			public void run() {
+				log.d("insertData");
+				CityDBManager cityDBManager = CityDBManager.getInstance();
+				CityUtil cityUtil = new CityUtil();
+				List<CityBean> cityBeans = cityUtil.parseExcel(mContext);
+				if (cityBeans != null) {
+					cityDBManager.insertIntoCity(cityBeans);
 				}
-			}.start();
-		}
+				cityDBManager.insertIntoHotCity();
+			}
+		}.start();
 	}
 	
 	private void initImageLoader() {

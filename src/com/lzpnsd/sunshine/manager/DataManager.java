@@ -36,7 +36,7 @@ public class DataManager {
 	private final String NAME_VERSION_CODE = "version_code";
 	private final String NAME_CITYID = "cityId";
 	
-	private final int DEFAULT_CITYID = 101010100;
+	private final int DEFAULT_CITYID = 0;
 	
 	private final String NAME_AREAID = "areaId";
 	private final String NAME_NAMEEN = "nameEn";
@@ -98,7 +98,7 @@ public class DataManager {
 		return cityBean;
 	}
 	
-	private boolean setCurrentCityId(int cityId){
+	public boolean setCurrentCityId(int cityId){
 		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_COMMON_SHAREDPREFERENCES, MODE_SHAREDPREFERENCES);
 		Editor editor = preferences.edit();
 		editor.putInt(NAME_CITYID, cityId);
