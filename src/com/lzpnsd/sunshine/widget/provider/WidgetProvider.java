@@ -1,14 +1,18 @@
 package com.lzpnsd.sunshine.widget.provider;
 
+import java.util.List;
+
 import com.lzpnsd.sunshine.MainActivity;
 import com.lzpnsd.sunshine.R;
-import com.lzpnsd.sunshine.bean.CityBean;
+import com.lzpnsd.sunshine.bean.CityWeatherBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.bean.WidgetInfoBean;
 import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.model.impl.WidgetInfoModel;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherIconUtil;
+
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -27,15 +31,9 @@ import android.widget.RemoteViews;
  * @author liuqing
  */
 public class WidgetProvider extends AppWidgetProvider {
+
 	private final LogUtil log = LogUtil.getLog(getClass());
-	private final Intent INTENT_SERVICE = new Intent("android.appwidget.action.WIDGET_SERVICE");
-	private final String ACTION_UPDATE_ALL = "com.lzpnsd.sunshine.widget.UPDATE_ALL";
-	
-	private Context mContext;
-	private WidgetInfoBean mWidgetInfoBean;
-	private WidgetInfoModel mWidgetInfoModel;
-	private WeatherInfoBean mWeatherInfoBean;
-	private CityBean mCityBean;
+
 	private RemoteViews remoteView;
 	private static final int BUTTON_SHOW = 1;
 
@@ -43,57 +41,55 @@ public class WidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
-		mContext = context;
 		final String action = intent.getAction();
-		log.d("onReceive:action:" + action);	
-		if(ACTION_UPDATE_ALL.equals(action)){
-			ShowWidgetInfo(mContext);
-		}else if(intent.hasCategory(Intent.CATEGORY_ALTERNATIVE)){//点击事件
+		log.d("onReceive:action:" + action);
+		startUpgrade(context);
+		showWidgetInfo(context);
+		if (intent.hasCategory(Intent.CATEGORY_ALTERNATIVE)) {// 点击事件
 			Uri data = intent.getData();
 			int buttonId = Integer.parseInt(data.getSchemeSpecificPart());
 			log.d("buttonId=" + buttonId);
 			if (buttonId == BUTTON_SHOW) {
 				log.d("==Button widget goto apk==");
-				Intent mIntent = new Intent();
-				intent.setComponent(new ComponentName(mContext,MainActivity.class));
-				intent.setAction(Intent.ACTION_VIEW);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-				mContext.startActivity(intent);
+				Intent intentTurnToMain = new Intent();
+				intentTurnToMain.setComponent(new ComponentName(context, MainActivity.class));
+				intentTurnToMain.setAction(Intent.ACTION_VIEW);
+				intentTurnToMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(intentTurnToMain);
 			}
 		}
 	}
 
-	private void ShowWidgetInfo(Context context) {
-		mContext = context;
-		mWidgetInfoBean = new WidgetInfoBean();
-		mWidgetInfoModel = new WidgetInfoModel(mContext);
-		mWeatherInfoBean = DataManager.getInstance().getCurrentWeatherInfoBeans().get(1);
-		mCityBean = DataManager.getInstance().getCurrentCityBean();
-		mWidgetInfoBean = mWidgetInfoModel.getWidgetInfo();
-		String time = mWidgetInfoBean.getmWidgetTime();
-		String data = mWidgetInfoBean.getmWidgetData();
-		String month = mWidgetInfoBean.getmWidgetMouth();
-		String lowtem = mWeatherInfoBean.getLowTemperature();
-		String hightem = mWeatherInfoBean.getHighTemperature();
-		String weather = mWeatherInfoBean.getDayType();
-		int igweather = WeatherIconUtil.getDaySmallImageResource(weather);
-		String city = mCityBean.getNameCn();
-		// ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getSmallImageResource(mWeatherInfoBean.getDayType()),
-		// R.id.iv_widget_weather);
-		log.d("time=" + time + " " + "data=" + data + " " + "month=" + month + "lowtem=" + lowtem + "hightem=" + hightem + "weather=" + weather + "city=" + city);
+	private void showWidgetInfo(Context context) {
+		List<WeatherInfoBean> currentWeatherInfoBeans = DataManager.getInstance().getCurrentWeatherInfoBeans();
+		if (currentWeatherInfoBeans.size() <= 1) {
+			return;
+		}
+		WeatherInfoBean weatherInfoBean = currentWeatherInfoBeans.get(1);
+		CityWeatherBean cityWeatherBean = DataManager.getInstance().getCurrentCityWeatherBeans().get(0);
+		WidgetInfoBean widgetInfoBean = new WidgetInfoModel(context).getWidgetInfo();
+		String time = widgetInfoBean.getmWidgetTime();
+		String data = widgetInfoBean.getmWidgetData();
+		String month = widgetInfoBean.getmWidgetMouth();
+		String tem = cityWeatherBean.getTemperature();
+		String weather = weatherInfoBean.getDayType();
+		int igweather = WeatherIconUtil.getDayBigImageResource(weather);
+		String city = cityWeatherBean.getCity();
+		log.d("time=" + time + " " + "data=" + data + " " + "month=" + month + "tem=" + tem + "weather=" + weather
+				+ "city=" + city);
 
-		remoteView = new RemoteViews(mContext.getPackageName(), R.layout.widget_info_item);
+		remoteView = new RemoteViews(context.getPackageName(), R.layout.widget_info_item);
 		remoteView.setTextViewText(R.id.tv_widget_time, time);
 		remoteView.setTextViewText(R.id.tv_widget_data, data);
 		remoteView.setTextViewText(R.id.tv_widget_month, month);
-		remoteView.setTextViewText(R.id.tv_widget_temperature, lowtem + "℃" + "~" + hightem + "℃");// 温度
+		remoteView.setTextViewText(R.id.tv_widget_temperature, tem + "℃");// 温度
 		remoteView.setTextViewText(R.id.tv_widget_weather, weather);// 天气
 		remoteView.setImageViewResource(R.id.iv_widget_weather, igweather);// 天气图片
 		remoteView.setTextViewText(R.id.tv_widget_area, city);// 城市
-		remoteView.setOnClickPendingIntent(R.id.Li_widget_layout, getPendingIntent(mContext, BUTTON_SHOW));
+		remoteView.setOnClickPendingIntent(R.id.Li_widget_layout, getPendingIntent(context, BUTTON_SHOW));
 
-		AppWidgetManager manager = AppWidgetManager.getInstance(mContext);
-		int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(mContext, WidgetProvider.class));
+		AppWidgetManager manager = AppWidgetManager.getInstance(context);
+		int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, WidgetProvider.class));
 		manager.updateAppWidget(appWidgetIds, remoteView);// 更新所有实例
 
 	}
@@ -107,40 +103,46 @@ public class WidgetProvider extends AppWidgetProvider {
 		return pi;
 	}
 
-
 	// 第一个widget被创建时调用
 	@Override
 	public void onEnabled(Context context) {
-		mContext = context;
-		log.d("onEnabled()");
-		mContext.startService(INTENT_SERVICE);
-		super.onEnabled(mContext);
+		super.onEnabled(context);
+		// context.startService(INTENT_SERVICE);
+		log.d("onEnabled");
+		startUpgrade(context);
+		showWidgetInfo(context);
+	}
+
+	private void startUpgrade(Context context) {
+		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent("android.appwidget.action.APPWIDGET_UPDATE");
+		PendingIntent operation = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		alarmManager.cancel(operation);
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3000, 3000, operation);
 	}
 
 	// 最后一个widget被删除时调用
 	@Override
 	public void onDisabled(Context context) {
-		mContext = context;
-		log.d("onDisabled()");
-		mContext.stopService(INTENT_SERVICE);
-//		mContext.stopService(JUMP_SERVICE);
-		super.onDisabled(mContext);
+		super.onDisabled(context);
+		log.d("onDisabled");
+		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent("android.appwidget.action.APPWIDGET_UPDATE");
+		PendingIntent operation = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		alarmManager.cancel(operation);
 	}
 
 	// 每添加一次 widget 时，被执行
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		log.d("onUpdate():appWidgetIds.length==" + appWidgetIds.length);
-		mContext = context;
-		super.onUpdate(mContext, appWidgetManager, appWidgetIds);
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
+		showWidgetInfo(context);
 	}
-	
-	// widget被删除时调用
+
 	@Override
 	public void onDeleted(Context context, int[] appWidgetIds) {
-		mContext = context;
-		log.d("onDeleted():appWidgetIds.length=" + appWidgetIds.length);
-		super.onDeleted(mContext, appWidgetIds);
+		super.onDeleted(context, appWidgetIds);
 	}
 
 }

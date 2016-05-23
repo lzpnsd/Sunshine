@@ -1,7 +1,6 @@
 package com.lzpnsd.sunshine.manager;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -14,8 +13,11 @@ import com.lzpnsd.sunshine.bean.EnvironmentBean;
 import com.lzpnsd.sunshine.bean.LifeIndexBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.contants.Contants;
+import com.lzpnsd.sunshine.db.CityDBManager;
+import com.lzpnsd.sunshine.util.ShijingUtil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
@@ -35,8 +37,10 @@ public class DataManager {
 	private final String NAME_ISFIRST = "isFirst";
 	private final String NAME_VERSION_CODE = "version_code";
 	private final String NAME_CITYID = "cityId";
+	private final String NAME_UPDATE_TIME = "updateTime";
 	
-	private final int DEFAULT_CITYID = 0;
+	public static final int DEFAULT_CITYID = 0;
+	public static final int DEFAULT_UPDATE_TIME = 3*60*60*1000;
 	
 	private final String NAME_AREAID = "areaId";
 	private final String NAME_NAMEEN = "nameEn";
@@ -66,7 +70,8 @@ public class DataManager {
 	}
 	
 	public boolean setCurrentCityBean(CityBean cityBean){
-		setCurrentCityId(Integer.parseInt(cityBean.getAreaId()));
+		setCurrentCityId(Integer.parseInt(cityBean.getAreaId()),true);//设置当前城市id
+		ShijingUtil.getInstance().getShijingList(Integer.parseInt(cityBean.getAreaId()));
 		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_CURRENT_CITY_SP, MODE_SHAREDPREFERENCES);
 		Editor editor = preferences.edit();
 		editor.clear();
@@ -98,7 +103,17 @@ public class DataManager {
 		return cityBean;
 	}
 	
-	public boolean setCurrentCityId(int cityId){
+	/**
+	 * 
+	 * @param cityId
+	 * @param isFromCityBean是否是setCurrentCityBean()方法调用的，如果不是则会查询数据库并设置cityBean
+	 * @return
+	 */
+	public boolean setCurrentCityId(int cityId,boolean isFromCityBean){
+		if(!isFromCityBean){
+			CityBean cityBean = CityDBManager.getInstance().queryCityByAreaId(cityId+"");
+			setCurrentCityBean(cityBean);
+		}
 		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_COMMON_SHAREDPREFERENCES, MODE_SHAREDPREFERENCES);
 		Editor editor = preferences.edit();
 		editor.putInt(NAME_CITYID, cityId);
@@ -108,6 +123,18 @@ public class DataManager {
 	public int getCurrentCityId(){
 		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_COMMON_SHAREDPREFERENCES, MODE_SHAREDPREFERENCES);
 		return preferences.getInt(NAME_CITYID, DEFAULT_CITYID);
+	}
+	
+	public boolean setUpdateTime(int updateTime){
+		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_COMMON_SHAREDPREFERENCES, MODE_SHAREDPREFERENCES);
+		Editor editor = preferences.edit();
+		editor.putInt(NAME_UPDATE_TIME, updateTime);
+		return editor.commit();
+	}
+	
+	public int getUpdateTime(){
+		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_COMMON_SHAREDPREFERENCES, MODE_SHAREDPREFERENCES);
+		return preferences.getInt(NAME_UPDATE_TIME, DEFAULT_UPDATE_TIME);
 	}
 	
 	public List<WeatherInfoBean> getCurrentWeatherInfoBeans(){

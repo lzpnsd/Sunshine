@@ -141,7 +141,7 @@ public class CityDBManager {
 		return cityBean;
 	}
 
-	private CityBean queryCityByAreaId(String area_id){
+	public CityBean queryCityByAreaId(String area_id){
 		String sql = "select * from city where area_id='" + area_id + "'";
 		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery(sql, null);

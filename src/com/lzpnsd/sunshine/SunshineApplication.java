@@ -4,10 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import com.lzpnsd.sunshine.activity.SettingsActivity;
 import com.lzpnsd.sunshine.bean.CityBean;
+import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.db.CityDBManager;
 import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.service.LocationService;
+import com.lzpnsd.sunshine.service.RefreshWeatherService;
 import com.lzpnsd.sunshine.util.CityUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
@@ -19,9 +22,14 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -79,8 +87,22 @@ public class SunshineApplication extends Application {
 					log.d("isFirst = " + isFirst);
 				}
 //				CityWeatherInfoTest.getInstance(mContext).test();
+				startRefreshWeather();
 			}
         }
+	}
+
+	private void startRefreshWeather() {
+//		Intent intent = new Intent(Contants.ACTION_REFRESH_WEATHER_SERVICE);
+//		startService(intent);
+		SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(mContext);
+		final String rateValue = sharedPreference.getString(SettingsActivity.NAME_REFRESH_WEATHER, getString(R.string.text_settings_rate_default));
+		final int time = Integer.parseInt(rateValue)*60*60*1000;
+		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		Intent refreshWeatherService = new Intent(mContext,RefreshWeatherService.class);
+		PendingIntent operation = PendingIntent.getService(mContext, 1, refreshWeatherService, PendingIntent.FLAG_UPDATE_CURRENT);
+		alarmManager.cancel(operation);
+		alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), time, operation);
 	}
 
 	private void insertData() {

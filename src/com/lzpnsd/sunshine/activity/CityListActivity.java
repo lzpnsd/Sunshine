@@ -16,7 +16,6 @@ import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +32,7 @@ import android.widget.ListView;
  *
  * 2016年5月9日
  */
-public class CityListActivity extends Activity {
+public class CityListActivity extends BaseActivity {
 
 	private final LogUtil log = LogUtil.getLog(getClass());
 	
@@ -164,16 +163,26 @@ public class CityListActivity extends Activity {
 					break;
 				case R.id.ib_city_list_title_bar_ok:
 					List<Integer> delectCitied = mCustomCityListAdapter.getDelectCity();
+					//从保存的天气文件中删除这个城市的天气文件
 					WeatherUtil.getInstance().deleteWeatherInfo(delectCitied);
-					DataManager.getInstance().setCurrentCityId(0);
+					//删除保存的城市
 					CityDBManager.getInstance().deleteSavedCity(delectCitied);
-					for(CityListItemBean cityListItemBean : mCityListItemBeans){
-						cityListItemBean.setShowDelete(false);
-					}
 					mCustomCityListAdapter.notifyDataSetChanged();
 					mIbEdit.setVisibility(View.VISIBLE);
 					mIbOk.setVisibility(View.GONE);
-					if(null == mCityListItemBeans || mCityListItemBeans.size() <=0){
+					for(CityListItemBean cityListItemBean : mCityListItemBeans){
+						cityListItemBean.setShowDelete(false);
+					}
+					if(null != mCityListItemBeans && mCityListItemBeans.size()>0){
+						for(CityListItemBean cityListItem : mCityListItemBeans){
+							if(cityListItem.getArea_id() == DataManager.getInstance().getCurrentCityId()){
+								return;
+							}
+						}
+						int area_id = mCityListItemBeans.get(mCityListItemBeans.size()-1).getArea_id();
+						DataManager.getInstance().setCurrentCityId(area_id,false);
+					}else{
+						DataManager.getInstance().setCurrentCityId(DataManager.DEFAULT_CITYID,true);
 						turnToAddCity();
 					}
 					break;
@@ -200,5 +209,12 @@ public class CityListActivity extends Activity {
 				break;
 		}
 	};
+	
+	@Override
+	public void onBackPressed() {
+		setResult(CODE_GOBACK_RESULT);
+		finish();
+		super.onBackPressed();
+	}
 	
 }

@@ -1,4 +1,4 @@
-package com.lzpnsd.sunshine.service;
+package com.lzpnsd.sunshine.util;
 
 public class Utils {
 	public final static String CoorType_GCJ02 = "gcj02";

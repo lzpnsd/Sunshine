@@ -19,7 +19,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class WidgetInfoModel implements IWidgetInfoModel {
 
-	private static final String TAG = "WidgetInfoModel";
 	private static final int TIME_START = 1;
 	private Context mContext;
 	private Handler timeHandler;
@@ -27,6 +26,7 @@ public class WidgetInfoModel implements IWidgetInfoModel {
 
 	public WidgetInfoModel(Context context) {
 		this.mContext = context;
+		mWidgetInfoBean = new WidgetInfoBean();
 	}
 
 	@Override
@@ -36,24 +36,20 @@ public class WidgetInfoModel implements IWidgetInfoModel {
 
 	@Override
 	public WidgetInfoBean getWidgetInfo() {
-		mWidgetInfoBean = new WidgetInfoBean();
 		// 时间格式   10:20
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 		String nowTime = simpleDateFormat.format(new Date());
 		mWidgetInfoBean.setmWidgetTime(nowTime);
-		Log.d(TAG, "newtime=" + nowTime);
 		// 日期格式   04/25
 		Date currentTime = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd");
 		String dateString = formatter.format(currentTime);
 		mWidgetInfoBean.setmWidgetData(dateString);
-		Log.d(TAG, "dateString=" + dateString);
 		//月份格式  三月初一
 		Calendar today = Calendar.getInstance();
 		LunarDataUtil mouth = new LunarDataUtil(today);
 		String widgetmouth = mouth.toString();
 		mWidgetInfoBean.setmWidgetMouth(widgetmouth);
-		Log.d(TAG, "mouth=" + mouth);
 		/*timeHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {

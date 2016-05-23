@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/bg_white" >
+    
+        <TextView 
+            android:id="@+id/tv_select_camera"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_list_item"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_weather"
+            android:text="@string/tv_shijing_camera"
+            android:clickable="true"
+            />
+        <TextView 
+            android:id="@+id/tv_select_from_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_list_item"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_weather"
+            android:text="@string/tv_shijing_select_from_gallery"
+            android:layout_below="@id/tv_select_camera"
+            android:clickable="true"
+            android:layout_marginBottom="-10dp"
+            />
+
+</RelativeLayout>

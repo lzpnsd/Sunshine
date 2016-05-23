@@ -18,7 +18,6 @@ import com.lzpnsd.sunshine.util.LocationUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.ToastUtil;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -41,7 +40,7 @@ import android.widget.ListView;
  *
  * 2016年5月9日
  */
-public class CityAddActivity extends Activity{
+public class CityAddActivity extends BaseActivity{
 
 	private LogUtil log = LogUtil.getLog(getClass());
 	

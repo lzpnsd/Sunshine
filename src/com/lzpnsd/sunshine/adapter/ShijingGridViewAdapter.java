@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.bean.ShijingBean;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -44,22 +45,23 @@ public class ShijingGridViewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder viewHolder = null;
 		if(convertView == null){
-			convertView = mInflater.inflate(R.layout.view_shijing_item_pic, null);
+			convertView = mInflater.inflate(R.layout.item_shijing_pic, null);
 			viewHolder.ivPic = (ImageView) convertView.findViewById(R.id.iv_shijing_item_pic);
-			viewHolder.tvCity = (TextView) convertView.findViewById(R.id.tv_shijing_item_local);
+//			viewHolder.tvCity = (TextView) convertView.findViewById(R.id.tv_shijing_item_local);
 			convertView.setTag(viewHolder);
 		}else{
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		ShijingBean shijingBean = mShijingBeans.get(position);
 //		viewHolder.ivPic.setImageResource(shijingBean.getPicUrl());
-		viewHolder.tvCity.setText(shijingBean.getLocal());
+//		viewHolder.tvCity.setText(shijingBean.getLocal());
+		ImageLoader.getInstance().displayImage(shijingBean.getPicUrl(), viewHolder.ivPic);
 		return convertView;
 	}
 
 	private class ViewHolder{
 		ImageView ivPic;
-		TextView tvCity;
+//		TextView tvCity;
 	}
 	
 }

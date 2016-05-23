@@ -3,7 +3,5 @@
     android:minWidth="300dp"
     android:minHeight="60dp"
     android:previewImage="@drawable/widget_4x1"
-    android:initialLayout="@layout/widget_info_item"
-    android:updatePeriodMillis="5000"
-    android:widgetCategory="home_screen|keyguard" >
+    android:initialLayout="@layout/widget_info_item" >
 </appwidget-provider>

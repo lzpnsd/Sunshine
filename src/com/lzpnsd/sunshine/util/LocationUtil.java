@@ -6,7 +6,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
 import com.google.gson.JsonObject;
-import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.model.ILocationListener;
 import com.lzpnsd.sunshine.service.LocationService;
@@ -79,7 +78,7 @@ public class LocationUtil {
 			}else{
 				log.d("failure");
 //				mLocationListener.onFailed(SunshineApplication.getContext().getString(R.string.location_failed));
-				mLocationListener.onFailed("failure");
+				mLocationListener.onFailed("location failure");
 				locationService.stop();
 			}
 			

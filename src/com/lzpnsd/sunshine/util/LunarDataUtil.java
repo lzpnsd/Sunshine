@@ -3,7 +3,6 @@ package com.lzpnsd.sunshine.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import android.net.ParseException;
 
 public class LunarDataUtil {
 

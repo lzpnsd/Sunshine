@@ -43,7 +43,6 @@ import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -91,7 +90,7 @@ public class WeatherView {
 	private TextView mTvWeatherWind;
 	private TextView mTvTodaySunRise;
 	private TextView mTvTodaySunSet;
-	private GridView mGvIndex;
+	private CustomGridView mGvIndex;
 	
 	public WeatherView(Context mContext) {
 		this.mContext = mContext;
@@ -153,16 +152,13 @@ public class WeatherView {
 							ToastUtil.showToast(mContext.getString(R.string.location_success), ToastUtil.LENGTH_LONG);
 							refreshData();
 						}else{
-//							handleLocationFailed(mContext.getString(R.string.location_failed));
-							handleLocationFailed("cityBean = null");
+							handleLocationFailed(mContext.getString(R.string.location_failed));
 						}
 					} catch (JSONException e) {
-						handleLocationFailed("jsonException");
-//						handleLocationFailed(mContext.getString(R.string.location_failed));
+						handleLocationFailed(mContext.getString(R.string.location_failed));
 					} catch (Exception e) {
 						e.printStackTrace();
-						handleLocationFailed("exception");
-//						handleLocationFailed(mContext.getString(R.string.location_failed));
+						handleLocationFailed(mContext.getString(R.string.location_failed));
 					}
 				}
 				
@@ -201,7 +197,7 @@ public class WeatherView {
 		mTvWeatherWind = (TextView) mView.findViewById(R.id.tv_weather_wind);
 		mTvTodaySunRise = (TextView) mView.findViewById(R.id.tv_weather_today_sunrise);
 		mTvTodaySunSet = (TextView) mView.findViewById(R.id.tv_weather_today_sunset);
-		mGvIndex = (GridView) mView.findViewById(R.id.gv_weather_lifeindex);
+		mGvIndex = (CustomGridView) mView.findViewById(R.id.gv_weather_lifeindex);
 		mGvIndex.setAdapter(mLifeIndexAdapter);
 		mIbCityList.setOnClickListener(mOnClickListener);
 		mHorizontalChartView.setOnItemClickListener(new OnCustomItemClickListener() {
@@ -217,12 +213,13 @@ public class WeatherView {
 	public void refreshData(){
 		showLastInfo();
 		int currentCityId = DataManager.getInstance().getCurrentCityId();
+		log.d("currentCityId = " + currentCityId);
 		if(0 == currentCityId){
 			ToastUtil.showToast(mContext.getString(R.string.no_saved_city), ToastUtil.LENGTH_LONG);
 			Intent intent = new Intent(mContext,CityAddActivity.class);
 			((Activity) mContext).startActivityForResult(intent, CODE_WEATHERVIEW_REQUEST);
 		}else{
-			WeatherUtil.getInstance().getWeather(DataManager.getInstance().getCurrentCityId(), new WeatherUtil.CallBack() {
+			WeatherUtil.getInstance().getWeather(currentCityId, new WeatherUtil.CallBack() {
 	
 				@Override
 				public void onSuccess(List<WeatherInfoBean> weatherInfoBeans) {
@@ -245,7 +242,8 @@ public class WeatherView {
 	private void initData() {
 		log.d("initData");
 		mSvContains.scrollTo(0, 0);
-		mRlMain.setBackgroundResource(WeatherBackgroundUtil.getWeatherMainBackground());
+		int mainBackgroundResource = WeatherBackgroundUtil.getWeatherMainBackground();
+		mRlMain.setBackgroundResource(mainBackgroundResource);
 		WeatherInfoBean weatherInfoBean = DataManager.getInstance().getCurrentWeatherInfoBeans().get(1);
 		ImageLoader.getInstance().displayImage("drawable://"+WeatherIconUtil.getDayBigImageResource(weatherInfoBean.getDayType()), mIvWeather);
 		setAqiData();
@@ -266,7 +264,9 @@ public class WeatherView {
 			mTvCityName.setText(cityWeatherBean.getCity());
 			mTvWeatherType.setText(weatherInfoBean.getDayType());
 			mTvWeatherTem.setText(cityWeatherBean.getTemperature()+"℃");
-			mTvDayType.setText(weatherInfoBean.getDayType()+"转"+weatherInfoBean.getNightType());
+			String dayType = weatherInfoBean.getDayType();
+			String nightType = weatherInfoBean.getNightType();
+			mTvDayType.setText(dayType.equals(nightType)?dayType:dayType+"转"+nightType);
 			mTvDayTem.setText(weatherInfoBean.getLowTemperature()+"~"+weatherInfoBean.getHighTemperature()+"℃");
 			mTvWeatherDampness.setText("湿度  "+cityWeatherBean.getDampness());
 			mTvWeatherWind.setText(cityWeatherBean.getWindDirection() +"  "+cityWeatherBean.getWindPower());

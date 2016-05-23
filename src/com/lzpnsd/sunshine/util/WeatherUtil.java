@@ -31,6 +31,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.bean.AlarmBean;
 import com.lzpnsd.sunshine.bean.CityWeatherBean;
 import com.lzpnsd.sunshine.bean.EnvironmentBean;
@@ -39,6 +40,7 @@ import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.manager.DataManager;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -281,6 +283,11 @@ public class WeatherUtil {
 		return list;
 	}
 	
+	/**
+	 * 从文件中读取上次保存的当前城市的天气
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void getCurrentCityWeatherInfo() throws FileNotFoundException,IOException{
 		File file = new File(Contants.PATH_CACHE_WEATHER_FILE + File.separator + DataManager.getInstance().getCurrentCityId() + ".xml");
 		if(!file.exists()){

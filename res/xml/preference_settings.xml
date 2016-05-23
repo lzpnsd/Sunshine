@@ -1,50 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="" >
-        <EditTextPreference
-            android:defaultValue="edit default value"
-            android:key="et_preference_name"
-            android:summary="edit summary"
-            android:title="edit title" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Second Category" >
-        <PreferenceScreen android:title="@string/app_name" >
-            <CheckBoxPreference
-                android:defaultValue="checkbox default value"
-                android:key="checkbox_key"
-                android:summary="checkbox summary"
-                android:title="checkbox title"/>
-        </PreferenceScreen>
-
-        <PreferenceScreen  
-            android:summary="从一个意图中启动一个activity"  
-            android:title="意图首选项" >  
-            <intent  
-                android:action="android.intent.action.VIEW"  
-                android:data="http://www.baidu.com" />  
-        </PreferenceScreen>
+		<ListPreference 
+		    android:key="rate_refresh_weather"
+		    android:entries="@array/rate_refresh_weather_name"
+		    android:entryValues="@array/rate_refresh_weather_value"
+		    android:title="@string/text_settings_rate_weather"
+		    android:summary="@string/text_settings_rate_weather_description"
+		    android:dialogTitle="@string/text_settings_rate_dialog_title"
+		    android:defaultValue="@string/text_settings_rate_default"
+		    />
         
-        <EditTextPreference
-            android:defaultValue="0"
-            android:key="num_key"
-            android:numeric="integer"
-            android:summary="edit summary"
-            android:title="input number" />
-    </PreferenceCategory>
-    
-    <PreferenceCategory android:title="Preference attributes" >  
-        <CheckBoxPreference  
-            android:key="parent_checkbox_preference"  
-            android:summary="这是一个可见的父类"  
-            android:title="父类复选框首选项"
-            android:widgetLayout="@layout/widget_pref_settings" />  
-        <!-- 子类的可见类型是由样式属性定义的 -->  
-        <CheckBoxPreference  
-            android:dependency="parent_checkbox_preference"  
-            android:key="child_checkbox_preference"  
-            android:summary="这是一个可见的子类"  
-            android:title="子类复选框首选项" />  
-    </PreferenceCategory>  
-
 </PreferenceScreen>

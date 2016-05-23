@@ -2,25 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
-    
+    android:background="@drawable/common_title_bar_bkg"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true" >
+
     <RelativeLayout
         android:id="@+id/rl_city_list_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_main_title"
         android:background="@drawable/common_title_bar_bkg"
-        android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:paddingLeft="@dimen/padding_title_horizontal"
-        android:paddingRight="@dimen/padding_title_horizontal"
-        android:gravity="center_vertical" >
+        android:paddingRight="@dimen/padding_title_horizontal" >
 
         <ImageButton
             android:id="@+id/ib_city_list_title_bar_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:contentDescription="@string/description_city_list_back"
             android:background="@null"
+            android:contentDescription="@string/description_city_list_back"
             android:src="@drawable/selector_title_bar_back" />
 
         <ImageButton
@@ -32,18 +33,18 @@
             android:background="@null"
             android:contentDescription="@string/description_city_list_edit"
             android:src="@drawable/selector_edit" />
-        
+
         <ImageButton
             android:id="@+id/ib_city_list_title_bar_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/ib_city_list_title_bar_add"
             android:layout_marginRight="0dp"
+            android:layout_toLeftOf="@+id/ib_city_list_title_bar_add"
             android:background="@null"
             android:contentDescription="@string/description_city_list_ok"
             android:src="@drawable/selector_ok"
             android:visibility="gone" />
-        
+
         <ImageButton
             android:id="@+id/ib_city_list_title_bar_add"
             android:layout_width="wrap_content"
@@ -52,15 +53,21 @@
             android:background="@null"
             android:contentDescription="@string/description_city_list_add"
             android:src="@drawable/selector_add" />
-
     </RelativeLayout>
 
-    <ListView 
-        android:id="@+id/lv_city_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/rl_city_list_title"
-        android:scrollbars="none"
-        ></ListView>
-    
+        android:background="@color/white" >
+
+        <ListView
+            android:id="@+id/lv_city_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:scrollbars="none" >
+        </ListView>
+    </RelativeLayout>
+
 </RelativeLayout>

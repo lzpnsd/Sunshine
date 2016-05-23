@@ -9,21 +9,29 @@ public class ShijingBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 8987998797721635940L;
 
+	private int cityId;
+
+	/**
+	 * 图片URL
+	 */
 	private String picUrl;
-	private String local;
-	private int localNum;
-	private long time;
 
 	public ShijingBean() {
 		super();
 	}
 
-	public ShijingBean(String picUrl, String local, int localNum, long time) {
+	public ShijingBean(int cityId, String picUrl) {
 		super();
+		this.cityId = cityId;
 		this.picUrl = picUrl;
-		this.local = local;
-		this.localNum = localNum;
-		this.time = time;
+	}
+
+	public int getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
 	}
 
 	public String getPicUrl() {
@@ -34,32 +42,9 @@ public class ShijingBean implements Serializable {
 		this.picUrl = picUrl;
 	}
 
-	public String getLocal() {
-		return local;
-	}
-
-	public void setLocal(String local) {
-		this.local = local;
-	}
-
-	public int getLocalNum() {
-		return localNum;
-	}
-
-	public void setLocalNum(int localNum) {
-		this.localNum = localNum;
-	}
-
-	public long getTime() {
-		return time;
-	}
-
-	public void setTime(long time) {
-		this.time = time;
-	}
-
 	@Override
 	public String toString() {
-		return "ShijingBean [picUrl=" + picUrl + ", local=" + local + ", localNum=" + localNum + ", time=" + time + "]";
+		return "ShijingBean [cityId=" + cityId + ", picUrl=" + picUrl + "]";
 	}
+
 }

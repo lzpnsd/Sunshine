@@ -1,12 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"  >
+    
+    <RelativeLayout
+        android:id="@+id/rl_settings_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_main_title"
+        android:background="@color/black"
+        android:paddingLeft="@dimen/padding_title_horizontal"
+        android:paddingRight="@dimen/padding_title_horizontal"
+        android:layout_alignParentTop="true" >
+
+        <ImageButton
+            android:id="@+id/ib_settings_title_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/description_main_title_city"
+            android:src="@drawable/selector_city_btn"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_settings_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_title"
+            android:text="@string/text_settings_setting" />
+
+        <ImageButton
+            android:id="@+id/ib_settings_title_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/description_main_title_share"
+            android:src="@drawable/selector_common_title_share"
+            android:visibility="gone" />
+        
+    </RelativeLayout>
     
     <RelativeLayout 
         android:id="@+id/rl_settings_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/rl_settings_title"
+        android:background="@color/white"
         >
         
     </RelativeLayout>

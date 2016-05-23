@@ -7,6 +7,7 @@
     <!-- height -->
     <dimen name="height_main_title">50dp</dimen>
     <dimen name="height_list">60dp</dimen>
+    <dimen name="height_textview">100dp</dimen>
     <!-- width -->
     <dimen name="width_gridview_item">100dp</dimen>
     <dimen name="width_dialog_index">250dp</dimen>
@@ -26,6 +27,7 @@
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_weather">18sp</dimen>
     <dimen name="text_size_middle">16sp</dimen>
+    <dimen name="text_size_large">32sp</dimen>
     <!-- just ChartItem can use -->
     <dimen name="item_margin_view_vertical">2dp</dimen>
     <dimen name="item_margin_view_vertical_large">6dp</dimen>
@@ -45,4 +47,7 @@
     <dimen name="add_city_search_padding">16dp</dimen>
     <dimen name="add_city_search_padding_edit">42dp</dimen>
     <dimen name="height_list_item">45dp</dimen>
+    
+    <!-- 实景照片大小 -->
+    <dimen name="size_shijing_pic">90dp</dimen>
 </resources>
