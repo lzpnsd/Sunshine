@@ -64,5 +64,6 @@
     <string name="text_settings_rate_weather_description">每%1$s小时更新</string>
     <string name="text_settings_rate_dialog_title">请选择更新频率</string>
     <string name="text_settings_rate_default">3</string>
+    <string name="text_select_weather_title">天气详情</string>
     
 </resources>

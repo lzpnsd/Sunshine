@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/tv_select_weather_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:text="@string/text_select_weather_title"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_title" />
+
+    <TextView
+        android:id="@+id/tv_select_weather_data"
+        style="@style/WeatherTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_select_weather_title"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:id="@+id/tv_select_weather_week"
+        style="@style/WeatherTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_select_weather_title"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_select_weather_data" />
+
+    <TextView
+        android:id="@+id/tv_select_weather_day"
+        style="@style/WeatherTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_select_weather_data"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:id="@+id/tv_select_weather_night"
+        style="@style/WeatherTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_select_weather_day"
+        android:layout_below="@+id/tv_select_weather_week"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_select_weather_day" />
+
+    <TextView
+        android:id="@+id/tv_select_weather_temperature"
+        style="@style/WeatherTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_select_weather_day"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:id="@+id/tv_select_weather_direction"
+        style="@style/WeatherTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_select_weather_temperature"
+        android:layout_marginBottom="5dp" />
+
+    <TextView
+        android:id="@+id/tv_select_weather_level"
+        style="@style/WeatherTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_select_weather_temperature"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/tv_select_weather_direction" />
+
+</RelativeLayout>

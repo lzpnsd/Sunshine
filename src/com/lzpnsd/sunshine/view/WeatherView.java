@@ -204,7 +204,7 @@ public class WeatherView {
 
 			@Override
 			public void onClick(View v, int position) {
-				
+				ShowWeatherSelectInfo(position);
 			}
 		});
 		mGvIndex.setOnItemClickListener(mOnItemClickListener);
@@ -354,6 +354,48 @@ public class WeatherView {
 		window.setAttributes(layoutParams);
 		window.setGravity(Gravity.CENTER);
 		content.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+	}
+	
+	private void ShowWeatherSelectInfo(int position){
+		log.d("==ShowWeatherSelectInfo()==");
+		final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
+		RelativeLayout select = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.dialog_weather_select, null);
+		TextView tvData = (TextView) select.findViewById(R.id.tv_select_weather_data);
+		TextView tvWeek = (TextView) select.findViewById(R.id.tv_select_weather_week);
+		TextView tvDay = (TextView) select.findViewById(R.id.tv_select_weather_day);
+		TextView tvNight = (TextView) select.findViewById(R.id.tv_select_weather_night);
+		TextView tvTemperature = (TextView) select.findViewById(R.id.tv_select_weather_temperature);
+		TextView tvDirection = (TextView) select.findViewById(R.id.tv_select_weather_direction);
+		TextView tvLevel = (TextView) select.findViewById(R.id.tv_select_weather_level);
+		
+		List<WeatherInfoBean> currentWeatherInfoBeans = DataManager.getInstance().getCurrentWeatherInfoBeans();
+		if (currentWeatherInfoBeans.size() <= 1) {
+			return;
+		}
+		WeatherInfoBean weatherInfoBean = currentWeatherInfoBeans.get(position);
+		String date = weatherInfoBean.getDate();
+		tvData.setText(date.substring(0, date.length()-2));
+		tvWeek.setText(date.substring(date.length()-2, date.length()));
+		tvDay.setText("白天："+weatherInfoBean.getDayType());
+		tvNight.setText("夜间： "+weatherInfoBean.getNightType());
+		tvTemperature.setText("温度："+weatherInfoBean.getLowTemperature()+"℃"+" ~ "+weatherInfoBean.getHighTemperature()+"℃");
+		tvDirection.setText("风向："+weatherInfoBean.getDayWindDirection());
+		tvLevel.setText("风力："+weatherInfoBean.getDayWindPower());
+		dialog.show();
+		Window window = dialog.getWindow();
+		window.setContentView(select);
+		LayoutParams layoutParams = window.getAttributes();
+		layoutParams.width = AdaptationUtil.dip2px(mContext, 200);
+		layoutParams.height = AdaptationUtil.dip2px(mContext, 150);
+		window.setAttributes(layoutParams);
+		window.setGravity(Gravity.CENTER);
+		select.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
