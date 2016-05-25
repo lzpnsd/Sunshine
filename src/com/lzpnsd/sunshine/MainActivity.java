@@ -24,7 +24,6 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -97,6 +96,12 @@ public class MainActivity extends BaseActivity {
         super.onRestoreInstanceState(savedInstanceState); 
     } 
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		System.exit(0);
+	}
+	
 	/**
 	 * 初始化数据
 	 */

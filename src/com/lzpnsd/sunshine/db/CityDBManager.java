@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.bean.CityBean;
+import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.util.LogUtil;
 
 import android.database.Cursor;
@@ -14,12 +15,12 @@ public class CityDBManager {
 
 	private LogUtil log = LogUtil.getLog(getClass());
 	
-	private CityListDatabaseHelper mDatabaseHelper;
+//	private CityListDatabaseHelper mDatabaseHelper;
 
 	private static CityDBManager sInstance = new CityDBManager();
 
 	private CityDBManager() {
-		mDatabaseHelper = new CityListDatabaseHelper(SunshineApplication.getContext());
+//		mDatabaseHelper = new CityListDatabaseHelper(SunshineApplication.getContext());
 	}
 
 	public static synchronized CityDBManager getInstance() {
@@ -27,7 +28,8 @@ public class CityDBManager {
 	}
 
 	public void insertIntoCity(CityBean cityBean) {
-		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+//		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+		SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(Contants.PATH_DATABASES_FILE, null);
 		String sql = "insert into " + CityListDatabaseHelper.TABLE_NAME_CITY + " ("
 				+ "area_id,name_en,name_cn,district_en," + "district_cn,prov_en,prov_cn,nation_en,nation_cn) values ('" 
 				+ cityBean.getAreaId() + "','" 
@@ -46,7 +48,8 @@ public class CityDBManager {
 
 	public void insertIntoCity(List<CityBean> cityBeans){
 		log.d("start insert into city");
-		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+//		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+		SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(Contants.PATH_DATABASES_FILE, null);
 		database.beginTransaction();
 		long startTime = System.currentTimeMillis();
 		Cursor cursor = database.query(CityListDatabaseHelper.TABLE_NAME_CITY, null, null, null, null, null, null);
@@ -104,7 +107,8 @@ public class CityDBManager {
 				"广州",
 				"深圳",
 				"南京"};
-		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+//		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+		SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(Contants.PATH_DATABASES_FILE, null);
 		database.beginTransaction();
 		Cursor cursor = database.query(CityListDatabaseHelper.TABLE_NAME_HOT_CITY, null, null, null, null, null, null);
 		if(null != cursor && cursor.getCount()>0){
@@ -127,7 +131,8 @@ public class CityDBManager {
 			cityName = cityName.substring(0, cityName.length()-1);
 		}
 		String sql = "select * from city where name_cn='" + cityName + "'";
-		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+//		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+		SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(Contants.PATH_DATABASES_FILE, null);
 		Cursor cursor = database.rawQuery(sql, null);
 		if(null == cursor || cursor.getCount() <=0){
 			return null;
@@ -143,7 +148,8 @@ public class CityDBManager {
 
 	public CityBean queryCityByAreaId(String area_id){
 		String sql = "select * from city where area_id='" + area_id + "'";
-		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+//		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+		SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(Contants.PATH_DATABASES_FILE, null);
 		Cursor cursor = database.rawQuery(sql, null);
 		cursor.moveToFirst();
 		CityBean cityBean = new CityBean(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8));
@@ -154,7 +160,8 @@ public class CityDBManager {
 	
 	public List<CityBean> queryCity(String cityName) throws Exception {
 		List<CityBean> cityBeans = new ArrayList<CityBean>();
-		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+//		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+		SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(Contants.PATH_DATABASES_FILE, null);
 		String sql = "select * from city where name_cn like '%" + cityName + "%' or district_cn like '%" + cityName + "%' or prov_cn like '%" + cityName + "%'";
 		Cursor cursor = database.rawQuery(sql, null);
 		while(cursor.moveToNext()){
@@ -179,7 +186,8 @@ public class CityDBManager {
 				+ CityListDatabaseHelper.TABLE_NAME_HOT_CITY+","+CityListDatabaseHelper.TABLE_NAME_CITY+" where " 
 				+ CityListDatabaseHelper.TABLE_NAME_HOT_CITY+".area_id="+CityListDatabaseHelper.TABLE_NAME_CITY+".area_id";
 //		String sql = "select * from "+CityListDatabaseHelper.TABLE_NAME_HOT_CITY;
-		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+//		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+		SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(Contants.PATH_DATABASES_FILE, null);
 		Cursor cursor = database.rawQuery(sql, null);
 		while(cursor.moveToNext()){
 			String area_id = cursor.getString(cursor.getColumnIndex("area_id"));

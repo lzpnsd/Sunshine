@@ -44,6 +44,7 @@ public class ShijingView {
 	private ImageButton mIbCityList;
 	private ImageButton mIbCamera;
 	private TextView mTvCityName;
+	private TextView mTvNoPic;
 	
 	private List<ShijingBean> mShijingBeans = new ArrayList<ShijingBean>();
 	private ShijingGridViewAdapter mAdapter;
@@ -71,6 +72,7 @@ public class ShijingView {
 		mIbCityList = (ImageButton) mView.findViewById(R.id.ib_shijing_title_city);
 		mIbCamera = (ImageButton) mView.findViewById(R.id.ib_shijing_title_camera);
 		mTvCityName = (TextView) mView.findViewById(R.id.tv_shijing_city_name);
+		mTvNoPic = (TextView) mView.findViewById(R.id.tv_shijing_no_pic);
 		mIbCityList.setOnClickListener(mOnClickListener);
 		mIbCamera.setOnClickListener(mOnClickListener);
 		mGvShijing.setAdapter(mAdapter);
@@ -89,11 +91,16 @@ public class ShijingView {
 				mShijingBeans.clear();
 				mShijingBeans.addAll(shijingBeans);
 				mAdapter.notifyDataSetChanged();
+				mTvNoPic.setVisibility(View.GONE);
 			}else{
 				mShijingBeans.clear();
+				mAdapter.notifyDataSetChanged();
+				mTvNoPic.setVisibility(View.VISIBLE);
 			}
 		}else{
 			mShijingBeans.clear();
+			mAdapter.notifyDataSetChanged();
+			mTvNoPic.setVisibility(View.VISIBLE);
 		}
 	}
 	

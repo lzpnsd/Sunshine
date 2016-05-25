@@ -1,7 +1,10 @@
 package com.lzpnsd.sunshine;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import com.lzpnsd.sunshine.activity.SettingsActivity;
@@ -110,14 +113,37 @@ public class SunshineApplication extends Application {
 		new Thread() {
 			@Override
 			public void run() {
-				log.d("insertData");
-				CityDBManager cityDBManager = CityDBManager.getInstance();
-				CityUtil cityUtil = new CityUtil();
-				List<CityBean> cityBeans = cityUtil.parseExcel(mContext);
-				if (cityBeans != null) {
-					cityDBManager.insertIntoCity(cityBeans);
+//				log.d("insertData");
+//				CityDBManager cityDBManager = CityDBManager.getInstance();
+//				CityUtil cityUtil = new CityUtil();
+//				List<CityBean> cityBeans = cityUtil.parseExcel(mContext);
+//				if (cityBeans != null) {
+//					cityDBManager.insertIntoCity(cityBeans);
+//				}
+//				cityDBManager.insertIntoHotCity();
+				File file = mContext.getDatabasePath("sunshine.db");
+				log.d("databases path = "+file.getAbsolutePath());
+				if(!file.exists()){
+					if(!file.getParentFile().exists()){
+						file.getParentFile().mkdirs();
+					}
+	                try {
+	                	InputStream is = getResources().openRawResource(  
+	                			R.raw.sunshine);  
+						FileOutputStream fos = new FileOutputStream(file);
+						byte[] buffer = new byte[2048];  
+		                int count = 0;  
+		                while ((count = is.read(buffer)) > 0) {  
+		                    fos.write(buffer, 0, count);  
+		                }  
+		                fos.close();  
+		                is.close();  
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}  
 				}
-				cityDBManager.insertIntoHotCity();
 			}
 		}.start();
 	}

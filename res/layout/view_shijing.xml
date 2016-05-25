@@ -69,6 +69,16 @@
                 android:gravity="center_vertical"
                 android:text="@string/tv_shijing" />
             
+            <TextView 
+                android:id="@+id/tv_shijing_no_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/WeatherTextStyle"
+                android:text="@string/tv_shijing_no_pic"
+                android:padding="@dimen/padding_content"
+                android:visibility="gone"
+                />
+            
 	        <com.lzpnsd.sunshine.view.CustomGridView
 	            android:id="@+id/gv_shijing_pic"
 	            android:layout_width="match_parent"

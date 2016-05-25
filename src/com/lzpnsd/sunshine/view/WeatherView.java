@@ -204,7 +204,7 @@ public class WeatherView {
 
 			@Override
 			public void onClick(View v, int position) {
-				ShowWeatherSelectInfo(position);
+				showWeatherSelectInfo(position);
 			}
 		});
 		mGvIndex.setOnItemClickListener(mOnItemClickListener);
@@ -362,7 +362,7 @@ public class WeatherView {
 		});
 	}
 	
-	private void ShowWeatherSelectInfo(int position){
+	private void showWeatherSelectInfo(int position){
 		log.d("==ShowWeatherSelectInfo()==");
 		final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
 		RelativeLayout select = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.dialog_weather_select, null);
@@ -391,8 +391,7 @@ public class WeatherView {
 		Window window = dialog.getWindow();
 		window.setContentView(select);
 		LayoutParams layoutParams = window.getAttributes();
-		layoutParams.width = AdaptationUtil.dip2px(mContext, 200);
-		layoutParams.height = AdaptationUtil.dip2px(mContext, 150);
+		layoutParams.width = AdaptationUtil.dip2px(mContext, 230);
 		window.setAttributes(layoutParams);
 		window.setGravity(Gravity.CENTER);
 		select.setOnClickListener(new OnClickListener() {

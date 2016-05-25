@@ -118,7 +118,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		Intent intent = new Intent("android.appwidget.action.APPWIDGET_UPDATE");
 		PendingIntent operation = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		alarmManager.cancel(operation);
-		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3000, 3000, operation);
+		alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + 3000, 3000, operation);
 	}
 
 	// 最后一个widget被删除时调用

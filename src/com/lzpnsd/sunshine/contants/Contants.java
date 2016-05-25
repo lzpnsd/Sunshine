@@ -17,6 +17,7 @@ public class Contants {
 	public static final int DATABASE_VERSION = 1;
 	
 	public static final String PATH_CACHE_WEATHER_FILE = SunshineApplication.getContext().getFilesDir().getAbsolutePath();
+	public static final String PATH_DATABASES_FILE = SunshineApplication.getContext().getDatabasePath("sunshine.db").getAbsolutePath();
 	
 	public static final String URL_HOST = "http://115.28.4.67";
 	
@@ -26,4 +27,5 @@ public class Contants {
 	public static final String VALUE_USER_ID = "1";
 	
 	public static final String ACTION_REFRESH_WEATHER_SERVICE = "com.lzpnsd.sunshine.service.REFRESH_WEATHER_SERVICE";
+	
 }
