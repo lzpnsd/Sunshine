@@ -241,6 +241,9 @@ public class MainActivity extends BaseActivity {
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 			// 对手指滑动的距离进行了计算，如果滑动距离大于mSlideDistance，就做切换动作，否则不做任何切换动作。
 			// 从左向右滑动
+			try {
+				
+			
 			if (e1.getX() - e2.getX() > mSlideDistance) {
 				// 添加动画
 				showNext();
@@ -251,6 +254,9 @@ public class MainActivity extends BaseActivity {
 				showPrevious();
 				setCheckedButton(-1);
 				return true;
+			}
+			} catch (Exception e) {
+				log.d(e.getMessage());
 			}
 			return true;
 		}
@@ -265,6 +271,9 @@ public class MainActivity extends BaseActivity {
 	protected void onRestart() {
 		super.onRestart();
 		setCheckedButtonAndBg();
+		log.d("refreshView on onRestart");
+		mShijing.refreshView();
+		mWeather.refreshData();
 	};
 
 	/**
@@ -327,6 +336,7 @@ public class MainActivity extends BaseActivity {
 						int area_id = data.getIntExtra(Contants.NAME_AREA_ID, 0);
 						log.d("area_id = " + area_id);
 						if (area_id != 0) {
+							log.d("refreshView on CODE_SHIJING_REQUEST");
 							mShijing.refreshView();
 						}
 					}
@@ -336,6 +346,7 @@ public class MainActivity extends BaseActivity {
 				if (WeatherView.CODE_WEATHERVIEW_REQUEST == requestCode) {
 					mWeather.refreshData();
 				} else if (ShijingView.CODE_SHIJING_REQUEST == requestCode) {
+					log.d("refreshView at CODE_SHIJING_REQUEST");
 					mShijing.refreshView();
 				}
 				break;
@@ -347,6 +358,7 @@ public class MainActivity extends BaseActivity {
 						return;
 					}
 					Uri selectedImageUri = data.getData();//缩略图Uri
+					log.d("uri = "+ selectedImageUri);
 		            String[] filePathColumn = { MediaStore.Images.Media.DATA };
 		  
 		            Cursor cursor = getContentResolver().query(selectedImageUri,
@@ -364,6 +376,7 @@ public class MainActivity extends BaseActivity {
 				}
 				break;
 			case UploadShijingActivity.CODE_UPLOAD_RESULT:
+				log.d("refreshView on CODE_UPLOAD_RESULT");
 				mShijing.refreshView();
 				break;
 			default:

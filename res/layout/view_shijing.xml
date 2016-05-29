@@ -40,19 +40,20 @@
             android:contentDescription="@string/description_main_title_camera"
             android:src="@drawable/selector_camera" />
     </RelativeLayout>
-
+<!-- 
     <ScrollView
         android:id="@+id/sv_shijing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_shijing_title"
         android:scrollbars="none" >
-
+ -->
         <LinearLayout
             android:id="@+id/ll_shijing_cityandtime"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/rl_shijing_title" >
 			
             <ImageView 
                 android:layout_width="match_parent"
@@ -78,7 +79,22 @@
                 android:padding="@dimen/padding_content"
                 android:visibility="gone"
                 />
-            
+            <GridView 
+                android:id="@+id/gv_shijing_pic"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+		        android:listSelector="@color/trans"
+	            android:numColumns="3"
+	            android:stretchMode="columnWidth"
+		        android:verticalSpacing="@dimen/padding_content"  
+		    	android:horizontalSpacing="@dimen/margin_small" 
+	            android:paddingLeft="@dimen/padding_content"
+	            android:paddingRight="@dimen/padding_content"
+	            android:layout_marginTop="@dimen/margin_content"
+	            android:layout_marginBottom="@dimen/height_main_title"
+	            android:scrollbars="none"
+                ></GridView>
+            <!-- 
 	        <com.lzpnsd.sunshine.view.CustomGridView
 	            android:id="@+id/gv_shijing_pic"
 	            android:layout_width="match_parent"
@@ -93,8 +109,9 @@
 	            android:layout_marginTop="@dimen/margin_content"
 	            android:layout_marginBottom="@dimen/height_main_title" >
 	        </com.lzpnsd.sunshine.view.CustomGridView>
+	         -->
         </LinearLayout>
-
+<!-- 
     </ScrollView>
-
+ -->
 </RelativeLayout>

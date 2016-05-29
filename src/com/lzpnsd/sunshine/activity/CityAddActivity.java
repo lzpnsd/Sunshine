@@ -164,8 +164,7 @@ public class CityAddActivity extends BaseActivity{
 								try {
 									log.d("onReceive location,location = "+location);
 									JSONObject jsonObject = new JSONObject(location);
-									String cityName = (String) jsonObject.get(LocationUtil.NAME_CITY_NAME);
-									CityBean cityBean = CityDBManager.getInstance().queryCityByName(cityName);
+									CityBean cityBean = CityDBManager.getInstance().queryCityByLocation(jsonObject);
 									if(cityBean != null){
 										DataManager.getInstance().setCurrentCityBean(cityBean);
 										CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());

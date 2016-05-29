@@ -18,6 +18,7 @@ import com.lzpnsd.sunshine.bean.CityWeatherBean;
 import com.lzpnsd.sunshine.bean.EnvironmentBean;
 import com.lzpnsd.sunshine.bean.LifeIndexBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
+import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.db.CityDBManager;
 import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.model.ILocationListener;
@@ -144,13 +145,13 @@ public class WeatherView {
 					try {
 						log.d("onReceive location,location = "+location);
 						JSONObject jsonObject = new JSONObject(location);
-						String cityName = (String) jsonObject.get(LocationUtil.NAME_CITY_NAME);
-						CityBean cityBean = CityDBManager.getInstance().queryCityByName(cityName);
+						CityBean cityBean = CityDBManager.getInstance().queryCityByLocation(jsonObject);
 						if(cityBean != null){
 							DataManager.getInstance().setCurrentCityBean(cityBean);
 							CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
 							ToastUtil.showToast(mContext.getString(R.string.location_success), ToastUtil.LENGTH_LONG);
 							refreshData();
+							mContext.sendBroadcast(new Intent(Contants.ACTION_LOCATION_SUCCESS));
 						}else{
 							handleLocationFailed(mContext.getString(R.string.location_failed));
 						}

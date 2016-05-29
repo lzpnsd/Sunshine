@@ -19,6 +19,7 @@ public class LocationUtil {
 	public static final String NAME_CITY_NAME = "city_cn";
 	public static final String NAME_ADDR = "addr";
 	public static final String NAME_POI = "poi";
+	public static final String NAME_DISTRICT = "district_cn";
 	
 	private static final LocationUtil sInstance = new LocationUtil();
 	
@@ -56,20 +57,28 @@ public class LocationUtil {
 				log.d("location success");
 				JsonObject jsonObject = new JsonObject();
 				String district = location.getDistrict();
+				log.d("district = "+district);
+				String city = location.getCity();
+				log.d("city = "+city);
+				String cityCode = location.getCityCode();
+				log.d("cityCode = "+cityCode);
 				String addrest = location.getAddrStr();
+				log.d("addrest = "+addrest);
 				List<Poi> poiList = location.getPoiList();
+				log.d("poiList = "+poiList.toString());
 				StringBuilder sbPoi = new StringBuilder();
 				if(null != poiList && poiList.size()>0){
 					sbPoi.append(poiList.get(0).getName());
 				}
-				if(TextUtils.isEmpty(district)){
-					log.d("location success,but district is null");
+				if(TextUtils.isEmpty(city)){
+					log.d("location success,but city is null");
 //					mLocationListener.onFailed(SunshineApplication.getContext().getString(R.string.location_failed));
-					mLocationListener.onFailed("location success,but district is null");
+					mLocationListener.onFailed("location success,but city is null");
 					locationService.stop();
 				}else{
 					log.d("onReceiveLocation");
-					jsonObject.addProperty(NAME_CITY_NAME, district);
+					jsonObject.addProperty(NAME_CITY_NAME, city);
+					jsonObject.addProperty(NAME_DISTRICT, district);
 					jsonObject.addProperty(NAME_ADDR, addrest);
 					jsonObject.addProperty(NAME_POI, sbPoi.toString());
 					mLocationListener.onReceiveLocation(jsonObject.toString());

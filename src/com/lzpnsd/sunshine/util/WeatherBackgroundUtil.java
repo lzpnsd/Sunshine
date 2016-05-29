@@ -30,7 +30,7 @@ public class WeatherBackgroundUtil {
 		if (!WeatherIconUtil.isDayOrNight()) {
 			return R.drawable.selector_aqi_night;
 		}
-		return R.drawable.selector_aqi_night;
+		return R.drawable.selector_aqi;
 	}
 
 	public static int getWeatherMainBackground() {

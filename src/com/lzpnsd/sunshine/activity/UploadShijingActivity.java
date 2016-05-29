@@ -1,5 +1,7 @@
 package com.lzpnsd.sunshine.activity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 import org.json.JSONException;
@@ -11,11 +13,12 @@ import com.lzpnsd.sunshine.manager.DataManager;
 import com.lzpnsd.sunshine.util.AdaptationUtil;
 import com.lzpnsd.sunshine.util.BitmapUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
-import com.lzpnsd.sunshine.util.ShijingUtil;
 import com.lzpnsd.sunshine.util.ToastUtil;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View.OnClickListener;
@@ -53,7 +56,7 @@ public class UploadShijingActivity extends BaseActivity {
 	private AlertDialog mDialogUploading;
 
 	private final String PATH = "/weather/uploadPicture";
-
+	private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
 	public static final int CODE_UPLOAD_RESULT = 1041;
 
 	@Override
@@ -88,99 +91,112 @@ public class UploadShijingActivity extends BaseActivity {
 
 		@Override
 		public void onClick(android.view.View v) {
-			// 如果是wifi，这上传整张图片，否则压缩上传
-			// Bitmap bitmap = null;
 			final String path = mIntent.getStringExtra(Contants.NAME_SELECT_IMAGE_PATH);
 			log.d("path = " + path);
-			// if(NetWorkUtil.isWifi()){
-			// bitmap = BitmapFactory.decodeFile(path);
-			// }else{
-			// bitmap = BitmapUtil.compressBitmap(path);
-			// }
-
+			final Bitmap bitmap = BitmapUtil.compressBitmap(path);
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			bitmap.compress(CompressFormat.JPEG, 60, outputStream);
+			log.d("outputStream.length = "+outputStream.size());
+			final byte[] byteArray = outputStream.toByteArray();
+			String[] strings = path.split(File.separator);
+			final String fileName = strings[strings.length - 1];
+			log.d("fileName= " + fileName);
 			showUploadingDialog();
 			new Thread() {
 
 				@Override
 				public void run() {
 					OkHttpClient client = new OkHttpClient();
-					RequestBody fileBody = RequestBody.create(MediaType.parse("image/jpg"), path);
-					RequestBody body = new MultipartBody.Builder()
-							.addFormDataPart("cityId", DataManager.getInstance().getCurrentCityId() + "")
-							.addFormDataPart("userId", Contants.VALUE_USER_ID)
-							.addFormDataPart("describe", mEtDescription.getText().toString()).addPart(fileBody).build();
-					Request request = new Request.Builder().url(Contants.URL_HOST + PATH).post(body).build();
-					client.newCall(request).enqueue(new Callback() {
+					RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), path);
+					log.d("fileBody = " + fileBody);
+					File file = new File(path);
+					if (file.exists()) {
 
-						@Override
-						public void onFailure(Call arg0, final IOException arg1) {
-							runOnUiThread(new Runnable() {
+						RequestBody body = new MultipartBody.Builder()
+								.addFormDataPart("cityId", DataManager.getInstance().getCurrentCityId() + "")
+								.addFormDataPart("userId", Contants.VALUE_USER_ID)
+								.addFormDataPart("describe", mEtDescription.getText().toString())
+								.addFormDataPart("uploadimgfile", fileName, RequestBody.create(MediaType.parse("application/octet-stream"), byteArray))
+//								.addFormDataPart("uploadimgfile", fileName,
+//										RequestBody.create(MediaType.parse("application/octet-stream"), outputStream))
+//								.addFormDataPart("upload", null, RequestBody.create(MEDIA_TYPE_PNG, new File(path)))
+								.build();
+						Request request = new Request.Builder().url(Contants.URL_HOST + PATH).post(body).build();
+						log.d("request = " + request.toString());
+						client.newCall(request).enqueue(new Callback() {
 
-								@Override
-								public void run() {
-									log.d("arg1 = "+arg1.getMessage());
-									if (null != mDialogUploading && mDialogUploading.isShowing()) {
-										mDialogUploading.dismiss();
-									}
-									ToastUtil.showToast(getString(R.string.text_upload_failed), ToastUtil.LENGTH_LONG);
-								}
-							});
-						}
+							@Override
+							public void onFailure(Call arg0, final IOException arg1) {
+								runOnUiThread(new Runnable() {
 
-						@Override
-						public void onResponse(Call arg0, final Response arg1) throws IOException {
-							runOnUiThread(new Runnable() {
-
-								@Override
-								public void run() {
-									String message = null;
-									try {
-										message = arg1.body().string();
-									} catch (IOException e1) {
-										e1.printStackTrace();
-									}
-									
-									log.d("message = " + message);
-									try {
-										JSONObject obj = new JSONObject(message);
-										boolean result = obj.getBoolean("success");
-										if (result) {
-
-											if (null != mDialogUploading && mDialogUploading.isShowing()) {
-												mDialogUploading.dismiss();
-											}
-											ShijingUtil.getInstance()
-													.getShijingList(DataManager.getInstance().getCurrentCityId());
-											ToastUtil.showToast(getString(R.string.text_upload_success),
-													ToastUtil.LENGTH_LONG);
-											setResult(CODE_UPLOAD_RESULT);
-											finish();
-										} else {
-											if (null != mDialogUploading && mDialogUploading.isShowing()) {
-												mDialogUploading.dismiss();
-											}
-											ToastUtil.showToast(getString(R.string.text_upload_failed),
-													ToastUtil.LENGTH_LONG);
-										}
-									} catch (JSONException e) {
-										if (null != mDialogUploading && mDialogUploading.isShowing()) {
-											mDialogUploading.dismiss();
-										}
+									@Override
+									public void run() {
+										log.d("arg1 = " + arg1.getMessage());
+										dismissDialog();
 										ToastUtil.showToast(getString(R.string.text_upload_failed),
 												ToastUtil.LENGTH_LONG);
 									}
-								}
-							});
-						}
-					});
-				};
+								});
+							}
+
+							@Override
+							public void onResponse(Call arg0, final Response arg1) throws IOException {
+								runOnUiThread(new Runnable() {
+
+									@Override
+									public void run() {
+										String message = null;
+										try {
+											message = arg1.body().string();
+										} catch (IOException e1) {
+											e1.printStackTrace();
+										}
+
+										log.d("message = " + message);
+										try {
+											JSONObject obj = new JSONObject(message);
+											boolean result = obj.getBoolean("success");
+											if (result) {
+												dismissDialog();
+												ToastUtil.showToast(getString(R.string.text_upload_success),
+														ToastUtil.LENGTH_LONG);
+												setResult(CODE_UPLOAD_RESULT);
+												finish();
+											} else {
+												dismissDialog();
+												ToastUtil.showToast(getString(R.string.text_upload_failed),
+														ToastUtil.LENGTH_LONG);
+											}
+										} catch (JSONException e) {
+											dismissDialog();
+											ToastUtil.showToast(getString(R.string.text_upload_failed),
+													ToastUtil.LENGTH_LONG);
+										}
+									}
+								});
+							}
+						});
+					}else{
+						dismissDialog();
+						ToastUtil.showToast(getString(R.string.text_upload_pic_load_failed),
+								ToastUtil.LENGTH_LONG);
+					}
+				}
+
 			}.start();
 		};
 	};
 
+	private void dismissDialog() {
+		if (null != mDialogUploading && mDialogUploading.isShowing()) {
+			mDialogUploading.dismiss();
+		}
+	}
+	
 	private void showUploadingDialog() {
 		mDialogUploading = new AlertDialog.Builder(UploadShijingActivity.this).create();
 		RelativeLayout content = (RelativeLayout) getLayoutInflater().inflate(R.layout.dialog_uploading, null);
+		mDialogUploading.show();
 		Window window = mDialogUploading.getWindow();
 		window.setContentView(content);
 		LayoutParams layoutParams = window.getAttributes();

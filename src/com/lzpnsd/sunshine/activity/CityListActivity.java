@@ -134,7 +134,7 @@ public class CityListActivity extends BaseActivity {
 			CityListItemBean cityListItemBean = mCityListItemBeans.get(position);
 			log.d("cityListItemBean = "+cityListItemBean);
 			int area_id = cityListItemBean.getArea_id();
-			CityBean cityBean = new CityBean(area_id+"", cityListItemBean.getCityName(), null, null, null, null, null, null, null);
+			CityBean cityBean = new CityBean(area_id+"", "", cityListItemBean.getCityName(), "", "", "", "", "", "");
 			DataManager.getInstance().setCurrentCityBean(cityBean);
 			log.d("cityBean = "+cityBean);
 			Intent intent = new Intent();

@@ -3,9 +3,13 @@ package com.lzpnsd.sunshine.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
 import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.bean.CityBean;
 import com.lzpnsd.sunshine.contants.Contants;
+import com.lzpnsd.sunshine.util.LocationUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 
 import android.database.Cursor;
@@ -146,6 +150,59 @@ public class CityDBManager {
 		return cityBean;
 	}
 
+	/**
+	 * 定位后的查询城市
+	 * @param jsonObject
+	 * @return
+	 * @throws Exception
+	 */
+	public CityBean queryCityByLocation(JSONObject jsonObject) throws Exception{
+		String district = jsonObject.getString(LocationUtil.NAME_DISTRICT);
+		String cityName = jsonObject.getString(LocationUtil.NAME_CITY_NAME);
+		if(district.endsWith("市") || district.endsWith("县") || district.endsWith("区")){
+			if("浦东新区".equals(district) || "滨海新区".equals(district) || "呼市郊区".equals(district) 
+					|| "尖草坪区".equals(district) || "小店区".equals(district) || "淮阴区".equals(district) 
+					|| "淮安区".equals(district) || "黄山区".equals(district) || "黄山风景区".equals(district)
+					|| "赫山区".equals(district) || "呼市郊区".equals(district) || "沙市".equals(district) 
+					|| "津市".equals(district) || "芒市".equals(district)){
+			}else{
+				district = district.substring(0, district.length()-1);
+			}
+		}
+		String sql = "select * from city where name_cn='" + district + "'";
+//		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();
+		SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(Contants.PATH_DATABASES_FILE, null);
+		Cursor cursor = database.rawQuery(sql, null);
+		if(null == cursor || cursor.getCount() <=0){
+			if(cityName.endsWith("市")){
+				cityName = cityName.substring(0, cityName.length()-1);
+			}
+			log.d("cityName = "+cityName);
+			String selectByCity = "select * from city where district_cn='" + cityName + "'";
+			Cursor query = database.rawQuery(selectByCity, null);
+			if(null != query && query.getCount() >0){
+				log.d("query = "+query.toString());
+				query.moveToFirst();
+				CityBean cityBean = new CityBean(query.getString(1), query.getString(2), query.getString(3), 
+						query.getString(4), query.getString(5), query.getString(6), query.getString(7), 
+						query.getString(8), query.getString(9));
+				query.close();
+				cursor.close();
+				database.close();
+				log.d("cityBean = "+cityBean.toString());
+				return cityBean;
+			}
+			return null;
+		}
+		cursor.moveToFirst();
+		CityBean cityBean = new CityBean(cursor.getString(1), cursor.getString(2), cursor.getString(3), 
+				cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), 
+				cursor.getString(8), cursor.getString(9));
+		cursor.close();
+		database.close();
+		return cityBean;
+	}
+	
 	public CityBean queryCityByAreaId(String area_id){
 		String sql = "select * from city where area_id='" + area_id + "'";
 //		SQLiteDatabase database = mDatabaseHelper.getReadableDatabase();

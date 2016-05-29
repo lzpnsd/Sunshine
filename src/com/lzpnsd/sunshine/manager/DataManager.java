@@ -14,10 +14,8 @@ import com.lzpnsd.sunshine.bean.LifeIndexBean;
 import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.db.CityDBManager;
-import com.lzpnsd.sunshine.util.ShijingUtil;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
@@ -71,7 +69,6 @@ public class DataManager {
 	
 	public boolean setCurrentCityBean(CityBean cityBean){
 		setCurrentCityId(Integer.parseInt(cityBean.getAreaId()),true);//设置当前城市id
-		ShijingUtil.getInstance().getShijingList(Integer.parseInt(cityBean.getAreaId()));
 		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_CURRENT_CITY_SP, MODE_SHAREDPREFERENCES);
 		Editor editor = preferences.edit();
 		editor.clear();
