@@ -271,7 +271,6 @@ public class MainActivity extends BaseActivity {
 	protected void onRestart() {
 		super.onRestart();
 		setCheckedButtonAndBg();
-		log.d("refreshView on onRestart");
 		mShijing.refreshView();
 		mWeather.refreshData();
 	};
@@ -326,7 +325,6 @@ public class MainActivity extends BaseActivity {
 							+ data.getIntExtra(Contants.NAME_AREA_ID, 0));
 					if (data != null) {
 						int area_id = data.getIntExtra(Contants.NAME_AREA_ID, 0);
-						log.d("area_id = " + area_id);
 						if (area_id != 0) {
 							mWeather.refreshData();
 						}
@@ -336,7 +334,6 @@ public class MainActivity extends BaseActivity {
 						int area_id = data.getIntExtra(Contants.NAME_AREA_ID, 0);
 						log.d("area_id = " + area_id);
 						if (area_id != 0) {
-							log.d("refreshView on CODE_SHIJING_REQUEST");
 							mShijing.refreshView();
 						}
 					}
@@ -346,7 +343,6 @@ public class MainActivity extends BaseActivity {
 				if (WeatherView.CODE_WEATHERVIEW_REQUEST == requestCode) {
 					mWeather.refreshData();
 				} else if (ShijingView.CODE_SHIJING_REQUEST == requestCode) {
-					log.d("refreshView at CODE_SHIJING_REQUEST");
 					mShijing.refreshView();
 				}
 				break;

@@ -33,6 +33,7 @@ public class ShijingGridViewAdapter extends BaseAdapter {
 		mOptions = new DisplayImageOptions.Builder()
 				.considerExifParams(true)
 				.imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+				.cacheOnDisk(true)
 				.build();
 	}
 

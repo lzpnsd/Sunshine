@@ -56,7 +56,6 @@ public class UploadShijingActivity extends BaseActivity {
 	private AlertDialog mDialogUploading;
 
 	private final String PATH = "/weather/uploadPicture";
-	private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
 	public static final int CODE_UPLOAD_RESULT = 1041;
 
 	@Override
@@ -95,7 +94,7 @@ public class UploadShijingActivity extends BaseActivity {
 			log.d("path = " + path);
 			final Bitmap bitmap = BitmapUtil.compressBitmap(path);
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			bitmap.compress(CompressFormat.JPEG, 60, outputStream);
+			bitmap.compress(CompressFormat.JPEG, 40, outputStream);
 			log.d("outputStream.length = "+outputStream.size());
 			final byte[] byteArray = outputStream.toByteArray();
 			String[] strings = path.split(File.separator);

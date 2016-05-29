@@ -14,8 +14,8 @@ public class BitmapUtil {
         newOpts.inJustDecodeBounds = false;  
         int w = newOpts.outWidth;  
         int h = newOpts.outHeight;  
-        float hh = 800f;//  
-        float ww = 480f;//  
+        float hh = 600f;//  
+        float ww = 320f;//  
         int be = 1;  
         if (w > h && w > ww) {  
             be = (int) (newOpts.outWidth / ww);  
