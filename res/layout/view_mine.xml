@@ -7,9 +7,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/height_main_title"
         android:background="@color/white"
-        android:scrollbars="none"
-        android:layout_marginBottom="@dimen/height_main_title" >
+        android:scrollbars="none" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:background="@drawable/personal_back" >
 
                 <ImageButton
-                    android:id="@+id/ib_settings_face"
+                    android:id="@+id/ib_settings_login"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
@@ -34,7 +34,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ib_settings_face"
+                    android:layout_below="@id/ib_settings_login"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:text="@string/tv_mine_face_login"
@@ -47,7 +47,7 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="40dp"
-                    android:layout_toRightOf="@id/ib_settings_face"
+                    android:layout_toRightOf="@id/ib_settings_login"
                     android:background="@drawable/selector_owner_message" />
             </RelativeLayout>
 
@@ -59,8 +59,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:paddingTop="@dimen/padding_content"
-                    android:paddingBottom="@dimen/padding_content" >
+                    android:paddingBottom="@dimen/padding_content"
+                    android:paddingTop="@dimen/padding_content" >
 
                     <ImageButton
                         style="@style/setting_item_imagebutton_style"
@@ -69,6 +69,113 @@
                     <TextView
                         style="@style/setting_item_textview_style"
                         android:text="@string/btn_mine_settings"
+                        android:textSize="@dimen/text_size_weather" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/setting_item_linearlayout_style" >
+
+                <LinearLayout
+                    android:id="@+id/li_settings_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/padding_content"
+                    android:paddingTop="@dimen/padding_content" >
+
+                    <ImageButton
+                        style="@style/setting_item_imagebutton_style"
+                        android:background="@drawable/owner_setting" />
+
+                    <TextView
+                        style="@style/setting_item_textview_style"
+                        android:text="@string/tv_mine_face_background"
+                        android:textSize="@dimen/text_size_weather" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/setting_item_linearlayout_style" >
+
+                <LinearLayout
+                    android:id="@+id/li_settings_clean"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/padding_content"
+                    android:paddingTop="@dimen/padding_content" >
+
+                    <ImageButton
+                        style="@style/setting_item_imagebutton_style"
+                        android:background="@drawable/owner_setting" />
+
+                    <TextView
+                        style="@style/setting_item_textview_style"
+                        android:text="@string/tv_mine_face_clean"
+                        android:textSize="@dimen/text_size_weather" />
+
+                    <TextView
+                        android:id="@+id/tv_text_mine_clean"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_marginLeft="60dp"
+                        android:text="aaa"
+                        android:textColor="@color/red"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/setting_item_linearlayout_style" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/padding_content"
+                    android:paddingTop="@dimen/padding_content" >
+
+                    <ImageButton
+                        style="@style/setting_item_imagebutton_style"
+                        android:background="@drawable/owner_setting" />
+
+                    <TextView
+                        style="@style/setting_item_textview_style"
+                        android:text="@string/tv_mine_face_version"
+                        android:textSize="@dimen/text_size_weather" />
+
+                    <TextView
+                        android:id="@+id/tv_text_mine_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="60dp"
+                        android:text="aaa"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/text_size_normal" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/setting_item_linearlayout_style" >
+
+                <LinearLayout
+                    android:id="@+id/li_settings_me"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/padding_content"
+                    android:paddingTop="@dimen/padding_content" >
+
+                    <ImageButton
+                        style="@style/setting_item_imagebutton_style"
+                        android:background="@drawable/owner_setting" />
+
+                    <TextView
+                        style="@style/setting_item_textview_style"
+                        android:text="@string/tv_mine_face_me"
                         android:textSize="@dimen/text_size_weather" />
                 </LinearLayout>
             </LinearLayout>
