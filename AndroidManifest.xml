@@ -82,6 +82,11 @@
 		<activity android:name="com.lzpnsd.sunshine.activity.AboutMeActivity"
 		    android:label="@string/app_name">
 		</activity>
+		<activity android:name="com.lzpnsd.sunshine.activity.MineLoginActivity"
+		    android:label="@string/app_name">
+		</activity>
+		<activity android:name="com.lzpnsd.sunshine.activity.MineRegisterActivity"
+		    android:label="@string/app_name"/>
         
         <service
             android:name="com.baidu.location.f"

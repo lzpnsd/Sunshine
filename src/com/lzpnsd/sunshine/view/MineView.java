@@ -127,9 +127,9 @@ public class MineView {
 					mContext.startActivity(new Intent(mContext, AboutMeActivity.class));
 					break;
 				case R.id.ib_settings_login://登录
-//					Intent intent = new Intent(mContext, MineLoginActivity.class);				
-//					intent.putExtra("type", 0);
-//					mContext.startActivity(intent);
+					Intent intent = new Intent(mContext, MineLoginActivity.class);				
+					intent.putExtra("type", 0);
+					mContext.startActivity(intent);
 					break;
 				case R.id.ib_settings_letter://消息
 
