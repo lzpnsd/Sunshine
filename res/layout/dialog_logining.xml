@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white"
+    android:padding="@dimen/padding_content"
+    android:gravity="center"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:id="@+id/tv_login_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_weather"
+        android:text="@string/text_dialog_logining"
+        android:layout_gravity="center_horizontal"/>
+    
+
+</LinearLayout>
