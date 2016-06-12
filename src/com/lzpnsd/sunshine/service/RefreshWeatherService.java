@@ -23,30 +23,18 @@ public class RefreshWeatherService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		log.d("onStartCommand");
-		new Thread(){
-			@Override
-			public void run() {
-				List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity();
+//		new Thread(){
+//			@Override
+//			public void run() {
+				List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity(RefreshWeatherService.this);
+				log.d("saved City = "+savedCity.toString()+",size = "+savedCity.size());
 				for(CityBean cityBean : savedCity){
 					WeatherUtil.getInstance().getWeather(Integer.parseInt(cityBean.getAreaId()));
 				}
-			};
-		}.start();
-//		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(RefreshWeatherService.this);
-//		final String rateValue = sharedPreferences.getString(SettingsActivity.NAME_REFRESH_WEATHER, getString(R.string.text_settings_rate_default));
-//		final int time = Integer.parseInt(rateValue)*60*60*1000;
-//		
-//		final Handler handler = new Handler();
-//		handler.postDelayed(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				
-//				handler.postDelayed(this, time);
-//			}
-//		}, time);
+//			};
+//		}.start();
 		
-		return Service.START_STICKY;
+		return Service.START_NOT_STICKY;
 	}
 	
 	@Override

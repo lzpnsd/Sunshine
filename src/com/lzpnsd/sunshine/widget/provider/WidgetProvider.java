@@ -43,7 +43,6 @@ public class WidgetProvider extends AppWidgetProvider {
 		super.onReceive(context, intent);
 		final String action = intent.getAction();
 		log.d("onReceive:action:" + action);
-		startUpgrade(context);
 		showWidgetInfo(context);
 		if (intent.hasCategory(Intent.CATEGORY_ALTERNATIVE)) {// 点击事件
 			Uri data = intent.getData();

@@ -12,6 +12,7 @@ import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.util.LocationUtil;
 import com.lzpnsd.sunshine.util.LogUtil;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -273,9 +274,9 @@ public class CityDBManager {
 		return cityBeans;
 	}
 	
-	public void insertIntoSaved(int cityId,String cityName){
+	public void insertIntoSaved(Context context,int cityId,String cityName){
 		log.d("city_id="+cityId+",cityName="+cityName);
-		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(SunshineApplication.getContext());
+		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(context);
 		SQLiteDatabase database = savedCityDatabaseHelper.getReadableDatabase();
 		Cursor cursor = database.query(SavedCityDatabaseHelper.NAME_SAVES_CITY, null, null, null, null, null, null);
 		while (cursor.moveToNext()) {
@@ -296,27 +297,28 @@ public class CityDBManager {
 	 * 
 	 * @return 没有返回的List大小为0
 	 */
-	public List<CityBean> querySavedCity(){
+	public List<CityBean> querySavedCity(Context context){
 		List<CityBean> cityBeans = new ArrayList<CityBean>();
-		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(SunshineApplication.getContext());
-		SQLiteDatabase database = savedCityDatabaseHelper.getReadableDatabase();
-		String sql = "select * from " + SavedCityDatabaseHelper.NAME_SAVES_CITY;
-		Cursor cursor = database.rawQuery(sql, null);
-		while(cursor.moveToNext()){
-			String area_id = cursor.getString(cursor.getColumnIndex("area_id"));
-			String name_cn = cursor.getString(cursor.getColumnIndex("name_cn"));
-			CityBean cityBean = new CityBean();
-			cityBean.setAreaId(area_id);
-			cityBean.setNameCn(name_cn);
-			cityBeans.add(cityBean);
-		}
-		cursor.close();
-		database.close();
+			SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(context);
+			log.d("savedCityDatabaseHelper = "+savedCityDatabaseHelper);
+			SQLiteDatabase database = savedCityDatabaseHelper.getReadableDatabase();
+			String sql = "select * from " + SavedCityDatabaseHelper.NAME_SAVES_CITY;
+			Cursor cursor = database.rawQuery(sql, null);
+			while(cursor.moveToNext()){
+				String area_id = cursor.getString(cursor.getColumnIndex("area_id"));
+				String name_cn = cursor.getString(cursor.getColumnIndex("name_cn"));
+				CityBean cityBean = new CityBean();
+				cityBean.setAreaId(area_id);
+				cityBean.setNameCn(name_cn);
+				cityBeans.add(cityBean);
+			}
+			cursor.close();
+			database.close();
 		return cityBeans;
 	}
 	
-	public void deleteSavedCity(List<Integer> delectCities){
-		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(SunshineApplication.getContext());
+	public void deleteSavedCity(Context context,List<Integer> delectCities){
+		SavedCityDatabaseHelper savedCityDatabaseHelper = new SavedCityDatabaseHelper(context);
 		SQLiteDatabase database = savedCityDatabaseHelper.getReadableDatabase();
 		database.beginTransaction();
 		String sql = "delete from "+SavedCityDatabaseHelper.NAME_SAVES_CITY +" where area_id=";

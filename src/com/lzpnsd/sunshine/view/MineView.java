@@ -7,6 +7,7 @@ import com.lzpnsd.sunshine.activity.SettingsActivity;
 import com.lzpnsd.sunshine.activity.SkinShowActivity;
 import com.lzpnsd.sunshine.manager.DataCleanManager;
 import com.lzpnsd.sunshine.util.LogUtil;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -85,7 +86,7 @@ public class MineView {
 		mLiSettings = (LinearLayout) mView.findViewById(R.id.li_settings_setting);
 		mLiBackground = (LinearLayout) mView.findViewById(R.id.li_settings_background);
 		mLiClean = (LinearLayout) mView.findViewById(R.id.li_settings_clean);
-		mLiMine = (LinearLayout) mView.findViewById(R.id.li_settings_me);
+		mLiMine = (LinearLayout) mView.findViewById(R.id.li_settings_about_me);
 		mTvClean = (TextView) mView.findViewById(R.id.tv_text_mine_clean);
 		mTvVersion = (TextView) mView.findViewById(R.id.tv_text_mine_version);
 		mIbLogin = (ImageButton) mView.findViewById(R.id.ib_settings_login);
@@ -123,7 +124,7 @@ public class MineView {
 					msg.what = CLEAN;
 					handler.sendMessage(msg);
 					break;
-				case R.id.li_settings_me:
+				case R.id.li_settings_about_me:
 					mContext.startActivity(new Intent(mContext, AboutMeActivity.class));
 					break;
 				case R.id.ib_settings_login://登录

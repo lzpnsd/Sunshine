@@ -36,6 +36,11 @@ public class DataManager {
 	private final String NAME_VERSION_CODE = "version_code";
 	private final String NAME_CITYID = "cityId";
 	private final String NAME_UPDATE_TIME = "updateTime";
+	private final String NAME_ISLOGIN = "isLogin";
+	
+	private final String NAME_SHAREDPREFERENCES_USER_INFO = "userInfo";
+	private final String NAME_USER_NAME = "name";
+	private final String NAME_USER_PWD = "password";
 	
 	public static final int DEFAULT_CITYID = 0;
 	public static final int DEFAULT_UPDATE_TIME = 3*60*60*1000;
@@ -134,6 +139,18 @@ public class DataManager {
 		return preferences.getInt(NAME_UPDATE_TIME, DEFAULT_UPDATE_TIME);
 	}
 	
+	public void setIsLogin(boolean isLogin){
+		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_COMMON_SHAREDPREFERENCES, MODE_SHAREDPREFERENCES);
+		Editor editor = preferences.edit();
+		editor.putBoolean(NAME_ISLOGIN, isLogin);
+		editor.commit();
+	}
+	
+	public boolean isLogin(){
+		SharedPreferences preferences = SunshineApplication.getContext().getSharedPreferences(NAME_COMMON_SHAREDPREFERENCES, MODE_SHAREDPREFERENCES);
+		return preferences.getBoolean(NAME_ISLOGIN, false);
+	}
+	
 	public List<WeatherInfoBean> getCurrentWeatherInfoBeans(){
 		return mWeatherInfoBeans;
 	}
@@ -176,6 +193,24 @@ public class DataManager {
 	
 	public List<AlarmBean> getCurrentAlarmBeans(){
 		return this.mAlarmBeans;
+	}
+	
+	public void saveUserInfo(String userName,String password) {
+		SharedPreferences sharedPreferences = SunshineApplication.getContext().getSharedPreferences(NAME_SHAREDPREFERENCES_USER_INFO, MODE_SHAREDPREFERENCES);
+		Editor editor = sharedPreferences.edit();
+		editor.putString(NAME_USER_NAME, userName);
+		editor.putString(NAME_USER_PWD, password);
+		editor.commit();
+	}
+	
+	public String getSavedUserName(){
+		SharedPreferences sharedPreferences = SunshineApplication.getContext().getSharedPreferences(NAME_SHAREDPREFERENCES_USER_INFO, MODE_SHAREDPREFERENCES);
+		return sharedPreferences.getString(NAME_USER_NAME, "");
+	}
+	
+	public String getSavedPassword(){
+		SharedPreferences sharedPreferences = SunshineApplication.getContext().getSharedPreferences(NAME_SHAREDPREFERENCES_USER_INFO, MODE_SHAREDPREFERENCES);
+		return sharedPreferences.getString(NAME_USER_PWD, "");
 	}
 	
 	public boolean setIsFirst(boolean isFirst){

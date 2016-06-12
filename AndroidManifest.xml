@@ -5,7 +5,7 @@
     android:versionName="1.0.1" >
 
     <uses-sdk
-        android:minSdkVersion="19"
+        android:minSdkVersion="13"
         android:targetSdkVersion="19" />
 
     <!-- 这个权限用于进行网络定位 -->
@@ -38,7 +38,11 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 	<!-- 接收开机广播 -->
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    
+	<!-- 闪光灯 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>  
+    <!-- 震动 -->
+	<uses-permission android:name="android.permission.VIBRATE"/>  
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -94,6 +98,7 @@
             android:process=":remote" >
         </service>
         <service android:name="com.lzpnsd.sunshine.service.RefreshWeatherService"
+            android:process=":remote"
             android:priority = "1000">
             <intent-filter >
                 <action android:name="com.lzpnsd.sunshine.service.REFRESH_WEATHER_SERVICE"/>

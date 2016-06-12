@@ -62,7 +62,7 @@ public class CityListActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity();
+		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity(CityListActivity.this);
 		if(null != savedCity && savedCity.size() > 0){
 			getSavedCityInfo(savedCity);
 			mCustomCityListAdapter.notifyDataSetChanged();
@@ -88,7 +88,7 @@ public class CityListActivity extends BaseActivity {
 	}
 	
 	private void setAdapter(){
-		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity();
+		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity(CityListActivity.this);
 		if(null != savedCity && savedCity.size() > 0){
 			getSavedCityInfo(savedCity);
 			mCustomCityListAdapter = new CustomCityListAdapter(mCityListItemBeans);
@@ -166,7 +166,7 @@ public class CityListActivity extends BaseActivity {
 					//从保存的天气文件中删除这个城市的天气文件
 					WeatherUtil.getInstance().deleteWeatherInfo(delectCitied);
 					//删除保存的城市
-					CityDBManager.getInstance().deleteSavedCity(delectCitied);
+					CityDBManager.getInstance().deleteSavedCity(CityListActivity.this,delectCitied);
 					mCustomCityListAdapter.notifyDataSetChanged();
 					mIbEdit.setVisibility(View.VISIBLE);
 					mIbOk.setVisibility(View.GONE);

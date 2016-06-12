@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/black"
     android:clipToPadding="true"
     android:fitsSystemWindows="true" >
 
     <RelativeLayout
-        android:id="@+id/li_login_page"
+        android:id="@+id/rl_login_page"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_main_title"
         android:layout_alignParentTop="true"
@@ -30,7 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@color/gray"
+            android:background="@null"
             android:gravity="center"
             android:text="@string/btn_user_register"
             android:textColor="@color/white"
@@ -40,7 +40,9 @@
     <RelativeLayout
         android:id="@+id/rl_login_area"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_below="@id/rl_login_page" >
 
         <LinearLayout
             android:id="@+id/login_edit_layout"
@@ -76,14 +78,9 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="center"
                     android:hint="@string/tv_user_name"
                     android:singleLine="true" />
 
-                <Button
-                    android:id="@+id/bt_login_name_clean"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
             </LinearLayout>
 
             <View
@@ -112,47 +109,28 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="center"
                     android:hint="@string/tv_user_password"
                     android:inputType="textPassword"
                     android:singleLine="true" />
 
-                <Button
-                    android:id="@+id/bt_login_password_clean"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/li_choose"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/login_edit_layout"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:layout_centerInParent="true"
             android:orientation="horizontal" >
 
             <CheckBox
                 android:id="@+id/cb_rember_password"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
-
-            <TextView
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_user_rember_password" />
 
-            <CheckBox
-                android:id="@+id/cb_look_password"
-                android:layout_width="50dp"
-                android:layout_height="50dp" 
-                android:layout_marginLeft="30dp"/>
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_user_look" />
         </LinearLayout>
 
         <Button

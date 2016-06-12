@@ -94,14 +94,16 @@ public class SunshineApplication extends Application {
 	private void startRefreshWeather() {
 //		Intent intent = new Intent(Contants.ACTION_REFRESH_WEATHER_SERVICE);
 //		startService(intent);
+		log.d("start refresh Weather");
 		SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(mContext);
 		final String rateValue = sharedPreference.getString(SettingsActivity.NAME_REFRESH_WEATHER, getString(R.string.text_settings_rate_default));
-		final int time = Integer.parseInt(rateValue)*60*60*1000;
+		final int time = Integer.parseInt(rateValue) * 60 * 60 * 1000;
+		log.d("time = "+time);
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 		Intent refreshWeatherService = new Intent(mContext,RefreshWeatherService.class);
 		PendingIntent operation = PendingIntent.getService(mContext, 1, refreshWeatherService, PendingIntent.FLAG_UPDATE_CURRENT);
 		alarmManager.cancel(operation);
-		alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), time, operation);
+		alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis()+time, time, operation);
 	}
 
 	private void insertData() {

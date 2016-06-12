@@ -1,14 +1,13 @@
 package com.lzpnsd.sunshine.activity;
 
 import com.lzpnsd.sunshine.R;
-import android.app.Activity;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class AboutMeActivity extends Activity {
+public class AboutMeActivity extends BaseActivity {
 	private TextView mTvVersion;
 	
 	@Override

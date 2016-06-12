@@ -271,7 +271,7 @@ public class MainActivity extends BaseActivity {
 	protected void onRestart() {
 		super.onRestart();
 		setCheckedButtonAndBg();
-		mShijing.refreshView();
+//		mShijing.refreshView();
 		mWeather.refreshData();
 	};
 
@@ -340,11 +340,11 @@ public class MainActivity extends BaseActivity {
 				}
 				break;
 			case CityListActivity.CODE_GOBACK_RESULT:
-				if (WeatherView.CODE_WEATHERVIEW_REQUEST == requestCode) {
-					mWeather.refreshData();
-				} else if (ShijingView.CODE_SHIJING_REQUEST == requestCode) {
-					mShijing.refreshView();
-				}
+				mWeather.refreshData();
+				mShijing.refreshView();
+//				if (WeatherView.CODE_WEATHERVIEW_REQUEST == requestCode) {
+//				} else if (ShijingView.CODE_SHIJING_REQUEST == requestCode) {
+//				}
 				break;
 			case Activity.RESULT_OK:
 				if(ShijingView.CODE_SHIJING_REQUEST_CAMERA == requestCode 

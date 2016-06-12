@@ -151,7 +151,7 @@ public class WeatherView {
 						CityBean cityBean = CityDBManager.getInstance().queryCityByName(cityName);
 						if (cityBean != null) {
 							DataManager.getInstance().setCurrentCityBean(cityBean);
-							CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
+							CityDBManager.getInstance().insertIntoSaved(mContext,Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
 							ToastUtil.showToast(mContext.getString(R.string.location_success), ToastUtil.LENGTH_LONG);
 							refreshData();
 						} else {
@@ -320,7 +320,7 @@ public class WeatherView {
 					Intent shareIntent = new Intent(Intent.ACTION_SEND);
 					shareIntent.setType("text/plain");
 					shareIntent.putExtra(Intent.EXTRA_TEXT, shareText());// 内容
-					mContext.startActivity(Intent.createChooser(shareIntent, "分享到"));// 设置分享列表的标题，并且每次都显示分享列表
+					mContext.startActivity(Intent.createChooser(shareIntent, mContext.getString(R.string.text_shared_to)));// 设置分享列表的标题，并且每次都显示分享列表
 					break;
 				default:
 					break;

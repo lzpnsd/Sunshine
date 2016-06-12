@@ -51,133 +51,126 @@
                     android:background="@drawable/selector_owner_message" />
             </RelativeLayout>
 
-            <LinearLayout style="@style/setting_item_linearlayout_style" >
+            <LinearLayout
+                android:id="@+id/li_settings_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@drawable/divider_linear_item"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/padding_content"
+                android:paddingTop="@dimen/padding_content"
+                android:showDividers="middle|end|beginning" >
 
-                <LinearLayout
-                    android:id="@+id/li_settings_setting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/padding_content"
-                    android:paddingTop="@dimen/padding_content" >
+                <ImageButton
+                    style="@style/setting_item_imagebutton_style"
+                    android:background="@drawable/owner_setting" />
 
-                    <ImageButton
-                        style="@style/setting_item_imagebutton_style"
-                        android:background="@drawable/owner_setting" />
-
-                    <TextView
-                        style="@style/setting_item_textview_style"
-                        android:text="@string/btn_mine_settings"
-                        android:textSize="@dimen/text_size_weather" />
-                </LinearLayout>
+                <TextView
+                    style="@style/setting_item_textview_style"
+                    android:text="@string/btn_mine_settings"
+                    android:textSize="@dimen/text_size_weather" />
             </LinearLayout>
 
-            <LinearLayout style="@style/setting_item_linearlayout_style" >
+            <LinearLayout
+                android:id="@+id/li_settings_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@drawable/divider_linear_item"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/padding_content"
+                android:paddingTop="@dimen/padding_content"
+                android:showDividers="middle|end|beginning" >
 
-                <LinearLayout
-                    android:id="@+id/li_settings_background"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/padding_content"
-                    android:paddingTop="@dimen/padding_content" >
+                <ImageButton
+                    style="@style/setting_item_imagebutton_style"
+                    android:background="@drawable/owner_wiget" />
 
-                    <ImageButton
-                        style="@style/setting_item_imagebutton_style"
-                        android:background="@drawable/owner_setting" />
-
-                    <TextView
-                        style="@style/setting_item_textview_style"
-                        android:text="@string/tv_mine_face_background"
-                        android:textSize="@dimen/text_size_weather" />
-                </LinearLayout>
+                <TextView
+                    style="@style/setting_item_textview_style"
+                    android:text="@string/tv_mine_face_background"
+                    android:textSize="@dimen/text_size_weather" />
             </LinearLayout>
 
-            <LinearLayout style="@style/setting_item_linearlayout_style" >
+            <LinearLayout
+                android:id="@+id/li_settings_clean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@drawable/divider_linear_item"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/padding_content"
+                android:paddingTop="@dimen/padding_content"
+                android:showDividers="middle|end|beginning" >
 
-                <LinearLayout
-                    android:id="@+id/li_settings_clean"
-                    android:layout_width="match_parent"
+                <ImageButton
+                    style="@style/setting_item_imagebutton_style"
+                    android:background="@drawable/owner_air_nut" />
+
+                <TextView
+                    style="@style/setting_item_textview_style"
+                    android:text="@string/tv_mine_face_clean"
+                    android:textSize="@dimen/text_size_weather" />
+
+                <TextView
+                    android:id="@+id/tv_text_mine_clean"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/padding_content"
-                    android:paddingTop="@dimen/padding_content" >
-
-                    <ImageButton
-                        style="@style/setting_item_imagebutton_style"
-                        android:background="@drawable/owner_setting" />
-
-                    <TextView
-                        style="@style/setting_item_textview_style"
-                        android:text="@string/tv_mine_face_clean"
-                        android:textSize="@dimen/text_size_weather" />
-
-                    <TextView
-                        android:id="@+id/tv_text_mine_clean"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|right"
-                        android:layout_marginLeft="60dp"
-                        android:text="aaa"
-                        android:textColor="@color/red"
-                        android:textSize="@dimen/text_size_normal" />
-                </LinearLayout>
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginLeft="60dp"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
-            <LinearLayout style="@style/setting_item_linearlayout_style" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@drawable/divider_linear_item"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/padding_content"
+                android:paddingTop="@dimen/padding_content"
+                android:showDividers="middle|end|beginning" >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ImageButton
+                    style="@style/setting_item_imagebutton_style"
+                    android:background="@drawable/owner_feed" />
+
+                <TextView
+                    style="@style/setting_item_textview_style"
+                    android:text="@string/tv_mine_face_version"
+                    android:textSize="@dimen/text_size_weather" />
+
+                <TextView
+                    android:id="@+id/tv_text_mine_version"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/padding_content"
-                    android:paddingTop="@dimen/padding_content" >
-
-                    <ImageButton
-                        style="@style/setting_item_imagebutton_style"
-                        android:background="@drawable/owner_setting" />
-
-                    <TextView
-                        style="@style/setting_item_textview_style"
-                        android:text="@string/tv_mine_face_version"
-                        android:textSize="@dimen/text_size_weather" />
-
-                    <TextView
-                        android:id="@+id/tv_text_mine_version"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="60dp"
-                        android:text="aaa"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/text_size_normal" />
-                </LinearLayout>
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="60dp"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
-            <LinearLayout style="@style/setting_item_linearlayout_style" >
+            <LinearLayout
+                android:id="@+id/li_settings_about_me"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:divider="@drawable/divider_linear_item"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/padding_content"
+                android:paddingTop="@dimen/padding_content"
+                android:showDividers="middle|end|beginning" >
 
-                <LinearLayout
-                    android:id="@+id/li_settings_me"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:paddingBottom="@dimen/padding_content"
-                    android:paddingTop="@dimen/padding_content" >
+                <ImageButton
+                    style="@style/setting_item_imagebutton_style"
+                    android:background="@drawable/owner_friend_dynamic" />
 
-                    <ImageButton
-                        style="@style/setting_item_imagebutton_style"
-                        android:background="@drawable/owner_setting" />
-
-                    <TextView
-                        style="@style/setting_item_textview_style"
-                        android:text="@string/tv_mine_face_me"
-                        android:textSize="@dimen/text_size_weather" />
-                </LinearLayout>
+                <TextView
+                    style="@style/setting_item_textview_style"
+                    android:text="@string/tv_mine_face_me"
+                    android:textSize="@dimen/text_size_weather" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -3,20 +3,15 @@ package com.lzpnsd.sunshine.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,9 +23,9 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.SunshineApplication;
 import com.lzpnsd.sunshine.bean.AlarmBean;
 import com.lzpnsd.sunshine.bean.CityWeatherBean;
@@ -40,11 +35,15 @@ import com.lzpnsd.sunshine.bean.WeatherInfoBean;
 import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.manager.DataManager;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
+import android.widget.RemoteViews;
 
 public class WeatherUtil {
 
@@ -161,8 +160,22 @@ public class WeatherUtil {
 							if(!TextUtils.isEmpty(error)){
 								msg.what = WHAT_GETASYNC_FAILED;
 							}else{
+								//如果是当前的城市，保存当前城市信息
 								if(DataManager.getInstance().getCurrentCityId() == cityId){//如果当前城市id和查询的城市id一样，保存这次查询的信息
 									saveCurrentWeatherInfo();
+									if(null != mAlarmBeans && mAlarmBeans.size() > 0){
+										NotificationManager notificationManager = (NotificationManager) SunshineApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+										Notification notification = new Notification();
+										notification.flags = Notification.FLAG_AUTO_CANCEL;
+										RemoteViews contentView = new RemoteViews(SunshineApplication.getContext().getPackageName(), R.layout.view_alarm_notification);
+										AlarmBean alarmBean = mAlarmBeans.get(0);
+										contentView.setString(R.id.tv_alarm_title, "", alarmBean.getAlarmText());
+										contentView.setString(R.id.tv_alarm_content, "", "预警发布时间：" + alarmBean.getTime());
+										notification.contentView = contentView;
+										notificationManager.notify(cityId, notification);
+									}
+									Intent intent = new Intent("android.appwidget.action.APPWIDGET_UPDATE");
+									SunshineApplication.getContext().sendBroadcast(intent);
 								}
 								saveWeatherInfo(cityId);
 								msg.what = WHAT_GETASYNC_SUCCESS;

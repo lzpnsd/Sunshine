@@ -54,11 +54,9 @@ public class SettingsActivity extends BaseActivity {
 			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 				Preference preference = findPreference(key);
 				preference.setSummary(String.format(getString(R.string.text_settings_rate_weather_description), sharedPreferences.getString(key, getString(R.string.text_settings_rate_default))));
-//				Intent intent = new Intent(Contants.ACTION_REFRESH_WEATHER_SERVICE);
-//				stopService(intent);
-//				startService(intent);
 				SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
 				final String rateValue = sharedPreference.getString(SettingsActivity.NAME_REFRESH_WEATHER, getString(R.string.text_settings_rate_default));
+				log.d("settings refresh weather rate change");
 				final int time = Integer.parseInt(rateValue)*60*60*1000;
 				AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 				Intent refreshWeatherService = new Intent(SettingsActivity.this,RefreshWeatherService.class);

@@ -26,8 +26,6 @@ public class Contants {
 	
 	public static final String VALUE_USER_ID = "1";
 	
-	public static final String ACTION_REFRESH_WEATHER_SERVICE = "com.lzpnsd.sunshine.service.REFRESH_WEATHER_SERVICE";
-	
 	public static final String ACTION_LOCATION_SUCCESS = "com.lzpnsd.sunshine.broadcast.LOCATION_SUCCESS";
 	
 }

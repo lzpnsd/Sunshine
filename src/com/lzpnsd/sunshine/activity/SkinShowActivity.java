@@ -3,12 +3,11 @@ package com.lzpnsd.sunshine.activity;
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.adapter.SkinShowAdapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.Gallery;
 
-public class SkinShowActivity extends Activity{
+public class SkinShowActivity extends BaseActivity{
 	private Context mContext;	
 	
 	@Override

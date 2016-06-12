@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -15,12 +16,15 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.lzpnsd.sunshine.R;
 import com.lzpnsd.sunshine.contants.Contants;
 import com.lzpnsd.sunshine.util.LogUtil;
-import android.annotation.SuppressLint;
+import com.lzpnsd.sunshine.util.ToastUtil;
+
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,36 +34,34 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-@SuppressLint("HandlerLeak")
+/**
+ * 
+ * @author lzpnsd
+ * 2016年6月12日 上午10:44:02
+ * code:106
+ */
 public class MineRegisterActivity extends BaseActivity implements OnClickListener {
 
 	private final LogUtil log = LogUtil.getLog(getClass());
 
-	private Context mContext;
-	private TextView mTvUserReturn;
 	private EditText mEtUserName;
-	private EditText mEtUserPassword;
-	private EditText mEtUserPasswordAgain;
-	private Button mBtRegisterNameClean;
-	private Button mBtPasswordClean;
-	private Button mBtPasswordAgainClean;
+	private EditText mEtPassword;
 	private Button mBtRegister;
+	
 	private Dialog registerDialog;
-	private final String registerPath = "/weather/register";
-	private String name, password, Passwordagain;
-	private String responseMsg;
-	private static final int REQUEST_TIMEOUT = 5 * 1000;// 设置请求超时5秒钟
-	private static final int SO_TIMEOUT = 10 * 1000; // 设置等待数据超时时间10秒钟
-	private static final int REGISTER_SUCCESS = 0;
-	private static final int REGISTER_FAILED = 1;
-	private static final int REFISTER_SERVER_FAILED = 2;
-
-	public MineRegisterActivity(Context context) {
-		super();
-		this.mContext = context;
-	}
+	
+	private final String REGISTER_PATH = "/weather/register";
+	
+	public static final int CODE_REGISTER_SUCCESS_RESULT = 1061;
+	public static final int CODE_REGISTER_FAILED_RESULT = 1062;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,146 +72,91 @@ public class MineRegisterActivity extends BaseActivity implements OnClickListene
 
 	private void initView() {
 		mEtUserName = (EditText) findViewById(R.id.et_user_name);
-		mEtUserPassword = (EditText) findViewById(R.id.et_user_password);
-		mEtUserPasswordAgain = (EditText) findViewById(R.id.et_user_password_again);
-		mTvUserReturn = (TextView) findViewById(R.id.tv_user_return);
-		mBtRegisterNameClean = (Button) findViewById(R.id.bt_register_name_clean);
-		mBtPasswordClean = (Button) findViewById(R.id.bt_register_password_clean);
-		mBtPasswordAgainClean = (Button) findViewById(R.id.bt_register_passwprd_again_clean);
+		mEtPassword = (EditText) findViewById(R.id.et_user_password);
 		mBtRegister = (Button) findViewById(R.id.bt_user_register);
 		
-		name = mEtUserName.getText().toString();
-		password = mEtUserPassword.getText().toString();
-		Passwordagain = mEtUserPasswordAgain.getText().toString();
-
-		mTvUserReturn.setOnClickListener(this);
-		mBtRegisterNameClean.setOnClickListener(this);
-		mBtPasswordClean.setOnClickListener(this);
-		mBtPasswordAgainClean.setOnClickListener(this);
 		mBtRegister.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.tv_user_return:
-				this.finish();
-				break;
-			case R.id.bt_register_name_clean:
-				mEtUserName.setText("");
-				break;
-			case R.id.bt_register_password_clean:
-				mEtUserPassword.setText("");
-				break;
-			case R.id.bt_register_passwprd_again_clean:
-				mEtUserPasswordAgain.setText("");
-				break;
 			case R.id.bt_user_register:
-				RegisterUser();
+				showRegisterDialog();
+				RegisterUser(mEtUserName.getText().toString(),mEtPassword.getText().toString());
 				break;
 			default:
 				break;
 		}
 	}
 
-	private void RegisterUser() {
-		if (!password.equals(Passwordagain)) {
-			Toast.makeText(mContext, R.string.prompt_password_again, Toast.LENGTH_LONG).show();
-		} else {
-			showRegisterDialog();
-			Thread registerThread = new Thread(new RegisterThread());
-			registerThread.start();
-		}
-	}
+	private void RegisterUser(final String userName,final String password) {
 
-	Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case REGISTER_SUCCESS:
-					cancelRegisterDialog();
-					Bundle bundle = new Bundle();
-					bundle.putString("account", name);
-					bundle.putString("password", password);
-					Intent intent = new Intent();
-					intent.putExtras(bundle);
-					setResult(RESULT_OK,intent);
-					MineRegisterActivity.this.finish();
-					Toast.makeText(mContext,R.string.text_register_success, Toast.LENGTH_LONG).show();
-					break;
-				case REGISTER_FAILED:
-					cancelRegisterDialog();
-					Toast.makeText(mContext, R.string.text_register_failed, Toast.LENGTH_LONG).show();
-					break;
-				case REFISTER_SERVER_FAILED:
-					cancelRegisterDialog();
-					Toast.makeText(mContext, R.string.text_register_server_failed, Toast.LENGTH_LONG).show();
-					break;
-				default:
-					break;
-			}
-		}
-	};
+		new Thread(){
+			public void run() {
+				OkHttpClient client = new OkHttpClient();
+					RequestBody body = new MultipartBody.Builder()
+							.addFormDataPart("account", userName)
+							.addFormDataPart("password", password)
+							.build();
+					Request request = new Request.Builder().url(Contants.URL_HOST + REGISTER_PATH).post(body).build();
+					log.d("request = " + request.toString());
+					client.newCall(request).enqueue(new Callback() {
 
-	private class RegisterThread implements Runnable {
+						@Override
+						public void onFailure(Call arg0, final IOException arg1) {
+							runOnUiThread(new Runnable() {
 
-		String validataName = name;
-		String validataPassword = password;
+								@Override
+								public void run() {
+									log.d("arg1 = " + arg1.getMessage());
+									dismissRegisterDialog();
+									ToastUtil.showToast(getString(R.string.text_register_failed),
+											ToastUtil.LENGTH_LONG);
+								}
+							});
+						}
 
-		@Override
-		public void run() {	
-			
-			boolean validate = registerServer(validataName, validataPassword);
-			log.d("registerValidate=" + validate);
-			Message msg = handler.obtainMessage();
-			if (validate) {
-				if (responseMsg.equals("success")) {
-					msg.what = REGISTER_SUCCESS;
-					handler.sendMessage(msg);
-				} else {
-					msg.what = REGISTER_FAILED;
-					handler.sendMessage(msg);
-				}
-			} else {
-				msg.what = REFISTER_SERVER_FAILED;
-				handler.sendMessage(msg);
-			}
-		}
-	}
+						@Override
+						public void onResponse(Call arg0, final Response arg1) throws IOException {
+							runOnUiThread(new Runnable() {
 
-	private boolean registerServer(String username, String password) {
-		boolean registerValidate = false;
-		String url = Contants.URL_HOST + registerPath;
-		HttpPost request = new HttpPost(url);
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("account", username));
-		params.add(new BasicNameValuePair("password", password));
-		try {
-			// 设置请求参数项
-			request.setEntity(new UrlEncodedFormEntity(params));
-			HttpClient client = getHttpClient();
-			HttpResponse response = client.execute(request);
-			if (response.getStatusLine().getStatusCode() == 200) {
-				registerValidate = true;
-				responseMsg = EntityUtils.toString(response.getEntity());
-			}
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return registerValidate;
-	}
-
-	// 设置超时
-	private HttpClient getHttpClient() {
-		BasicHttpParams httpParams = new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout(httpParams, REQUEST_TIMEOUT);
-		HttpConnectionParams.setSoTimeout(httpParams, SO_TIMEOUT);
-		HttpClient client = new DefaultHttpClient(httpParams);
-		return client;
+								@Override
+								public void run() {
+									String message = "";
+									dismissRegisterDialog();
+									try {
+										message = arg1.body().string();
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+									log.d("message = " + message);
+									try {
+										JSONObject obj = new JSONObject(message);
+										boolean result = obj.getBoolean("success");
+										String msg = obj.getString("message");
+										if (result) {
+											ToastUtil.showToast(msg,
+													ToastUtil.LENGTH_SHORT);
+											Intent intent = new Intent();
+											intent.putExtra("userName", userName);
+											intent.putExtra("password", password);
+											setResult(CODE_REGISTER_SUCCESS_RESULT,intent);
+											finish();
+										} else {
+											ToastUtil.showToast(msg,
+													ToastUtil.LENGTH_LONG);
+										}
+									} catch (JSONException e) {
+										ToastUtil.showToast(getString(R.string.text_register_failed),
+												ToastUtil.LENGTH_LONG);
+									}
+								}
+							});
+						}
+					});
+			};
+		}.start();
 	}
 
 	private void showRegisterDialog() {
@@ -222,7 +169,7 @@ public class MineRegisterActivity extends BaseActivity implements OnClickListene
 		registerDialog.show();
 	}
 
-	private void cancelRegisterDialog() {
+	private void dismissRegisterDialog() {
 		if (registerDialog != null) {
 			registerDialog.cancel();
 		}

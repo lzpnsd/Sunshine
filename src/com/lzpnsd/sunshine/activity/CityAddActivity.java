@@ -151,7 +151,7 @@ public class CityAddActivity extends BaseActivity{
 			switch (parent.getId()) {
 				case R.id.lv_add_city_search_result:
 					final CityBean cityBean = mCityBeans.get(position);
-					CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
+					CityDBManager.getInstance().insertIntoSaved(CityAddActivity.this,Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
 					turnToWeatherView(cityBean);
 					break;
 				case R.id.gv_add_city_hot_city:
@@ -167,7 +167,7 @@ public class CityAddActivity extends BaseActivity{
 									CityBean cityBean = CityDBManager.getInstance().queryCityByLocation(jsonObject);
 									if(cityBean != null){
 										DataManager.getInstance().setCurrentCityBean(cityBean);
-										CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
+										CityDBManager.getInstance().insertIntoSaved(CityAddActivity.this,Integer.parseInt(cityBean.getAreaId()), cityBean.getNameCn());
 										ToastUtil.showToast(getString(R.string.location_success), ToastUtil.LENGTH_LONG);
 										turnToWeatherView(cityBean);
 									}else{
@@ -190,7 +190,7 @@ public class CityAddActivity extends BaseActivity{
 						if(DataManager.getInstance().getCurrentCityId() == Integer.parseInt(city.getAreaId()))
 							ToastUtil.showToast(getString(R.string.city_cant_add_repeat_city),ToastUtil.LENGTH_LONG);
 						else{
-							CityDBManager.getInstance().insertIntoSaved(Integer.parseInt(city.getAreaId()), city.getNameCn());
+							CityDBManager.getInstance().insertIntoSaved(CityAddActivity.this,Integer.parseInt(city.getAreaId()), city.getNameCn());
 							turnToWeatherView(mHotCityBeans.get(position-1));
 						}
 					}
@@ -230,7 +230,7 @@ public class CityAddActivity extends BaseActivity{
 	
 	@Override
 	public void onBackPressed() {
-		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity();
+		List<CityBean> savedCity = CityDBManager.getInstance().querySavedCity(CityAddActivity.this);
 		if(null == savedCity || savedCity.size()<=0){
 			ToastUtil.showToast(getString(R.string.no_saved_city), ToastUtil.LENGTH_LONG);
 			return;
