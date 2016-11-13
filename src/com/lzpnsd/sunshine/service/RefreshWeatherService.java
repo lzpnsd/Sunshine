@@ -7,7 +7,10 @@ import com.lzpnsd.sunshine.db.CityDBManager;
 import com.lzpnsd.sunshine.util.LogUtil;
 import com.lzpnsd.sunshine.util.WeatherUtil;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -23,6 +26,10 @@ public class RefreshWeatherService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		log.d("onStartCommand");
+		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		Intent updateWidgetIntent = new Intent("android.appwidget.action.APPWIDGET_UPDATE");
+		PendingIntent operation = PendingIntent.getBroadcast(RefreshWeatherService.this, 1, updateWidgetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3000, 3000, operation);
 //		new Thread(){
 //			@Override
 //			public void run() {

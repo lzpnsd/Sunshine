@@ -193,6 +193,7 @@ public class CityListActivity extends BaseActivity {
 		}
 	};
 	
+	
 	private void turnToAddCity() {
 		Intent cityAddIntent = new Intent(CityListActivity.this,CityAddActivity.class);
 		startActivityForResult(cityAddIntent, CODE_ADD_CITY_REQUEST);

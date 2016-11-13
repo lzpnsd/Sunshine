@@ -327,6 +327,7 @@ public class MainActivity extends BaseActivity {
 						int area_id = data.getIntExtra(Contants.NAME_AREA_ID, 0);
 						if (area_id != 0) {
 							mWeather.refreshData();
+							mShijing.refreshView();
 						}
 					}
 				} else if (ShijingView.CODE_SHIJING_REQUEST == requestCode) {
@@ -334,6 +335,7 @@ public class MainActivity extends BaseActivity {
 						int area_id = data.getIntExtra(Contants.NAME_AREA_ID, 0);
 						log.d("area_id = " + area_id);
 						if (area_id != 0) {
+							mWeather.refreshData();
 							mShijing.refreshView();
 						}
 					}

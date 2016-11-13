@@ -50,6 +50,7 @@ public class WidgetProvider extends AppWidgetProvider {
 			log.d("buttonId=" + buttonId);
 			if (buttonId == BUTTON_SHOW) {
 				log.d("==Button widget goto apk==");
+				startUpgrade(context);
 				Intent intentTurnToMain = new Intent();
 				intentTurnToMain.setComponent(new ComponentName(context, MainActivity.class));
 				intentTurnToMain.setAction(Intent.ACTION_VIEW);
@@ -116,8 +117,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Intent intent = new Intent("android.appwidget.action.APPWIDGET_UPDATE");
 		PendingIntent operation = PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		alarmManager.cancel(operation);
-		alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + 3000, 3000, operation);
+		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3000, 3000, operation);
 	}
 
 	// 最后一个widget被删除时调用
@@ -137,6 +137,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		log.d("onUpdate():appWidgetIds.length==" + appWidgetIds.length);
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		showWidgetInfo(context);
+		startUpgrade(context);
 	}
 
 	@Override
